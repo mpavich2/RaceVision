@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Rectangle } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import Store from 'electron-store';
@@ -28,8 +28,6 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 let relativeWindow: BrowserWindow | null = null;
-// avoiding upgrading CommonJS -> ESM
-const store: any = new Store();
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -56,8 +54,11 @@ if (process.env.NODE_ENV === 'production') {
 //     .catch(console.log)
 // }
 
-const openSavedBounds = (window: BrowserWindow, file: string) => {
-  window.setBounds(store.get(file));
+const runWindowElectronStoreInfo = (window: BrowserWindow, file: string) => {
+  const store = new Store();
+  const storedBounds = store.get(file) as Partial<Rectangle>;
+
+  window.setBounds(storedBounds);
   window.on('close', () => {
     store.set(file, window.getBounds());
   });
@@ -105,7 +106,7 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
-  openSavedBounds(relativeWindow, STORE_LOCATIONS.RELATIVE_WINDOW);
+  runWindowElectronStoreInfo(relativeWindow, STORE_LOCATIONS.RELATIVE_WINDOW);
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
   relativeWindow.loadURL(resolveHtmlPath('relative.html'));
