@@ -1,0 +1,26 @@
+.classPosition {
+  width: 1%;
+}
+
+.classAndNumber {
+  width: 1%;
+}
+
+.licenseClass {
+  width: 1%;
+}
+
+.irating {
+  width: 1%;
+  padding-left: 0.4rem;
+}
+
+.offTrackBackgroundRadius > td:first-child {
+  border-top-left-radius: 0.6rem;
+  border-bottom-left-radius: 0.6rem;
+}
+
+.offTrackBackgroundRadius > td:last-child {
+  border-top-right-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
+}

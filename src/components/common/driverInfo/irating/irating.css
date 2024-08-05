@@ -1,0 +1,10 @@
+.iratingWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  background-color: white;
+  color: black;
+  border-radius: 0.2rem;
+  padding: 0.2rem;
+}

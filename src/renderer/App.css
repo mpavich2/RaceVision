@@ -1,0 +1,7 @@
+html,
+body {
+  font-family: 'Reddit Mono', monospace;
+  font-optical-sizing: auto;
+  margin: auto;
+  height: 100%;
+}

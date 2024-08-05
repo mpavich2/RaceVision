@@ -1,0 +1,33 @@
+table {
+  border-collapse: separate;
+  border-spacing: 0 2px;
+  text-align: center;
+  width: 100%;
+  column-gap: 0;
+  line-height: 1.4rem;
+}
+
+td {
+  padding: 0;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+tr:nth-child(even) {
+  background-color: rgb(61, 61, 61, 0.8);
+}
+
+tr:nth-child(even) td:first-child {
+  border-top-left-radius: 0.6rem;
+  border-bottom-left-radius: 0.6rem;
+}
+
+tr:nth-child(even) td:last-child {
+  border-top-right-radius: 0.6rem;
+  border-bottom-right-radius: 0.6rem;
+}
+
+.relativeTableWrapper {
+  overflow: hidden;
+  margin: 0 0.5rem;
+}

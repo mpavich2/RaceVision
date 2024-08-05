@@ -1,0 +1,6 @@
+.relativeFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto 0.5rem 0.5rem 0.5rem;
+}
