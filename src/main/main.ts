@@ -12,9 +12,11 @@ import path from 'path';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import Store from 'electron-store';
 import { resolveHtmlPath } from './util';
 import { IPC_CHANNELS } from '../constants/ipcChannels';
 import { ISessionInfo, ITelemetry } from '../types/iracing';
+import { STORE_LOCATIONS } from '../constants/storeLocations';
 
 class AppUpdater {
   constructor() {
@@ -26,6 +28,8 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 let relativeWindow: BrowserWindow | null = null;
+// avoiding upgrading CommonJS -> ESM
+const store: any = new Store();
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -51,6 +55,13 @@ if (process.env.NODE_ENV === 'production') {
 //     )
 //     .catch(console.log)
 // }
+
+const openSavedBounds = (window: BrowserWindow, file: string) => {
+  window.setBounds(store.get(file));
+  window.on('close', () => {
+    store.set(file, window.getBounds());
+  });
+};
 
 const createWindow = async () => {
   // if (isDebug) {
@@ -94,6 +105,7 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
+  openSavedBounds(relativeWindow, STORE_LOCATIONS.RELATIVE_WINDOW);
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
   relativeWindow.loadURL(resolveHtmlPath('relative.html'));
