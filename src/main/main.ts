@@ -138,9 +138,8 @@ const createWindow = async () => {
   mainWindow.on('closed', () => {
     mainWindow = null;
     relativeWindow = null;
-  });
-  relativeWindow.on('closed', () => {
-    relativeWindow = null;
+
+    app.quit();
   });
 
   // Open urls in the user's browser
