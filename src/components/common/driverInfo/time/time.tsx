@@ -1,5 +1,4 @@
-import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
-import { determineDriverRelativeColor } from '../../../../services/determineDriverColors';
+import { getRelativeTimeColor } from '../../../../services/determineDriverColors';
 
 export function DriverTime(props: {
   time: number;
@@ -10,26 +9,13 @@ export function DriverTime(props: {
     driverInPit: boolean;
   };
   isUser?: boolean;
+  isRaceSession?: boolean;
 }) {
-  const color = (() => {
-    if (props.isUser) {
-      return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_USER_COLOR;
-    }
-
-    if (props.lapInfo) {
-      if (props.lapInfo.driverInPit) {
-        return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_IN_PIT_COLOR;
-      }
-
-      return determineDriverRelativeColor(
-        props.lapInfo.userLap,
-        props.lapInfo.driverLap,
-        props.lapInfo.relativeTime,
-      );
-    }
-
-    return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
-  })();
+  const color = getRelativeTimeColor(
+    props.isUser || false,
+    props.isRaceSession || false,
+    props.lapInfo,
+  );
 
   return (
     <div

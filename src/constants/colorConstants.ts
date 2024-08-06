@@ -36,13 +36,34 @@ export const COLOR_CONSTANTS = {
     DRIVER_OFF_TRACK: '#91761a',
   },
   LICENSE_CLASS_COLORS: {
-    PWC: '#1C1C1C',
-    P: '#1C1C1C',
-    A: '#2E80EC',
-    B: '#24AE60',
-    C: '#D4A300',
-    D: '#FF8C00',
-    R: '#D92B2B',
+    PWC: {
+      BACKGROUND: '#000000',
+      FONT: '#FFFFFF',
+    },
+    P: {
+      BACKGROUND: '#000000',
+      FONT: '#FFFFFF',
+    },
+    A: {
+      BACKGROUND: '#0153DB',
+      FONT: '#FFFFFF',
+    },
+    B: {
+      BACKGROUND: '#00C702',
+      FONT: '#000000',
+    },
+    C: {
+      BACKGROUND: '#FEEC04',
+      FONT: '#000000',
+    },
+    D: {
+      BACKGROUND: '#FC8A27',
+      FONT: '#000000',
+    },
+    R: {
+      BACKGROUND: '#FC0706',
+      FONT: '#000000',
+    },
   },
   IRATING_COLORS: {
     POSITIVE: '#24AE60',

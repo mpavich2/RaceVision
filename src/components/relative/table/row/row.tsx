@@ -14,9 +14,8 @@ export function RelativeTableRow(props: {
     userCarIdx: number;
     userCurrentLap: number;
   };
-  classColorInfo: {
-    HIGHLIGHT: string;
-    DEFAULT: string;
+  sessionData: {
+    isRaceSession: boolean;
   };
 }) {
   const isUser = props.driverData.carIdx === props.userData.userCarIdx;
@@ -45,8 +44,7 @@ export function RelativeTableRow(props: {
       <td className="classAndNumber">
         <ClassAndNumber
           carNumber={props.driverData.carNumber}
-          classColorInfo={props.classColorInfo}
-          isUser={isUser}
+          classColorInfo={props.driverData.carClassColor}
         />
       </td>
       <td className="relativeName">
@@ -54,6 +52,7 @@ export function RelativeTableRow(props: {
           driverName={props.driverData.driverName}
           lapInfo={lapInfo}
           isUser={isUser}
+          isRaceSession={props.sessionData.isRaceSession}
         />
       </td>
       <td className="licenseClass">
@@ -74,6 +73,7 @@ export function RelativeTableRow(props: {
           time={props.driverData.relativeTime}
           lapInfo={lapInfo}
           isUser={isUser}
+          isRaceSession={props.sessionData.isRaceSession}
         />
       </td>
     </tr>

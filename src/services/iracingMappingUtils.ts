@@ -28,9 +28,11 @@ export const iracingDataToRelativeInfo = (
       carClass: driver.CarClassShortName,
       driverName: driver.UserName,
       licenseSafetyRatingCombined: driver.LicString,
+      licenseColor: driver.LicColor,
       irating: driver.IRating,
       carIdx: driver.CarIdx,
-      CarClassEstLapTime: driver.CarClassEstLapTime,
+      carClassEstLapTime: driver.CarClassEstLapTime,
+      carClassColor: driver.CarClassColor.toString(16),
     };
   });
 
@@ -41,27 +43,10 @@ export const iracingDataToRelativeInfo = (
       const driverCurrentLap = telemetry.values.CarIdxLap[driver.carIdx];
       let relativeTime = 0.0;
 
-      // if (driver.carIdx !== userCarIdx) {
-      //   let L = telemetry.values.CarIdxLastLapTime[driver.carIdx];
-
-      //   if (L < 0) {
-      //     L = driver.CarClassEstLapTime;
-      //   }
-      //   relativeTime =
-      //     telemetry.values.CarIdxEstTime[driver.carIdx] -
-      //     telemetry.values.CarIdxEstTime[userCarIdx];
-
-      //   if (relativeTime < -0.5 * L) {
-      //     relativeTime += L;
-      //   } else {
-      //     relativeTime -= L;
-      //   }
-      // }
-
       let L = telemetry.values.CarIdxLastLapTime[driver.carIdx];
 
       if (L < 0) {
-        L = driver.CarClassEstLapTime;
+        L = driver.carClassEstLapTime;
       }
 
       const C = telemetry.values.CarIdxEstTime[driver.carIdx];
@@ -91,11 +76,11 @@ export const iracingDataToRelativeInfo = (
         currentLap: driverCurrentLap,
         lapsCompleted: telemetry.values.CarIdxLapCompleted[driver.carIdx],
         isInPit: telemetry.values.CarIdxOnPitRoad[driver.carIdx],
-        isDriverOffTrack: telemetry.values.CarIdxSessionFlags[
-          driver.carIdx
-        ].includes((x: string) => x.toLowerCase() === 'yellow'),
+        isDriverOffTrack: false,
         iratingDiff: 0,
         carRelativeSpeed: getCarRelativeSpeed(driver.carClass),
+        carClassColor: driver.carClassColor,
+        licenseColor: driver.licenseColor,
       };
     },
   );

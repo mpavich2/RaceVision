@@ -1,23 +1,19 @@
-import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
+import { darkenHexColor } from '../../../../utils/colorUtilts';
 import './classAndNumber.css';
 
 export function ClassAndNumber(props: {
   carNumber: string;
-  classColorInfo: {
-    HIGHLIGHT: string;
-    DEFAULT: string;
-  };
-  isUser?: boolean;
+  classColorInfo: string;
 }) {
+  const hexColor = `#${props.classColorInfo}`;
+  const darkenedHexColor = darkenHexColor(`#${props.classColorInfo}`, -90);
   return (
     <div
       className="carClassAndNumberWrapper"
       style={{
-        backgroundColor: props.classColorInfo?.DEFAULT,
-        color: props.isUser
-          ? COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_USER_COLOR
-          : '',
-        borderLeft: `0.5rem solid ${props.classColorInfo?.HIGHLIGHT}`,
+        backgroundColor: darkenedHexColor,
+        color: 'black',
+        borderLeft: `0.5rem solid ${hexColor}`,
       }}
     >
       #{props.carNumber}

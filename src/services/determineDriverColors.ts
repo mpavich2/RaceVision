@@ -1,8 +1,6 @@
 import { COLOR_CONSTANTS } from '../constants/colorConstants';
 
-export const determineDriverLicenseColor = (
-  licenseSafetyRatingCombined: string,
-) => {
+export const getDriverLicenseColor = (licenseSafetyRatingCombined: string) => {
   if (licenseSafetyRatingCombined.includes('R')) {
     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.R;
   }
@@ -32,27 +30,9 @@ export const determineDriverLicenseColor = (
   }
 
   return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.R;
-  // switch (licenseSafetyRatingCombined) {
-  //   case :
-  //     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.R;
-  //   case 1:
-  //     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.D;
-  //   case 2:
-  //     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.C;
-  //   case 3:
-  //     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.B;
-  //   case 4:
-  //     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.A;
-  //   case 5:
-  //     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.P;
-  //   case 6:
-  //     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.PWC;
-  //   default:
-  //     return COLOR_CONSTANTS.LICENSE_CLASS_COLORS.R;
-  // }
 };
 
-export const determineDriverRelativeColor = (
+const determineDriverRelativeColor = (
   userLap: number,
   driverLap: number,
   relativeTime: number,
@@ -78,6 +58,72 @@ export const determineDriverRelativeColor = (
 
   if (isSameLapAsUser) {
     return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
+  }
+
+  return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
+};
+
+export const getDriverNameColor = (
+  isUser: boolean,
+  isRaceSession: boolean,
+  lapInfo?: {
+    userLap: number;
+    driverLap: number;
+    relativeTime: number;
+    driverInPit: boolean;
+  },
+) => {
+  if (isUser) {
+    return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_USER_COLOR;
+  }
+
+  if (!isRaceSession) {
+    return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
+  }
+
+  if (lapInfo) {
+    if (lapInfo.driverInPit) {
+      return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_IN_PIT_COLOR;
+    }
+
+    return determineDriverRelativeColor(
+      lapInfo.userLap,
+      lapInfo.driverLap,
+      lapInfo.relativeTime,
+    );
+  }
+
+  return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
+};
+
+export const getRelativeTimeColor = (
+  isUser: boolean,
+  isRaceSession: boolean,
+  lapInfo?: {
+    userLap: number;
+    driverLap: number;
+    relativeTime: number;
+    driverInPit: boolean;
+  },
+) => {
+  if (isUser) {
+    return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_USER_COLOR;
+  }
+
+  if (!isRaceSession) {
+    return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
+  }
+
+  if (lapInfo) {
+    if (lapInfo.driverInPit) {
+      return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_IN_PIT_COLOR;
+    }
+
+    return determineDriverRelativeColor(
+      lapInfo.userLap,
+      lapInfo.driverLap,
+      lapInfo.relativeTime,
+    );
   }
 
   return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;

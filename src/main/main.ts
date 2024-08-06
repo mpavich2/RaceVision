@@ -101,6 +101,7 @@ const createWindow = async () => {
     resizable: true,
     roundedCorners: false,
     alwaysOnTop: true,
+    minimizable: false,
     minHeight: 100,
     icon: getAssetPath('icon.png'),
     webPreferences: {
@@ -110,6 +111,7 @@ const createWindow = async () => {
     },
   });
   runWindowElectronStoreInfo(relativeWindow, STORE_LOCATIONS.RELATIVE_WINDOW);
+  relativeWindow.setAlwaysOnTop(true, 'screen-saver');
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
   relativeWindow.loadURL(resolveHtmlPath('relative.html'));
@@ -239,7 +241,7 @@ app
 
     irsdk.init({
       telemetryUpdateInterval: 10,
-      sessionInfoUpdateInterval: 10000,
+      sessionInfoUpdateInterval: 5000,
     });
 
     const iracing = irsdk.getInstance();
@@ -259,7 +261,6 @@ app
             IPC_CHANNELS.IRACING_SESSION_INFO,
             sessionInfo,
           );
-          window.webContents.reload();
         });
       });
 
