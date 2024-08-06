@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, ipcMain, Rectangle } from 'electron';
+import { app, BrowserWindow, ipcMain, Rectangle, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import Store from 'electron-store';
@@ -58,7 +58,10 @@ const runWindowElectronStoreInfo = (window: BrowserWindow, file: string) => {
   const store = new Store();
   const storedBounds = store.get(file) as Partial<Rectangle>;
 
-  window.setBounds(storedBounds);
+  if (storedBounds) {
+    window.setBounds(storedBounds);
+  }
+
   window.on('close', () => {
     store.set(file, window.getBounds());
   });
@@ -134,20 +137,21 @@ const createWindow = async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+    relativeWindow = null;
   });
   relativeWindow.on('closed', () => {
     relativeWindow = null;
   });
 
   // Open urls in the user's browser
-  // mainWindow.webContents.setWindowOpenHandler((edata) => {
-  //   shell.openExternal(edata.url)
-  //   return { action: 'deny' }
-  // })
-  // relativeWindow.webContents.setWindowOpenHandler((edata) => {
-  //   shell.openExternal(edata.url)
-  //   return { action: 'deny' }
-  // })
+  mainWindow.webContents.setWindowOpenHandler((edata) => {
+    shell.openExternal(edata.url);
+    return { action: 'deny' };
+  });
+  relativeWindow.webContents.setWindowOpenHandler((edata) => {
+    shell.openExternal(edata.url);
+    return { action: 'deny' };
+  });
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
