@@ -62,12 +62,15 @@ export function RelativeTableRow(props: {
           }
         />
       </td>
-      <td className="irating">
-        <Irating
-          irating={props.driverData.irating}
-          iratingDiff={props.driverData.iratingDiff}
-        />
-      </td>
+      {props.sessionData.isRaceSession && (
+        <td className="irating">
+          <Irating
+            irating={props.driverData.irating}
+            iratingDiff={props.driverData.iratingDiff}
+          />
+        </td>
+      )}
+
       <td>
         <DriverTime
           time={props.driverData.relativeTime}

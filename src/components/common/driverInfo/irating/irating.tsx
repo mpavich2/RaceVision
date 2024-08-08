@@ -10,7 +10,9 @@ export function Irating(props: {
   hideIratingDiff?: boolean;
 }) {
   const shortenedIrating = shortenIrating(props.irating);
-  const iratingDiff = props.iratingDiff.toString().replaceAll('-', '');
+  const iratingDiff = Math.round(props.iratingDiff)
+    .toString()
+    .replaceAll('-', '');
 
   if (!props.iratingDiff && props.hideIratingDiff) {
     return <div className="iratingWrapper">{shortenedIrating}</div>;

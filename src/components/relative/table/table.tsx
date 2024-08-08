@@ -9,6 +9,7 @@ import {
   iracingDataToRelativeInfo,
 } from '../../../services/iracingMappingUtils';
 import { IRelativeDriverData } from '../../../types/relative';
+import { calculateExpectedIratingDiff } from '../../../services/iratingCalculator';
 
 export function RelativeTable() {
   // iracing data
@@ -43,17 +44,33 @@ export function RelativeTable() {
 
   useEffect(() => {
     if (sessionInfo) {
-      setIsRaceSession(
-        sessionInfo.data.SessionInfo.Sessions.some(
-          (ses) => ses.SessionType === 'Race',
-        ),
-      );
+      setIsRaceSession(sessionInfo.data.WeekendInfo.EventType === 'RACE');
     }
   }, [sessionInfo]);
 
   useEffect(() => {
     if (sessionInfo && telemetryInfo) {
-      const drivers = iracingDataToRelativeInfo(sessionInfo, telemetryInfo);
+      let drivers = iracingDataToRelativeInfo(sessionInfo, telemetryInfo);
+
+      if (isRaceSession) {
+        const iratingDiffs = calculateExpectedIratingDiff(drivers);
+
+        drivers = drivers.map((d1) => {
+          const matchedDriver = iratingDiffs.drivers.find(
+            (d2) => d2.driverName === d1.driverName,
+          );
+
+          return {
+            ...d1,
+            iratingDiff: matchedDriver?.iratingDiff || 0,
+          };
+        });
+      }
+
+      drivers = drivers
+        .filter((d) => d.isDriverOnTrack)
+        .sort((a, b) => b.relativeTime - a.relativeTime);
+
       setDriverData(drivers);
       setUserCarIdx(getUserCarIdx(sessionInfo));
     }

@@ -15,4 +15,9 @@ export interface IRelativeDriverData {
   isDriverOffTrack: boolean;
   carRelativeSpeed: number;
   carClassColor: string;
+  didNotStart?: boolean;
+  isDriverInLobby: boolean;
+  sessionFlags: string[];
+  isSpectator: boolean;
+  isDriverOnTrack: boolean;
 }

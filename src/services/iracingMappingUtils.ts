@@ -18,8 +18,7 @@ export const iracingDataToRelativeInfo = (
   telemetry: ITelemetry,
 ): IRelativeDriverData[] => {
   const filteredDrivers = sessionInfo.data.DriverInfo.Drivers.filter(
-    (driver) =>
-      telemetry.values.CarIdxTrackSurface[driver.CarIdx] !== 'NotInWorld',
+    (driver) => driver.UserName !== 'Pace Car',
   );
 
   const driverData = filteredDrivers.map((driver) => {
@@ -33,6 +32,7 @@ export const iracingDataToRelativeInfo = (
       carIdx: driver.CarIdx,
       carClassEstLapTime: driver.CarClassEstLapTime,
       carClassColor: driver.CarClassColor.toString(16),
+      isSpectator: driver.IsSpectator === 1,
     };
   });
 
@@ -46,7 +46,9 @@ export const iracingDataToRelativeInfo = (
       let L = telemetry.values.CarIdxLastLapTime[driver.carIdx];
 
       if (L < 0) {
-        L = driver.carClassEstLapTime;
+        L =
+          telemetry.values.CarIdxBestLapTime[driver.carIdx] ||
+          driver.carClassEstLapTime;
       }
 
       const C = telemetry.values.CarIdxEstTime[driver.carIdx];
@@ -76,18 +78,21 @@ export const iracingDataToRelativeInfo = (
         currentLap: driverCurrentLap,
         lapsCompleted: telemetry.values.CarIdxLapCompleted[driver.carIdx],
         isInPit: telemetry.values.CarIdxOnPitRoad[driver.carIdx],
-        isDriverOffTrack: false,
+        isDriverOffTrack: false, // determine in order to show yellow flag
         iratingDiff: 0,
         carRelativeSpeed: getCarRelativeSpeed(driver.carClass),
         carClassColor: driver.carClassColor,
         licenseColor: driver.licenseColor,
+        isDriverInLobby:
+          telemetry.values.CarIdxTrackSurface[driver.carIdx] !== 'NotInWorld',
+        didNotStart: telemetry.values.CarIdxClassPosition[driver.carIdx] === 0,
+        sessionFlags: telemetry.values.CarIdxSessionFlags[driver.carIdx],
+        isSpectator: driver.isSpectator,
+        isDriverOnTrack:
+          telemetry.values.CarIdxTrackSurface[driver.carIdx] !== 'NotInWorld',
       };
     },
   );
 
-  const sortedList = driverTelemetryData.sort(
-    (a, b) => b.relativeTime - a.relativeTime,
-  );
-
-  return sortedList;
+  return driverTelemetryData;
 };

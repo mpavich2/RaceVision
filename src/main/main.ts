@@ -241,7 +241,7 @@ app
 
     irsdk.init({
       telemetryUpdateInterval: 10,
-      sessionInfoUpdateInterval: 5000,
+      sessionInfoUpdateInterval: 1000,
     });
 
     const iracing = irsdk.getInstance();
@@ -253,6 +253,10 @@ app
 
       iracing.once('Disconnected', () => {
         console.log('iRacing shut down.');
+
+        BrowserWindow.getAllWindows().forEach((window) => {
+          window.reload();
+        });
       });
 
       iracing.on('SessionInfo', (sessionInfo: ISessionInfo) => {
