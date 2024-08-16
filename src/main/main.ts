@@ -9,14 +9,14 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, ipcMain, Rectangle, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import Store from 'electron-store';
 import { resolveHtmlPath } from './util';
 import { IPC_CHANNELS } from '../constants/ipcChannels';
 import { ISessionInfo, ITelemetry } from '../types/iracing';
 import { STORE_LOCATIONS } from '../constants/storeLocations';
+import { runWindowElectronStoreInfo } from '../utils/windowUtils';
 
 class AppUpdater {
   constructor() {
@@ -28,6 +28,7 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 let relativeWindow: BrowserWindow | null = null;
+let standingsWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -54,44 +55,19 @@ if (process.env.NODE_ENV === 'production') {
 //     .catch(console.log)
 // }
 
-const runWindowElectronStoreInfo = (window: BrowserWindow, file: string) => {
-  const store = new Store();
-  const storedBounds = store.get(file) as Partial<Rectangle>;
+const RESOURCES_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, 'assets')
+  : path.join(__dirname, '../../assets');
 
-  if (storedBounds) {
-    window.setBounds(storedBounds);
-  }
-
-  window.on('close', () => {
-    store.set(file, window.getBounds());
-  });
+const getAssetPath = (...paths: string[]): string => {
+  return path.join(RESOURCES_PATH, ...paths);
 };
 
-const createWindow = async () => {
-  // if (isDebug) {
-  //   await installExtensions()
-  // }
+const preload = app.isPackaged
+  ? path.join(__dirname, 'preload.js')
+  : path.join(__dirname, '../../.erb/dll/preload.js');
 
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
-
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
-  };
-
-  mainWindow = new BrowserWindow({
-    show: false,
-    width: 1024,
-    height: 728,
-    icon: getAssetPath('icon.png'),
-    webPreferences: {
-      preload: app.isPackaged
-        ? path.join(__dirname, 'preload.js')
-        : path.join(__dirname, '../../.erb/dll/preload.js'),
-    },
-  });
-
+const createRelativeWindow = () => {
   relativeWindow = new BrowserWindow({
     show: false,
     width: 600,
@@ -105,16 +81,94 @@ const createWindow = async () => {
     minHeight: 100,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      preload: app.isPackaged
-        ? path.join(__dirname, 'preload.js')
-        : path.join(__dirname, '../../.erb/dll/preload.js'),
+      preload,
     },
   });
   runWindowElectronStoreInfo(relativeWindow, STORE_LOCATIONS.RELATIVE_WINDOW);
   relativeWindow.setAlwaysOnTop(true, 'screen-saver');
 
-  mainWindow.loadURL(resolveHtmlPath('index.html'));
   relativeWindow.loadURL(resolveHtmlPath('relative.html'));
+
+  relativeWindow.on('ready-to-show', () => {
+    if (!relativeWindow) {
+      throw new Error('"relativeWindow" is not defined');
+    }
+    if (process.env.START_MINIMIZED) {
+      relativeWindow.minimize();
+    } else {
+      relativeWindow.show();
+    }
+  });
+
+  relativeWindow.on('closed', () => {
+    relativeWindow = null;
+  });
+
+  relativeWindow.webContents.setWindowOpenHandler((edata) => {
+    shell.openExternal(edata.url);
+    return { action: 'deny' };
+  });
+};
+
+const createStandingsWindow = () => {
+  standingsWindow = new BrowserWindow({
+    show: false,
+    width: 600,
+    height: 400,
+    transparent: true,
+    frame: false,
+    resizable: true,
+    roundedCorners: false,
+    alwaysOnTop: true,
+    minimizable: false,
+    minHeight: 100,
+    icon: getAssetPath('icon.png'),
+    webPreferences: {
+      preload,
+    },
+  });
+  runWindowElectronStoreInfo(standingsWindow, STORE_LOCATIONS.STANDINGS_WINDOW);
+  standingsWindow.setAlwaysOnTop(true, 'screen-saver');
+
+  standingsWindow.loadURL(resolveHtmlPath('standings.html'));
+
+  standingsWindow.on('ready-to-show', () => {
+    if (!standingsWindow) {
+      throw new Error('"standingsWindow" is not defined');
+    }
+    if (process.env.START_MINIMIZED) {
+      standingsWindow.minimize();
+    } else {
+      standingsWindow.show();
+    }
+  });
+
+  standingsWindow.on('closed', () => {
+    standingsWindow = null;
+  });
+
+  standingsWindow.webContents.setWindowOpenHandler((edata) => {
+    shell.openExternal(edata.url);
+    return { action: 'deny' };
+  });
+};
+
+const createWindows = async () => {
+  // if (isDebug) {
+  //   await installExtensions()
+  // }
+
+  mainWindow = new BrowserWindow({
+    show: false,
+    width: 1024,
+    height: 728,
+    icon: getAssetPath('icon.png'),
+    webPreferences: {
+      preload,
+    },
+  });
+
+  mainWindow.loadURL(resolveHtmlPath('index.html'));
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
@@ -124,16 +178,6 @@ const createWindow = async () => {
       mainWindow.minimize();
     } else {
       mainWindow.show();
-    }
-  });
-  relativeWindow.on('ready-to-show', () => {
-    if (!relativeWindow) {
-      throw new Error('"relativeWindow" is not defined');
-    }
-    if (process.env.START_MINIMIZED) {
-      relativeWindow.minimize();
-    } else {
-      relativeWindow.show();
     }
   });
 
@@ -149,10 +193,9 @@ const createWindow = async () => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
-  relativeWindow.webContents.setWindowOpenHandler((edata) => {
-    shell.openExternal(edata.url);
-    return { action: 'deny' };
-  });
+
+  createRelativeWindow();
+  createStandingsWindow();
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
@@ -174,51 +217,17 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
-    createWindow();
+    createWindows();
 
-    // ipcMain.on("open-specific-window", (_, entry) => {
-    //   let window = ""
-    //   let bounds = null
-    //   let boundsFileName = ""
+    ipcMain.on(IPC_CHANNELS.OPEN_SPECIFIC_WINDOW, (_, windowName) => {
+      if (windowName === STORE_LOCATIONS.RELATIVE_WINDOW && !relativeWindow) {
+        createRelativeWindow();
+      }
 
-    //   // avoiding upgrading CommonJS -> ESM
-    //   const store: any = new Store()
-
-    //   if (entry === "standings") {
-    //     window = STANDINGS_WINDOW_WEBPACK_ENTRY
-    //     boundsFileName = STANDINGS_BOUNDS
-    //   } else if (entry === "relative") {
-    //     window = RELATIVE_WINDOW_WEBPACK_ENTRY
-    //     boundsFileName = RELATIVE_BOUNDS
-    //   } else if (entry === "fuel_calculator") {
-    //     window = FUEL_CALCULATOR_WINDOW_WEBPACK_ENTRY
-    //     boundsFileName = FUEL_CALCULATOR_BOUNDS
-    //   } else if (entry === "inputs") {
-    //     window = INPUTS_WINDOW_WEBPACK_ENTRY
-    //     boundsFileName = INPUTS_BOUNDS
-    //   }
-    //   bounds = store.get(boundsFileName)
-
-    //   const specificWindow = new BrowserWindow({
-    //     height: 600,
-    //     width: 800,
-    //     webPreferences: {
-    //       preload: app.isPackaged
-    //         ? path.join(__dirname, 'preload.js')
-    //         : path.join(__dirname, '../../.erb/dll/preload.js'),
-    //     },
-    //   })
-    //   if (bounds) {
-    //     specificWindow.setBounds(bounds)
-    //   }
-
-    //   specificWindow.on("close", () => {
-    //     store.set(boundsFileName, specificWindow.getBounds())
-    //   })
-
-    //   specificWindow.loadURL(window)
-    //   specificWindow.webContents.openDevTools()
-    // })
+      if (windowName === STORE_LOCATIONS.STANDINGS_WINDOW && !standingsWindow) {
+        createStandingsWindow();
+      }
+    });
 
     ipcMain.on(IPC_CHANNELS.SET_OPACITY, (_, opacity) => {
       BrowserWindow.getAllWindows().forEach((window) => {
@@ -235,8 +244,7 @@ app
       });
     });
 
-    // prints team names
-
+    // start iracing connection
     const irsdk = require('iracing-sdk-js');
 
     irsdk.init({
@@ -279,7 +287,9 @@ app
     });
 
     app.on('activate', () => {
-      if (mainWindow === null) createWindow();
+      if (mainWindow === null) {
+        createWindows();
+      }
     });
   })
   .catch(console.log);

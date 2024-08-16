@@ -1,0 +1,50 @@
+:root {
+    --opacity: 0.8;
+  }
+
+  #root {
+    height: 100%;
+    width: 100%;
+  }
+
+  body {
+    margin: 0 !important;
+  }
+
+  body {
+    font-family: "Reddit Mono", monospace;
+    font-optical-sizing: auto;
+    background: rgba(0, 0, 0, var(--opacity));
+    color: white;
+  }
+
+  html, body {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .standingsWindow {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  #draggableWrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    z-index: 999999;
+    -webkit-app-region: drag;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: xx-large;
+  }
