@@ -27,8 +27,6 @@ const configuration: webpack.Configuration = {
 
   entry: {
     index: [path.join(webpackPaths.srcRendererPath, 'index.tsx')],
-    relative: [path.join(webpackPaths.srcRendererPath, 'relativeIndex.tsx')],
-    standings: [path.join(webpackPaths.srcRendererPath, 'standingsIndex.tsx')],
   },
 
   output: {
@@ -135,36 +133,6 @@ const configuration: webpack.Configuration = {
       isBrowser: false,
       isDevelopment: false,
       chunks: ['index'],
-    }),
-
-    new HtmlWebpackPlugin({
-      filename: 'relative.html',
-      template: path.join(webpackPaths.srcRendererPath, 'relative.ejs'),
-      minify: {
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-      },
-      isBrowser: false,
-      isDevelopment: false,
-      chunks: ['relative'],
-    }),
-
-    new HtmlWebpackPlugin({
-      filename: 'standings.html',
-      template: path.join(webpackPaths.srcRendererPath, 'standings.ejs'),
-      minify: {
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-      },
-      isBrowser: false,
-      isDevelopment: false,
-      chunks: ['standings'],
-    }),
-
-    new webpack.DefinePlugin({
-      'process.type': '"renderer"',
     }),
   ],
 };

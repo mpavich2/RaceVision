@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { RelativeFooter } from '../components/relative/footer';
-import { RelativeHeader } from '../components/relative/header';
-import { RelativeTable } from '../components/relative/table';
+import { RelativeFooter } from '../../components/relative/footer';
+import { RelativeHeader } from '../../components/relative/header';
+import { RelativeTable } from '../../components/relative/table';
 import {
   setDocumentDrag,
   setDocumentOpacity,
-} from '../utils/commonDocumentUtils';
-import { IPC_CHANNELS } from '../constants/ipcChannels';
+} from '../../utils/commonDocumentUtils';
+import { IPC_CHANNELS } from '../../constants/ipcChannels';
 
 export default function RelativeApp() {
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function RelativeApp() {
   }, []);
 
   return (
-    <div className="relativeWindow enableDrag">
+    <div className="overlayWindow">
       <RelativeHeader />
       <RelativeTable />
       <RelativeFooter />

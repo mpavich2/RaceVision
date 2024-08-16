@@ -51,16 +51,6 @@ const configuration: webpack.Configuration = {
       'webpack/hot/only-dev-server',
       path.join(webpackPaths.srcRendererPath, 'index.tsx'),
     ],
-    relative: [
-      `webpack-dev-server/client?http://localhost:${port}/dist`,
-      'webpack/hot/only-dev-server',
-      path.join(webpackPaths.srcRendererPath, 'relativeIndex.tsx'),
-    ],
-    standings: [
-      `webpack-dev-server/client?http://localhost:${port}/dist`,
-      'webpack/hot/only-dev-server',
-      path.join(webpackPaths.srcRendererPath, 'standingsIndex.tsx'),
-    ],
   },
 
   output: {
@@ -174,36 +164,6 @@ const configuration: webpack.Configuration = {
       isDevelopment: process.env.NODE_ENV !== 'production',
       nodeModules: webpackPaths.appNodeModulesPath,
       chunks: ['index'],
-    }),
-
-    new HtmlWebpackPlugin({
-      filename: path.join('relative.html'),
-      template: path.join(webpackPaths.srcRendererPath, 'relative.ejs'),
-      minify: {
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-      },
-      isBrowser: false,
-      env: process.env.NODE_ENV,
-      isDevelopment: process.env.NODE_ENV !== 'production',
-      nodeModules: webpackPaths.appNodeModulesPath,
-      chunks: ['relative'],
-    }),
-
-    new HtmlWebpackPlugin({
-      filename: path.join('standings.html'),
-      template: path.join(webpackPaths.srcRendererPath, 'standings.ejs'),
-      minify: {
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-      },
-      isBrowser: false,
-      env: process.env.NODE_ENV,
-      isDevelopment: process.env.NODE_ENV !== 'production',
-      nodeModules: webpackPaths.appNodeModulesPath,
-      chunks: ['standings'],
     }),
   ],
 

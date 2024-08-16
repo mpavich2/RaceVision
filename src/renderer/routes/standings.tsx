@@ -2,16 +2,14 @@ import { useEffect } from 'react';
 import {
   setDocumentDrag,
   setDocumentOpacity,
-} from '../utils/commonDocumentUtils';
-import { IPC_CHANNELS } from '../constants/ipcChannels';
-import './standings.css';
+} from '../../utils/commonDocumentUtils';
+import { IPC_CHANNELS } from '../../constants/ipcChannels';
 
 export default function StandingsApp() {
   useEffect(() => {
     window.electron.ipcRenderer.on(
       IPC_CHANNELS.RECEIVE_OPACITY_UPDATE,
       (opacity: number) => {
-        console.log('hit');
         setDocumentOpacity(opacity.toString());
       },
     );
@@ -25,9 +23,9 @@ export default function StandingsApp() {
   }, []);
 
   return (
-    <div className="standingsWindow enableDrag">
+    <div className="overlayWindow">
       Hello Standings
-      <div id="draggableWrapper">RELATIVE WINDOW</div>
+      <div id="draggableWrapper">STANDINGS WINDOW</div>
     </div>
   );
 }

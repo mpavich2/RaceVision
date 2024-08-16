@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { IPC_CHANNELS } from '../constants/ipcChannels';
+import { IPC_CHANNELS } from '../../constants/ipcChannels';
+import './main.css';
 
 // calling IPC exposed from preload script
 // window.electron.ipcRenderer.once('ipc-example', (arg) => {
@@ -16,7 +17,7 @@ const openWindowButtonClicked = (windowName: string) => {
   );
 };
 
-export default function App() {
+export default function MainApp() {
   const [isToggled, setIsToggled] = useState(false);
   const [opacity, setOpacity] = useState(0.8);
 

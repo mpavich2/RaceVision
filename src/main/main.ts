@@ -87,7 +87,7 @@ const createRelativeWindow = () => {
   runWindowElectronStoreInfo(relativeWindow, STORE_LOCATIONS.RELATIVE_WINDOW);
   relativeWindow.setAlwaysOnTop(true, 'screen-saver');
 
-  relativeWindow.loadURL(resolveHtmlPath('relative.html'));
+  relativeWindow.loadURL(resolveHtmlPath('index.html', 'relative'));
 
   relativeWindow.on('ready-to-show', () => {
     if (!relativeWindow) {
@@ -130,7 +130,7 @@ const createStandingsWindow = () => {
   runWindowElectronStoreInfo(standingsWindow, STORE_LOCATIONS.STANDINGS_WINDOW);
   standingsWindow.setAlwaysOnTop(true, 'screen-saver');
 
-  standingsWindow.loadURL(resolveHtmlPath('standings.html'));
+  standingsWindow.loadURL(resolveHtmlPath('index.html', 'standings'));
 
   standingsWindow.on('ready-to-show', () => {
     if (!standingsWindow) {

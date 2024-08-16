@@ -8,10 +8,6 @@
   }
 
   body {
-    margin: 0 !important;
-  }
-
-  body {
     font-family: "Reddit Mono", monospace;
     font-optical-sizing: auto;
     background: rgba(0, 0, 0, var(--opacity));
@@ -26,7 +22,7 @@
     padding: 0;
   }
 
-  .relativeWindow {
+  .overlayWindow {
     height: 100%;
     width: 100%;
     display: flex;
