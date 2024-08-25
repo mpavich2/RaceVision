@@ -29,6 +29,7 @@ class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 let relativeWindow: BrowserWindow | null = null;
 let standingsWindow: BrowserWindow | null = null;
+let inputsWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -153,6 +154,49 @@ const createStandingsWindow = () => {
   });
 };
 
+const createInputsWindow = () => {
+  inputsWindow = new BrowserWindow({
+    show: false,
+    width: 600,
+    height: 200,
+    transparent: true,
+    frame: false,
+    resizable: true,
+    roundedCorners: false,
+    alwaysOnTop: true,
+    minimizable: false,
+    minHeight: 100,
+    icon: getAssetPath('icon.png'),
+    webPreferences: {
+      preload,
+    },
+  });
+  runWindowElectronStoreInfo(inputsWindow, STORE_LOCATIONS.INPUTS_WINDOW);
+  inputsWindow.setAlwaysOnTop(true, 'screen-saver');
+
+  inputsWindow.loadURL(resolveHtmlPath('index.html', 'inputs'));
+
+  inputsWindow.on('ready-to-show', () => {
+    if (!inputsWindow) {
+      throw new Error('"inputsWindow" is not defined');
+    }
+    if (process.env.START_MINIMIZED) {
+      inputsWindow.minimize();
+    } else {
+      inputsWindow.show();
+    }
+  });
+
+  inputsWindow.on('closed', () => {
+    inputsWindow = null;
+  });
+
+  inputsWindow.webContents.setWindowOpenHandler((edata) => {
+    shell.openExternal(edata.url);
+    return { action: 'deny' };
+  });
+};
+
 const createWindows = async () => {
   // if (isDebug) {
   //   await installExtensions()
@@ -196,6 +240,7 @@ const createWindows = async () => {
 
   createRelativeWindow();
   createStandingsWindow();
+  createInputsWindow();
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
@@ -226,6 +271,10 @@ app
 
       if (windowName === STORE_LOCATIONS.STANDINGS_WINDOW && !standingsWindow) {
         createStandingsWindow();
+      }
+
+      if (windowName === STORE_LOCATIONS.INPUTS_WINDOW && !inputsWindow) {
+        createInputsWindow();
       }
     });
 

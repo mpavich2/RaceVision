@@ -44,3 +44,7 @@
     font-weight: bold;
     font-size: xx-large;
   }
+
+::-webkit-scrollbar {
+    display: none;
+}
