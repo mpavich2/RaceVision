@@ -29,6 +29,7 @@ class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 let relativeWindow: BrowserWindow | null = null;
 let standingsWindow: BrowserWindow | null = null;
+let inputGraphWindow: BrowserWindow | null = null;
 let inputsWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
@@ -154,6 +155,52 @@ const createStandingsWindow = () => {
   });
 };
 
+const createInputGraphWindow = () => {
+  inputGraphWindow = new BrowserWindow({
+    show: false,
+    width: 600,
+    height: 200,
+    transparent: true,
+    frame: false,
+    resizable: true,
+    roundedCorners: false,
+    alwaysOnTop: true,
+    minimizable: false,
+    minHeight: 100,
+    icon: getAssetPath('icon.png'),
+    webPreferences: {
+      preload,
+    },
+  });
+  runWindowElectronStoreInfo(
+    inputGraphWindow,
+    STORE_LOCATIONS.INPUT_GRAPH_WINDOW,
+  );
+  inputGraphWindow.setAlwaysOnTop(true, 'screen-saver');
+
+  inputGraphWindow.loadURL(resolveHtmlPath('index.html', 'inputGraph'));
+
+  inputGraphWindow.on('ready-to-show', () => {
+    if (!inputGraphWindow) {
+      throw new Error('"inputGraphWindow" is not defined');
+    }
+    if (process.env.START_MINIMIZED) {
+      inputGraphWindow.minimize();
+    } else {
+      inputGraphWindow.show();
+    }
+  });
+
+  inputGraphWindow.on('closed', () => {
+    inputGraphWindow = null;
+  });
+
+  inputGraphWindow.webContents.setWindowOpenHandler((edata) => {
+    shell.openExternal(edata.url);
+    return { action: 'deny' };
+  });
+};
+
 const createInputsWindow = () => {
   inputsWindow = new BrowserWindow({
     show: false,
@@ -240,6 +287,7 @@ const createWindows = async () => {
 
   createRelativeWindow();
   createStandingsWindow();
+  createInputGraphWindow();
   createInputsWindow();
 
   // Remove this if your app does not use auto updates
@@ -271,6 +319,13 @@ app
 
       if (windowName === STORE_LOCATIONS.STANDINGS_WINDOW && !standingsWindow) {
         createStandingsWindow();
+      }
+
+      if (
+        windowName === STORE_LOCATIONS.INPUT_GRAPH_WINDOW &&
+        !inputGraphWindow
+      ) {
+        createInputGraphWindow();
       }
 
       if (windowName === STORE_LOCATIONS.INPUTS_WINDOW && !inputsWindow) {

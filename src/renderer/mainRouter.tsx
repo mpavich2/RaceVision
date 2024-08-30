@@ -2,6 +2,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import RelativeApp from './routes/relative';
 import StandingsApp from './routes/standings';
 import MainApp from './routes/main';
+import InputGraphApp from './routes/inputGraph';
 import InputsApp from './routes/inputs';
 
 export function MainRouter() {
@@ -11,6 +12,7 @@ export function MainRouter() {
         <Route path="/" element={<MainApp />} />
         <Route path="/relative" element={<RelativeApp />} />
         <Route path="/standings" element={<StandingsApp />} />
+        <Route path="/inputGraph" element={<InputGraphApp />} />
         <Route path="/inputs" element={<InputsApp />} />
       </Routes>
     </HashRouter>

@@ -4,9 +4,9 @@ import {
   setDocumentOpacity,
 } from '../../utils/commonDocumentUtils';
 import { IPC_CHANNELS } from '../../constants/ipcChannels';
-import { InputBarGraph } from '../../components/inputs/graphs/bar';
+import { InputLineGraph } from '../../components/inputs/graphs/line';
 
-export default function InputsApp() {
+export default function InputGraphApp() {
   useEffect(() => {
     window.electron.ipcRenderer.on(
       IPC_CHANNELS.RECEIVE_OPACITY_UPDATE,
@@ -25,9 +25,9 @@ export default function InputsApp() {
 
   return (
     <div className="overlayWindow">
-      <InputBarGraph />
+      <InputLineGraph />
 
-      <div id="draggableWrapper">INPUTS WINDOW</div>
+      <div id="draggableWrapper">INPUT GRAPH WINDOW</div>
     </div>
   );
 }
