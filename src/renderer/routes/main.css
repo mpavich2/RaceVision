@@ -30,6 +30,16 @@
     gap: 0.5rem;
   }
 
+  .inputsWrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem;
+  }
+
   #draggableWrapper {
     position: absolute;
     height: 100%;

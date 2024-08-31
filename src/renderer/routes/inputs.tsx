@@ -5,6 +5,7 @@ import {
 } from '../../utils/commonDocumentUtils';
 import { IPC_CHANNELS } from '../../constants/ipcChannels';
 import { InputBarGraph } from '../../components/inputs/graphs/bar';
+import { BasicInputs } from '../../components/inputs/basic';
 
 export default function InputsApp() {
   useEffect(() => {
@@ -25,7 +26,10 @@ export default function InputsApp() {
 
   return (
     <div className="overlayWindow">
-      <InputBarGraph />
+      <div className="inputsWrapper">
+        <InputBarGraph />
+        <BasicInputs />
+      </div>
 
       <div id="draggableWrapper">INPUTS WINDOW</div>
     </div>

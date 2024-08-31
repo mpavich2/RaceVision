@@ -1,0 +1,8 @@
+.shiftLightsWrapper {
+  height: 100%;
+  gap: 0.2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
