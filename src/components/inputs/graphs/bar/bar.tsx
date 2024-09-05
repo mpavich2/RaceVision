@@ -16,7 +16,7 @@ export function InputBarGraph() {
       (telemetry: ITelemetry) => {
         setThrottleInput(telemetry.values.ThrottleRaw * 100);
         setBrakeInput(telemetry.values.BrakeRaw * 100);
-        setClutchInput(telemetry.values.ClutchRaw * 100);
+        setClutchInput((1 - telemetry.values.ClutchRaw) * 100);
       },
     );
   }, []);

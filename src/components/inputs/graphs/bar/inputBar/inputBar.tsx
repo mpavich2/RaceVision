@@ -15,6 +15,7 @@ export function InputBar(props: { value: number; inputType: InputType }) {
       <div>{roundedValue}</div>
       <div className="inputProgressWrapper">
         <div
+          className="progressBar"
           style={{
             backgroundColor: colors[props.inputType],
             height: `${roundedValue}%`,

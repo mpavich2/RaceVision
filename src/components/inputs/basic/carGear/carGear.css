@@ -1,0 +1,10 @@
+.carGear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 6.5rem;
+  width: 6.5rem;
+  background-color: #3b3b3b;
+  border: 0.5rem solid #4b4b4b;
+}

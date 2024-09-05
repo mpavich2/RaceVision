@@ -204,15 +204,16 @@ const createInputGraphWindow = () => {
 const createInputsWindow = () => {
   inputsWindow = new BrowserWindow({
     show: false,
-    width: 600,
-    height: 200,
+    width: 435,
+    height: 130,
     transparent: true,
     frame: false,
     resizable: true,
     roundedCorners: false,
     alwaysOnTop: true,
     minimizable: false,
-    minHeight: 100,
+    minWidth: 435,
+    minHeight: 130,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload,

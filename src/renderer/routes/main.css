@@ -10,7 +10,7 @@
   body {
     font-family: "Reddit Mono", monospace;
     font-optical-sizing: auto;
-    background: rgba(0, 0, 0, var(--opacity));
+    background: transparent;
     color: white;
   }
 
@@ -28,16 +28,11 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    background: rgba(0, 0, 0, var(--opacity));
   }
 
-  .inputsWrapper {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: 1rem;
+  .roundedOverlayWindow {
+    border-radius: 4rem;
   }
 
   #draggableWrapper {

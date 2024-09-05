@@ -7,28 +7,16 @@ import { CarSpeed } from './carSpeed';
 import { DisplayUnits } from '../../../types/displayUnits';
 import { CarRpm } from './carRpm';
 import { ShiftLight } from './shiftLight';
-
-const calculateGear = (gear: number) => {
-  if (gear === -1) {
-    return 'R';
-  }
-
-  if (gear === 0) {
-    return 'N';
-  }
-
-  return gear;
-};
+import { CarGear } from './carGear/carGear';
 
 export function BasicInputs() {
   const [carSpeed, setCarSpeed] = useState(0);
   const [carGear, setCarGear] = useState(0);
   const [carRpm, setCarRpm] = useState(0);
   const [isCarAbs, setIsCarAbs] = useState(false);
-  const [firstShiftLightRpm, setFirstShiftLightRpm] = useState(6300);
-  const [secondShiftLightRpm, setSecondShiftLightRpm] = useState(6500);
-  const [lastShiftLightRpm, setLastShiftLightRpm] = useState(6700);
-  const [blinkingShiftLightRpm, setBlinkingShiftLightRpm] = useState(6900);
+  const [blinkingShiftLightRpm, setBlinkingShiftLightRpm] = useState(
+    Number.MAX_SAFE_INTEGER,
+  );
 
   useEffect(() => {
     window.electron.ipcRenderer.on(
@@ -39,9 +27,6 @@ export function BasicInputs() {
         setCarRpm(telemetry.values.RPM);
         setIsCarAbs(telemetry.values.BrakeABSactive);
         setCarRpm(telemetry.values.RPM);
-        setFirstShiftLightRpm(telemetry.values.PlayerCarSLFirstRPM);
-        setSecondShiftLightRpm(telemetry.values.PlayerCarSLShiftRPM);
-        setLastShiftLightRpm(telemetry.values.PlayerCarSLLastRPM);
         setBlinkingShiftLightRpm(telemetry.values.PlayerCarSLBlinkRPM);
       },
     );
@@ -49,19 +34,20 @@ export function BasicInputs() {
 
   return (
     <div className="basicInputsWrapper">
-      <div className="carGear">{calculateGear(carGear)}</div>
+      <CarGear gear={carGear} />
 
-      <ShiftLight
-        currentRpm={carRpm}
-        firstShiftLightRpm={firstShiftLightRpm}
-        secondShiftLightRpm={secondShiftLightRpm}
-        lastShiftLightRpm={lastShiftLightRpm}
-        blinkingShiftLightRpm={blinkingShiftLightRpm}
-      />
+      <div className="carInfoWrapper">
+        <ShiftLight
+          currentRpm={carRpm}
+          blinkingShiftLightRpm={blinkingShiftLightRpm}
+        />
 
-      <CarSpeed speed={carSpeed} units={DisplayUnits.MPH} />
+        <div className="carSpeedAndRpm">
+          <CarSpeed speed={carSpeed} units={DisplayUnits.MPH} />
 
-      <CarRpm rpm={carRpm} />
+          <CarRpm rpm={carRpm} />
+        </div>
+      </div>
 
       <div className="carAbs">
         <AbsLight isAbsActive={isCarAbs} />

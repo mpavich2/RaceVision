@@ -17,6 +17,7 @@ export function ShiftingLight(props: {
     if (props.isActive) {
       return '#0AB71B';
     }
+
     return '#3b3b3b';
   };
   return (

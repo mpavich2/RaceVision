@@ -22,3 +22,15 @@
 .carAbs {
   padding-right: 2rem;
 }
+
+.carSpeedAndRpm {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.carInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

@@ -1,11 +1,21 @@
 .inputBar {
   height: 100%;
+  width: 1.8rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  text-align: center;
 }
 
 .inputProgressWrapper {
+  display: flex;
   height: 100%;
+  width: 100%;
   background-color: #3b3b3b;
+}
+
+.progressBar {
+  margin-top: auto;
+  width: 100%;
+  margin-bottom: 0;
 }
