@@ -17,6 +17,10 @@ const openWindowButtonClicked = (windowName: string) => {
   );
 };
 
+const resetWindowPositions = () => {
+  window.electron.ipcRenderer.sendMessage(IPC_CHANNELS.RESET_WINDOW_POSITIONS);
+};
+
 export default function MainApp() {
   const [isToggled, setIsToggled] = useState(false);
   const [opacity, setOpacity] = useState(0.8);
@@ -48,6 +52,9 @@ export default function MainApp() {
     <div>
       <div className="background">
         Main Window
+        <button type="button" onClick={resetWindowPositions}>
+          Reset Overlay Positions
+        </button>
         <button
           type="button"
           onClick={() => openWindowButtonClicked('standings')}

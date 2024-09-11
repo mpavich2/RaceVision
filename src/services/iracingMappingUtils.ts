@@ -1,13 +1,12 @@
 import { ISessionInfo, ITelemetry } from '../types/iracing';
 import { IRelativeDriverData } from '../types/relative';
-import carClassInfo from '../sampleData/carClassInfo.json';
 
-const getCarRelativeSpeed = (carClassShortName: string): number => {
-  return (
-    carClassInfo.find((data) => data.short_name === carClassShortName)
-      ?.relative_speed || -1
-  );
-};
+// const getCarRelativeSpeed = (carClassShortName: string): number => {
+//   return (
+//     carClassInfo.find((data) => data.short_name === carClassShortName)
+//       ?.relative_speed || -1
+//   );
+// };
 
 export const getUserCarIdx = (sessionInfo: ISessionInfo): number => {
   return sessionInfo.data.DriverInfo.DriverCarIdx;
@@ -33,6 +32,7 @@ export const iracingDataToRelativeInfo = (
       carClassEstLapTime: driver.CarClassEstLapTime,
       carClassColor: driver.CarClassColor.toString(16),
       isSpectator: driver.IsSpectator === 1,
+      carRelativeSpeed: driver.CarClassRelSpeed,
     };
   });
 
@@ -80,7 +80,7 @@ export const iracingDataToRelativeInfo = (
         isInPit: telemetry.values.CarIdxOnPitRoad[driver.carIdx],
         isDriverOffTrack: false, // determine in order to show yellow flag
         iratingDiff: 0,
-        carRelativeSpeed: getCarRelativeSpeed(driver.carClass),
+        carRelativeSpeed: driver.carRelativeSpeed,
         carClassColor: driver.carClassColor,
         licenseColor: driver.licenseColor,
         isDriverInLobby:

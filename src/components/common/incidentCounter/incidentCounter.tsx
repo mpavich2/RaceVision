@@ -1,10 +1,14 @@
 export function IncidentCounter(props: {
-  maxIncidents: number;
+  maxIncidents: string;
   currentTotalIncidents: number;
 }) {
+  const isIncidentsUnlimited = props.maxIncidents === 'unlimited';
+
   return (
     <div style={{ fontWeight: 'bold' }}>
-      {props.currentTotalIncidents}/{props.maxIncidents}x
+      {isIncidentsUnlimited
+        ? `${props.currentTotalIncidents}x`
+        : `${props.currentTotalIncidents}/${props.maxIncidents}x`}
     </div>
   );
 }

@@ -35,3 +35,8 @@ export const runWindowElectronStoreInfo = (
     store.set(file, window.getBounds());
   });
 };
+
+export const deleteWindowElectronStoreInfo = (file: string) => {
+  const store = new Store();
+  store.delete(file);
+};

@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import { RelativeFooter } from '../../components/relative/footer';
 import { RelativeHeader } from '../../components/relative/header';
 import { RelativeTable } from '../../components/relative/table';
@@ -7,8 +8,30 @@ import {
   setDocumentOpacity,
 } from '../../utils/commonDocumentUtils';
 import { IPC_CHANNELS } from '../../constants/ipcChannels';
+import { ISessionInfo, ITelemetry } from '../../types/iracing';
+import { IRelativeDriverData } from '../../types/relative';
+import {
+  getUserCarIdx,
+  iracingDataToRelativeInfo,
+} from '../../services/iracingMappingUtils';
+import { calculateExpectedIratingDiff } from '../../services/iratingCalculator';
 
 export default function RelativeApp() {
+  // iracing data
+  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>();
+  const [telemetryInfo, setTelemetryInfo] = useState<ITelemetry>();
+
+  // extracted user data
+  const [userCarIdx, setUserCarIdx] = useState(0);
+  const [userCurrentLap, setUserCurrentLap] = useState(0);
+
+  // extracted driver data
+  const [driverData, setDriverData] = useState<IRelativeDriverData[]>([]);
+
+  // session extracted data
+  const [isRaceSession, setIsRaceSession] = useState(false);
+  const [sessionSof, setSessionSof] = useState(0);
+
   useEffect(() => {
     window.electron.ipcRenderer.on(
       IPC_CHANNELS.RECEIVE_OPACITY_UPDATE,
@@ -25,11 +48,81 @@ export default function RelativeApp() {
     );
   }, []);
 
+  useEffect(() => {
+    window.electron.ipcRenderer.on(
+      IPC_CHANNELS.IRACING_SESSION_INFO,
+      (session: ISessionInfo) => {
+        setSessionInfo(session);
+      },
+    );
+
+    window.electron.ipcRenderer.on(
+      IPC_CHANNELS.IRACING_TELEMETRY_INFO,
+      (telemetry: ITelemetry) => {
+        setTelemetryInfo(telemetry);
+      },
+    );
+  }, []);
+
+  useEffect(() => {
+    if (sessionInfo && telemetryInfo) {
+      let drivers = iracingDataToRelativeInfo(sessionInfo, telemetryInfo);
+
+      if (isRaceSession) {
+        const iratingDiffs = calculateExpectedIratingDiff(drivers);
+        setSessionSof(iratingDiffs.sof);
+
+        drivers = drivers.map((d1) => {
+          const matchedDriver = iratingDiffs.drivers.find(
+            (d2) => d2.driverName === d1.driverName,
+          );
+
+          return {
+            ...d1,
+            iratingDiff: matchedDriver?.iratingDiff || 0,
+          };
+        });
+      }
+
+      drivers = drivers
+        .filter((d) => d.isDriverOnTrack)
+        .sort((a, b) => b.relativeTime - a.relativeTime);
+
+      setDriverData(drivers);
+      setUserCarIdx(getUserCarIdx(sessionInfo));
+    }
+  }, [sessionInfo, telemetryInfo]);
+
+  useEffect(() => {
+    if (sessionInfo) {
+      setIsRaceSession(sessionInfo.data.WeekendInfo.EventType === 'RACE');
+    }
+  }, [sessionInfo]);
+
+  useEffect(() => {
+    setUserCurrentLap(
+      driverData.find((d) => d.carIdx === userCarIdx)?.currentLap || -1,
+    );
+  }, [sessionInfo]);
+
   return (
     <div className="overlayWindow">
-      <RelativeHeader />
-      <RelativeTable />
-      <RelativeFooter />
+      <RelativeHeader
+        telemetry={telemetryInfo}
+        sessionInfo={sessionInfo}
+        strengthOfField={sessionSof}
+      />
+      <RelativeTable
+        driverData={driverData}
+        userCarIdx={userCarIdx}
+        userCurrentLap={userCurrentLap}
+        isRaceSession={isRaceSession}
+      />
+      <RelativeFooter
+        userCurrentLap={userCurrentLap}
+        telemetry={telemetryInfo}
+        sessionInfo={sessionInfo}
+      />
 
       <div id="draggableWrapper">RELATIVE WINDOW</div>
     </div>

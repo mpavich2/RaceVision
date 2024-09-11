@@ -1,24 +1,29 @@
-import { StrengthOfField } from '../../common/strengthOfField';
 import { Temperature } from '../../common/temperature';
-import { TemperatureUnits } from '../../../types/temperatureUnits';
 import { IncidentCounter } from '../../common/incidentCounter';
 import './header.css';
+import { ISessionInfo, ITelemetry } from '../../../types/iracing';
+import { StrengthOfField } from '../../common/strengthOfField';
 
-export function RelativeHeader() {
-  const temperature = {
-    value: 27,
-    units: TemperatureUnits.CELSIUS,
-  };
-  const strengthOfField = 2730;
+export function RelativeHeader(props: {
+  telemetry?: ITelemetry;
+  sessionInfo?: ISessionInfo;
+  strengthOfField: number;
+}) {
+  const temperature =
+    props.sessionInfo?.data.WeekendInfo.TrackSurfaceTemp || '0';
   const incidentInfo = {
-    maxIncidents: 25,
-    currentTotalIncidents: 6,
+    maxIncidents:
+      props.sessionInfo?.data.WeekendInfo.WeekendOptions.IncidentLimit || '0',
+    currentTotalIncidents:
+      props.telemetry?.values.PlayerCarMyIncidentCount || 0,
   };
 
   return (
     <div className="relativeHeader">
       <Temperature temp={temperature} />
-      <StrengthOfField value={strengthOfField} />
+      {props.strengthOfField ? (
+        <StrengthOfField value={props.strengthOfField} />
+      ) : null}
       <IncidentCounter
         maxIncidents={incidentInfo.maxIncidents}
         currentTotalIncidents={incidentInfo.currentTotalIncidents}

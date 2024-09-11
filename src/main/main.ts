@@ -16,7 +16,10 @@ import { resolveHtmlPath } from './util';
 import { IPC_CHANNELS } from '../constants/ipcChannels';
 import { ISessionInfo, ITelemetry } from '../types/iracing';
 import { STORE_LOCATIONS } from '../constants/storeLocations';
-import { runWindowElectronStoreInfo } from '../utils/windowUtils';
+import {
+  deleteWindowElectronStoreInfo,
+  runWindowElectronStoreInfo,
+} from '../utils/windowUtils';
 
 class AppUpdater {
   constructor() {
@@ -332,6 +335,17 @@ app
       if (windowName === STORE_LOCATIONS.INPUTS_WINDOW && !inputsWindow) {
         createInputsWindow();
       }
+    });
+
+    ipcMain.on(IPC_CHANNELS.RESET_WINDOW_POSITIONS, () => {
+      Object.values(STORE_LOCATIONS).forEach((file) => {
+        deleteWindowElectronStoreInfo(file);
+      });
+      BrowserWindow.getAllWindows().forEach((window) => {
+        if (window.webContents !== mainWindow?.webContents) {
+          window.setPosition(0, 0, false);
+        }
+      });
     });
 
     ipcMain.on(IPC_CHANNELS.SET_OPACITY, (_, opacity) => {
