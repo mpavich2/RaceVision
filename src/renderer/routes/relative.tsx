@@ -68,10 +68,10 @@ export default function RelativeApp() {
     if (sessionInfo && telemetryInfo) {
       let drivers = iracingDataToRelativeInfo(sessionInfo, telemetryInfo);
 
-      if (isRaceSession) {
-        const iratingDiffs = calculateExpectedIratingDiff(drivers);
-        setSessionSof(iratingDiffs.sof);
+      const iratingDiffs = calculateExpectedIratingDiff(drivers);
+      setSessionSof(iratingDiffs.sof);
 
+      if (isRaceSession) {
         drivers = drivers.map((d1) => {
           const matchedDriver = iratingDiffs.drivers.find(
             (d2) => d2.driverName === d1.driverName,

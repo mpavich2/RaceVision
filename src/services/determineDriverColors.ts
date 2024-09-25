@@ -77,15 +77,15 @@ export const getDriverNameColor = (
     return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_USER_COLOR;
   }
 
+  if (lapInfo?.driverInPit) {
+    return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_IN_PIT_COLOR;
+  }
+
   if (!isRaceSession) {
     return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
   }
 
   if (lapInfo) {
-    if (lapInfo.driverInPit) {
-      return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_IN_PIT_COLOR;
-    }
-
     return determineDriverRelativeColor(
       lapInfo.userLap,
       lapInfo.driverLap,
@@ -110,15 +110,15 @@ export const getRelativeTimeColor = (
     return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_USER_COLOR;
   }
 
+  if (lapInfo?.driverInPit) {
+    return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_IN_PIT_COLOR;
+  }
+
   if (!isRaceSession) {
     return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
   }
 
   if (lapInfo) {
-    if (lapInfo.driverInPit) {
-      return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_IN_PIT_COLOR;
-    }
-
     return determineDriverRelativeColor(
       lapInfo.userLap,
       lapInfo.driverLap,
