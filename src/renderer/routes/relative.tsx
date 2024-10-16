@@ -105,7 +105,7 @@ export default function RelativeApp() {
   }, [sessionInfo]);
 
   return (
-    <div className="overlayWindow">
+    <div className="overlayWindow overlayDefaultBackgroundColor">
       <RelativeHeader
         telemetry={telemetryInfo}
         sessionInfo={sessionInfo}

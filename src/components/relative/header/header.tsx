@@ -1,5 +1,5 @@
 import { Temperature } from '../../common/temperature';
-import { IncidentCounter } from '../../common/incidentCounter';
+import { IncidentCounter } from '../../common/driverInfo/incidentCounter';
 import './header.css';
 import { ISessionInfo, ITelemetry } from '../../../types/iracing';
 import { StrengthOfField } from '../../common/strengthOfField';

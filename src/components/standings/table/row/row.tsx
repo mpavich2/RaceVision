@@ -4,8 +4,9 @@ import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
 import './row.css';
 import { IStandingsDriverData } from '../../../../types/standings';
 import { Irating } from '../../../common/driverInfo/irating';
-import { LapTime } from '../../../common/lapTime';
-import { GapTime } from '../../../common/gapTime';
+import { LapTime } from '../../../common/driverInfo/lapTime';
+import { GapTime } from '../../../common/driverInfo/gapTime';
+import { DriverClass } from '../../../common/driverInfo/driverClass';
 
 export function StandingsTableRow(props: {
   driverData: IStandingsDriverData;
@@ -31,6 +32,9 @@ export function StandingsTableRow(props: {
     >
       <td className="classPosition">
         <ClassPosition position={props.driverData.position} isUser={isUser} />
+      </td>
+      <td className="classColor">
+        <DriverClass classColorInfo={props.driverData.carClassColor} />
       </td>
       <td className="driverName">
         <DriverName

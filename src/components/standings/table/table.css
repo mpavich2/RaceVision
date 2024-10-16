@@ -1,7 +1,16 @@
-.standingsTableWrapper {
+:root {
+  --opacity: 0.8;
+}
+
+.driverClassTable {
   margin-bottom: 0.5rem;
 }
 
-.standingsTableWrapper:last-child {
+.driverClassTable:last-child {
   margin-bottom: 0;
+}
+
+.standingsTableWrapper {
+  background: rgba(0, 0, 0, var(--opacity));
+  padding: 0.5rem;
 }

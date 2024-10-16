@@ -24,7 +24,7 @@ export default function InputsApp() {
   }, []);
 
   return (
-    <div className="overlayWindow roundedOverlayWindow">
+    <div className="overlayWindow roundedOverlayWindow overlayDefaultBackgroundColor">
       <Inputs />
 
       <div id="draggableWrapper">INPUTS WINDOW</div>

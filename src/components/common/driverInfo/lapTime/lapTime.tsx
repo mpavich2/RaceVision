@@ -1,4 +1,4 @@
-import { formatLapTime } from '../../../utils/timeUtils';
+import { formatLapTime } from '../../../../utils/timeUtils';
 import './lapTime.css';
 
 export function LapTime(props: {

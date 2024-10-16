@@ -54,10 +54,10 @@ export function StandingsTable(props: {
   });
 
   return (
-    <div>
+    <div className="standingsTableWrapper">
       {reducedDriverData.map((driverClass) => {
         return (
-          <div className="standingsTableWrapper" key={driverClass.className}>
+          <div className="driverClassTable" key={driverClass.className}>
             <ClassName
               className={driverClass.className}
               classColor={`#${driverClass.classColor}`}

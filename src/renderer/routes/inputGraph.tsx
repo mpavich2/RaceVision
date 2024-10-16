@@ -24,7 +24,7 @@ export default function InputGraphApp() {
   }, []);
 
   return (
-    <div className="overlayWindow">
+    <div className="overlayWindow overlayDefaultBackgroundColor">
       <InputLineGraph />
 
       <div id="draggableWrapper">INPUT GRAPH WINDOW</div>
