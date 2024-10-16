@@ -1,0 +1,14 @@
+/* force all standings tables to be same column width */
+.driverName {
+  max-width: 15rem;
+  min-width: 15rem;
+  width: 15rem;
+}
+
+.gap {
+  padding: 0 0.6rem;
+}
+
+.lastLap {
+  padding-left: 0.6rem;
+}

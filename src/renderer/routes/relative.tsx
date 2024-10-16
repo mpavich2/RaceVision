@@ -13,6 +13,7 @@ import { IRelativeDriverData } from '../../types/relative';
 import {
   getUserCarIdx,
   iracingDataToRelativeInfo,
+  isRaceSession,
 } from '../../services/iracingMappingUtils';
 import { calculateExpectedIratingDiff } from '../../services/iratingCalculator';
 
@@ -29,7 +30,7 @@ export default function RelativeApp() {
   const [driverData, setDriverData] = useState<IRelativeDriverData[]>([]);
 
   // session extracted data
-  const [isRaceSession, setIsRaceSession] = useState(false);
+  const [isRacingSession, setIsRaceSession] = useState(false);
   const [sessionSof, setSessionSof] = useState(0);
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export default function RelativeApp() {
       const iratingDiffs = calculateExpectedIratingDiff(drivers);
       setSessionSof(iratingDiffs.sof);
 
-      if (isRaceSession) {
+      if (isRacingSession) {
         drivers = drivers.map((d1) => {
           const matchedDriver = iratingDiffs.drivers.find(
             (d2) => d2.driverName === d1.driverName,
@@ -94,15 +95,13 @@ export default function RelativeApp() {
   }, [sessionInfo, telemetryInfo]);
 
   useEffect(() => {
-    if (sessionInfo) {
-      setIsRaceSession(sessionInfo.data.WeekendInfo.EventType === 'RACE');
-    }
-  }, [sessionInfo]);
-
-  useEffect(() => {
     setUserCurrentLap(
       driverData.find((d) => d.carIdx === userCarIdx)?.currentLap || -1,
     );
+
+    if (sessionInfo) {
+      setIsRaceSession(isRaceSession(sessionInfo));
+    }
   }, [sessionInfo]);
 
   return (
@@ -116,7 +115,7 @@ export default function RelativeApp() {
         driverData={driverData}
         userCarIdx={userCarIdx}
         userCurrentLap={userCurrentLap}
-        isRaceSession={isRaceSession}
+        isRaceSession={isRacingSession}
       />
       <RelativeFooter
         userCurrentLap={userCurrentLap}

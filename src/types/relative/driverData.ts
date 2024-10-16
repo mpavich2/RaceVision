@@ -4,7 +4,7 @@ export interface IRelativeDriverData {
   carClass: string;
   driverName: string;
   licenseSafetyRatingCombined: string;
-  licenseColor: string;
+  licenseColor: number;
   irating: number;
   iratingDiff: number;
   relativeTime: number;

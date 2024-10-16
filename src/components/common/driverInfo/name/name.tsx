@@ -3,10 +3,10 @@ import { getDriverNameColor } from '../../../../services/determineDriverColors';
 export function DriverName(props: {
   driverName: string;
   lapInfo?: {
-    userLap: number;
-    driverLap: number;
-    relativeTime: number;
-    driverInPit: boolean;
+    userLap?: number;
+    driverLap?: number;
+    relativeTime?: number;
+    driverInPit?: boolean;
   };
   isUser?: boolean;
   isRaceSession?: boolean;

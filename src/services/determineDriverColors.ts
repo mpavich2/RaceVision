@@ -67,10 +67,10 @@ export const getDriverNameColor = (
   isUser: boolean,
   isRaceSession: boolean,
   lapInfo?: {
-    userLap: number;
-    driverLap: number;
-    relativeTime: number;
-    driverInPit: boolean;
+    userLap?: number;
+    driverLap?: number;
+    relativeTime?: number;
+    driverInPit?: boolean;
   },
 ) => {
   if (isUser) {
@@ -85,7 +85,7 @@ export const getDriverNameColor = (
     return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
   }
 
-  if (lapInfo) {
+  if (lapInfo?.userLap && lapInfo?.driverLap && lapInfo?.relativeTime) {
     return determineDriverRelativeColor(
       lapInfo.userLap,
       lapInfo.driverLap,
@@ -100,10 +100,10 @@ export const getRelativeTimeColor = (
   isUser: boolean,
   isRaceSession: boolean,
   lapInfo?: {
-    userLap: number;
-    driverLap: number;
-    relativeTime: number;
-    driverInPit: boolean;
+    userLap?: number;
+    driverLap?: number;
+    relativeTime?: number;
+    driverInPit?: boolean;
   },
 ) => {
   if (isUser) {
@@ -118,7 +118,7 @@ export const getRelativeTimeColor = (
     return COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_SAME_LAP_AS_USER_COLOR;
   }
 
-  if (lapInfo) {
+  if (lapInfo?.userLap && lapInfo?.driverLap && lapInfo?.relativeTime) {
     return determineDriverRelativeColor(
       lapInfo.userLap,
       lapInfo.driverLap,

@@ -28,3 +28,16 @@ export function formatTimeWithSuffix(seconds: number) {
   }
   return `00:${mm}m`;
 }
+
+export function formatLapTime(totalSeconds: number) {
+  const totalMilliseconds = Math.floor(totalSeconds * 1000);
+  const minutes = Math.floor(totalMilliseconds / 60000);
+  const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
+  const milliseconds = totalMilliseconds % 1000;
+
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(seconds).padStart(2, '0');
+  const formattedMilliseconds = String(milliseconds).padStart(3, '0');
+
+  return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
+}

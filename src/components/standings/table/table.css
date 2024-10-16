@@ -1,0 +1,7 @@
+.standingsTableWrapper {
+  margin-bottom: 0.5rem;
+}
+
+.standingsTableWrapper:last-child {
+  margin-bottom: 0;
+}

@@ -53,7 +53,7 @@ export interface ISessionInfo {
       BuildType: string;
       BuildTarget: string;
       BuildVersion: string;
-      RaceFarm: any;
+      RaceFarm: string;
       WeekendOptions: {
         NumStarters: number;
         StartingGrid: string;
@@ -81,7 +81,7 @@ export interface ISessionInfo {
         HardcoreLevel: number;
         NumJokerLaps: number;
         IncidentLimit: string;
-        FastRepairsLimit: string;
+        FastRepairsLimit: number;
         GreenWhiteCheckeredLimit: number;
       };
       TelemetryOptions: {
@@ -101,7 +101,23 @@ export interface ISessionInfo {
         SessionSkipped: number;
         SessionRunGroupsUsed: number;
         SessionEnforceTireCompoundChange: number;
-        ResultsPositions: any;
+        ResultsPositions: Array<{
+          Position: number;
+          ClassPosition: number;
+          CarIdx: number;
+          Lap: number;
+          Time: number;
+          FastestLap: number;
+          FastestTime: number;
+          LastTime: number;
+          LapsLed: number;
+          LapsComplete: number;
+          JokerLapsComplete: number;
+          LapsDriven: number;
+          Incidents: number;
+          ReasonOutId: number;
+          ReasonOutStr: string;
+        }>;
         ResultsFastestLap: Array<{
           CarIdx: number;
           FastestLap: number;
@@ -181,8 +197,8 @@ export interface ISessionInfo {
       Drivers: Array<{
         CarIdx: number;
         UserName: string;
-        AbbrevName: any;
-        Initials: any;
+        AbbrevName?: string;
+        Initials?: string;
         UserID: number;
         TeamID: number;
         TeamName: string;
@@ -196,7 +212,7 @@ export interface ISessionInfo {
         CarIsElectric: number;
         CarScreenName: string;
         CarScreenNameShort: string;
-        CarClassShortName: any;
+        CarClassShortName: string;
         CarClassRelSpeed: number;
         CarClassLicenseLevel: number;
         CarClassMaxFuelPct: string;
@@ -209,7 +225,7 @@ export interface ISessionInfo {
         LicLevel: number;
         LicSubLevel: number;
         LicString: string;
-        LicColor: string;
+        LicColor: number;
         IsSpectator: number;
         CarDesignStr: string;
         HelmetDesignStr: string;
@@ -220,6 +236,10 @@ export interface ISessionInfo {
         CarNumberDesignStr: string;
         CarSponsor_1: number;
         CarSponsor_2: number;
+        ClubName: string;
+        ClubID: number;
+        DivisionName: string;
+        DivisionID: number;
         CurDriverIncidentCount: number;
         TeamIncidentCount: number;
       }>;
@@ -236,13 +256,13 @@ export interface ISessionInfo {
         TireType: {
           TireType: string;
         };
-        LeftFront: {
+        LeftFrontTire: {
           StartingPressure: string;
           LastHotPressure: string;
           LastTempsOMI: string;
           TreadRemaining: string;
         };
-        LeftRear: {
+        LeftRearTire: {
           StartingPressure: string;
           LastHotPressure: string;
           LastTempsOMI: string;
@@ -254,86 +274,120 @@ export interface ISessionInfo {
           LastTempsIMO: string;
           TreadRemaining: string;
         };
-        RightRear: {
+        RightRearTire: {
           StartingPressure: string;
           LastHotPressure: string;
           LastTempsIMO: string;
           TreadRemaining: string;
         };
-        AeroBalanceCalc: {
+        AeroSettings: {
+          FrontDivePlanes: string;
+          DeckGurneySetting: string;
+          RearWingAngle: string;
+          RearWingFlapAngle: string;
+        };
+        AeroCalculator: {
           FrontRhAtSpeed: string;
           RearRhAtSpeed: string;
-          RearWingAngle: string;
-          FrontDownforce: string;
+          DownforceBalance: string;
+          LD: number;
         };
       };
       Chassis: {
-        FrontBrakes: {
-          ArbBlades: number;
-          TotalToeIn: string;
-          BrakePedalRatio: number;
-          BrakePads: string;
+        Front: {
+          HeaveSpring: string;
+          HeavePerchOffset: string;
+          HeaveSpringDefl: string;
+          HeaveSliderDefl: string;
+          PushrodLengthAdj: string;
+          ArbSize: string;
+          ArbSetting: string;
+          ToeIn: string;
         };
         LeftFront: {
           CornerWeight: string;
           RideHeight: string;
-          BumpRubberGap: string;
+          SpringPerchOffset: string;
           SpringRate: string;
+          SpringDefl: string;
+          ShockDefl: string;
           Camber: string;
         };
         LeftRear: {
           CornerWeight: string;
           RideHeight: string;
-          BumpRubberGap: string;
+          SpringPerchOffset: string;
           SpringRate: string;
+          SpringDefl: string;
+          ShockDefl: string;
+          Camber: string;
+          ToeIn: string;
+        };
+        BrakesInCarMisc: {
+          HeadlightLedColor: string;
+          FrontMasterCyl: string;
+          RearMasterCyl: string;
+          BrakePressureBias: string;
+          TractionControl: string;
+          ThrottleShape: number;
+          CrossWeight: string;
+          NoseWeight: string;
+        };
+        RightFront: {
+          CornerWeight: string;
+          RideHeight: string;
+          SpringPerchOffset: string;
+          SpringRate: string;
+          SpringDefl: string;
+          ShockDefl: string;
+          Camber: string;
+        };
+        RightRear: {
+          CornerWeight: string;
+          RideHeight: string;
+          SpringPerchOffset: string;
+          SpringRate: string;
+          SpringDefl: string;
+          ShockDefl: string;
           Camber: string;
           ToeIn: string;
         };
         Rear: {
+          ThirdSpring: string;
+          ThirdPerchOffset: string;
+          ThirdSpringDefl: string;
+          ThirdSliderDefl: string;
+          ArbSize: string;
+          ArbSetting: string;
+          PushrodLengthAdj: string;
           FuelLevel: string;
-          ArbBlades: number;
-          RearWingAngle: string;
-        };
-        InCarAdjustments: {
-          BrakePressureBias: string;
-          AbsSetting: string;
-          TractionControlSetting: string;
-          DisplayPage: string;
-          CrossWeight: string;
-        };
-        RightFront: {
-          CornerWeight: string;
-          RideHeight: string;
-          BumpRubberGap: string;
-          SpringRate: string;
-          Camber: string;
-        };
-        RightRear: {
-          CornerWeight: string;
-          RideHeight: string;
-          BumpRubberGap: string;
-          SpringRate: string;
-          Camber: string;
-          ToeIn: string;
-        };
-        GearsDifferential: {
-          GearStack: string;
-          FrictionFaces: number;
           DiffPreload: string;
         };
       };
       Dampers: {
-        FrontDampers: {
-          LowSpeedCompressionDamping: string;
-          HighSpeedCompressionDamping: string;
-          LowSpeedReboundDamping: string;
-          HighSpeedReboundDamping: string;
+        LeftFrontDamper: {
+          LsCompDamping: string;
+          HsCompDamping: string;
+          LsRbdDamping: string;
+          HsRbdDamping: string;
         };
-        RearDampers: {
-          LowSpeedCompressionDamping: string;
-          HighSpeedCompressionDamping: string;
-          LowSpeedReboundDamping: string;
-          HighSpeedReboundDamping: string;
+        LeftRearDamper: {
+          LsCompDamping: string;
+          HsCompDamping: string;
+          LsRbdDamping: string;
+          HsRbdDamping: string;
+        };
+        RightFrontDamper: {
+          LsCompDamping: string;
+          HsCompDamping: string;
+          LsRbdDamping: string;
+          HsRbdDamping: string;
+        };
+        RightRearDamper: {
+          LsCompDamping: string;
+          HsCompDamping: string;
+          LsRbdDamping: string;
+          HsRbdDamping: string;
         };
       };
     };

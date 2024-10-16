@@ -1,4 +1,4 @@
-export interface IDriverInfo {
+export interface IStandingsDriverData {
   gapTime: number;
   position: number;
   carNumber: string;
@@ -12,5 +12,5 @@ export interface IDriverInfo {
   lastLap: number;
   classRelativeSpeed: number;
   isDriverOffTrack: boolean;
-  currentLap: number;
+  isDriverInPit: boolean;
 }

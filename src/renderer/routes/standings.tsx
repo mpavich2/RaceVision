@@ -1,11 +1,26 @@
-import { useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import {
   setDocumentDrag,
   setDocumentOpacity,
 } from '../../utils/commonDocumentUtils';
 import { IPC_CHANNELS } from '../../constants/ipcChannels';
+import { StandingsTable } from '../../components/standings/table';
+import { ISessionInfo, ITelemetry } from '../../types/iracing';
+import { iracingDataToStandingsInfo } from '../../services/iracingMappingUtils';
+import { IStandingsInfo } from '../../types/standings';
 
 export default function StandingsApp() {
+  // iracing data
+  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>();
+  const [telemetryInfo, setTelemetryInfo] = useState<ITelemetry>();
+
+  // extracted driver data
+  const [userInfo, setUserInfo] = useState<IStandingsInfo['userInfo']>();
+  const [driverByClassData, setDriverByClassData] = useState<
+    IStandingsInfo['driverClasses']
+  >([]);
+
   useEffect(() => {
     window.electron.ipcRenderer.on(
       IPC_CHANNELS.RECEIVE_OPACITY_UPDATE,
@@ -22,9 +37,43 @@ export default function StandingsApp() {
     );
   }, []);
 
+  useEffect(() => {
+    window.electron.ipcRenderer.on(
+      IPC_CHANNELS.IRACING_SESSION_INFO,
+      (session: ISessionInfo) => {
+        setSessionInfo(session);
+      },
+    );
+
+    window.electron.ipcRenderer.on(
+      IPC_CHANNELS.IRACING_TELEMETRY_INFO,
+      (telemetry: ITelemetry) => {
+        setTelemetryInfo(telemetry);
+      },
+    );
+  }, []);
+
+  useEffect(() => {
+    if (sessionInfo && telemetryInfo) {
+      const driversByClass = iracingDataToStandingsInfo(
+        sessionInfo,
+        telemetryInfo,
+      );
+
+      setDriverByClassData(driversByClass.driverClasses);
+      setUserInfo(driversByClass.userInfo);
+    }
+  }, [sessionInfo, telemetryInfo]);
+
   return (
     <div className="overlayWindow">
-      Hello Standings
+      <StandingsTable
+        driverByClassData={driverByClassData}
+        userCarIdx={userInfo?.carIdx || 0}
+        userCurrentLap={userInfo?.currentLap || 0}
+        userCarClass={userInfo?.carClass || ''}
+        userPosition={userInfo?.position || 0}
+      />
       <div id="draggableWrapper">STANDINGS WINDOW</div>
     </div>
   );

@@ -6,11 +6,11 @@ import './irating.css';
 
 export function Irating(props: {
   irating: number;
-  iratingDiff: number;
+  iratingDiff?: number;
   hideIratingDiff?: boolean;
 }) {
   const shortenedIrating = shortenIrating(props.irating);
-  const iratingDiff = Math.round(props.iratingDiff)
+  const iratingDiff = Math.round(props.iratingDiff || 0)
     .toString()
     .replaceAll('-', '');
 
@@ -18,11 +18,11 @@ export function Irating(props: {
     return <div className="iratingWrapper">{shortenedIrating}</div>;
   }
 
-  const iratingDiffIcon = () => {
-    if (props.iratingDiff > 0) {
+  const iratingDiffIcon = (diff: number) => {
+    if (diff > 0) {
       return <FaChevronUp color={COLOR_CONSTANTS.IRATING_COLORS.POSITIVE} />;
     }
-    if (props.iratingDiff < 0) {
+    if (diff < 0) {
       return <FaChevronDown color={COLOR_CONSTANTS.IRATING_COLORS.NEGATIVE} />;
     }
     return <BsDashLg color={COLOR_CONSTANTS.IRATING_COLORS.NEUTRAL} />;
@@ -32,19 +32,24 @@ export function Irating(props: {
     <div style={{ lineHeight: '1rem' }}>
       <div className="iratingWrapper">
         <div style={{ flex: 1.5, minWidth: '2.5rem' }}>{shortenedIrating}</div>
-        <div
-          style={{
-            flex: 0.5,
-            minWidth: '1rem',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {iratingDiffIcon()}
-        </div>
-        <div style={{ flex: 0.5, minWidth: '1.6rem', textAlign: 'right' }}>
-          {iratingDiff}
-        </div>
+        {props.iratingDiff && (
+          <div>
+            <div
+              style={{
+                flex: 0.5,
+                minWidth: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {iratingDiffIcon(props.iratingDiff)}
+            </div>
+
+            <div style={{ flex: 0.5, minWidth: '1.6rem', textAlign: 'right' }}>
+              {iratingDiff}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
