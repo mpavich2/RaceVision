@@ -13,7 +13,7 @@ export function StandingsTableRow(props: {
     userCarIdx: number;
     userCurrentLap: number;
   };
-  classFastestCarIdx: number;
+  classFastestCarIdx?: number;
 }) {
   const isUser = props.driverData.carIdx === props.userData.userCarIdx;
 

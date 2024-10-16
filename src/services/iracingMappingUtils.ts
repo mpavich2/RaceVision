@@ -122,7 +122,8 @@ export const iracingDataToRelativeInfo = (
         currentLap: driverCurrentLap,
         lapsCompleted: telemetry.values.CarIdxLapCompleted[driver.carIdx],
         isInPit: telemetry.values.CarIdxOnPitRoad[driver.carIdx],
-        isDriverOffTrack: false, // determine in order to show yellow flag
+        isDriverOffTrack:
+          telemetry.values.CarIdxTrackSurface[driver.carIdx] === 'OffTrack',
         iratingDiff: 0,
         carRelativeSpeed: driver.carRelativeSpeed,
         carClassColor: driver.carClassColor,
@@ -174,8 +175,10 @@ export const iracingDataToStandingsInfo = (
   });
 
   const mappedDrivers = driverData.map((driver) => {
+    const position = telemetry.values.CarIdxClassPosition[driver.carIdx];
+
     return {
-      position: telemetry.values.CarIdxClassPosition[driver.carIdx],
+      position: position >= 0 ? position : 0,
       carNumber: driver.carNumber,
       carClass: driver.carClass,
       driverName: driver.driverName,
@@ -185,7 +188,8 @@ export const iracingDataToStandingsInfo = (
       isSpectator: driver.isSpectator,
       lastLap: driver.lastLap,
       classRelativeSpeed: driver.classRelativeSpeed,
-      isDriverOffTrack: false, // determine in order to show yellow flag
+      isDriverOffTrack:
+        telemetry.values.CarIdxTrackSurface[driver.carIdx] === 'OffTrack',
       fastestLap: driver.fastestLap,
       estimatedLap: telemetry.values.CarIdxEstTime[driver.carIdx],
       isDriverInPit:
@@ -250,20 +254,27 @@ export const iracingDataToStandingsInfo = (
       };
     });
 
-    const classFastestDriver = sortedDriversWithGapTime
-      .filter((d) => d.fastestLap !== -1)
-      ?.reduce((fastestDriver, currentDriver) => {
-        return currentDriver.fastestLap < fastestDriver.fastestLap
-          ? currentDriver
-          : fastestDriver;
-      });
+    const filteredDriversWithValidTime = sortedDriversWithGapTime?.filter(
+      (d) => d.fastestLap !== -1,
+    );
+
+    let classFastestDriver = null;
+    if (filteredDriversWithValidTime.length > 0) {
+      classFastestDriver = filteredDriversWithValidTime.reduce(
+        (fastestDriver, currentDriver) => {
+          return currentDriver.fastestLap < fastestDriver.fastestLap
+            ? currentDriver
+            : fastestDriver;
+        },
+      );
+    }
 
     sortedDriverClasses.push({
       drivers: sortedDriversWithGapTime,
       className: driverClass,
       classColor: sortedDriversWithGapTime[0].carClassColor,
       classRelativeSpeed: sortedDriversWithGapTime[0].classRelativeSpeed,
-      classFastestCarIdx: classFastestDriver.carIdx,
+      classFastestCarIdx: classFastestDriver?.carIdx,
       isUserClass:
         sessionInfo.data.DriverInfo.Drivers.find(
           (d) => d.CarIdx === getUserCarIdx(sessionInfo),
