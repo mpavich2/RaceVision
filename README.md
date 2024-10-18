@@ -1,5 +1,3 @@
-# Race Vision
-
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f43a361a-c7f2-4087-9acd-3a0558abddd0" alt"Race Vision Logo" />
 </p>
