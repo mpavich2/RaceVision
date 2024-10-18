@@ -293,6 +293,26 @@ const createWindows = async () => {
   new AppUpdater()
 };
 
+const getWindowByName = (windowName: string) => {
+  if (windowName === STORE_LOCATIONS.RELATIVE_WINDOW) {
+    return relativeWindow;
+  }
+
+  if (windowName === STORE_LOCATIONS.STANDINGS_WINDOW) {
+    return standingsWindow;
+  }
+
+  if (windowName === STORE_LOCATIONS.INPUT_GRAPH_WINDOW) {
+    return inputGraphWindow;
+  }
+
+  if (windowName === STORE_LOCATIONS.INPUTS_WINDOW) {
+    return inputsWindow;
+  }
+
+  return mainWindow;
+};
+
 /**
  * Add event listeners...
  */
@@ -340,6 +360,10 @@ app
           window.setPosition(0, 0, false);
         }
       });
+    });
+
+    ipcMain.on(IPC_CHANNELS.RESET_SPECIFIC_WINDOW_POSITION, (_, windowName) => {
+      getWindowByName(windowName)?.setPosition(0, 0, false);
     });
 
     ipcMain.on(IPC_CHANNELS.SET_OPACITY, (_, opacity) => {

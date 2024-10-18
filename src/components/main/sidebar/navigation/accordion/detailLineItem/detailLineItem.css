@@ -1,0 +1,18 @@
+.overlayLineItem {
+  border: none;
+  background-color: transparent;
+  font-size: medium;
+  font-family: inherit;
+  width: 100%;
+  padding: 0.2rem 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.overlayLineItem:hover {
+  color: #cf241cff;
+}
+
+.overlayLineItem.active {
+  color: #cf241cff;
+}

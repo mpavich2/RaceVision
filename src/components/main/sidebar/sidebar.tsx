@@ -2,19 +2,30 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState } from 'react';
 import { BsStack } from 'react-icons/bs';
 import { RiDashboardHorizontalFill } from 'react-icons/ri';
+import { IoMdSettings } from 'react-icons/io';
 import { Logo } from '../logo';
 import './sidebar.css';
+import { Tab } from './navigation/tab';
+import { Accordion } from './navigation/accordion';
+import { useAppContext } from '../contextProvider';
+import { AccordionDetailLineItem } from './navigation/accordion/detailLineItem';
 
 export function Sidebar() {
-  const [openIndex, setOpenIndex] = useState(0);
-  // const [isDashBoardToggled, setIsDashBoardToggled] = useState(false);
-  // const [isOverlaysToggled, setIsOverlaysToggled] = useState(false);
+  const {
+    openNavIndex,
+    setOpenNavIndex,
+    openOverlayNavIndex,
+    setOpenOverlayNavIndex,
+  } = useAppContext();
 
-  const toggle = (index: number) => {
-    setOpenIndex(index);
+  const toggleNavItem = (index: number) => {
+    setOpenNavIndex(index);
+  };
+
+  const overlayNavClicked = (index: number) => {
+    setOpenOverlayNavIndex(index);
   };
 
   return (
@@ -22,38 +33,61 @@ export function Sidebar() {
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <Logo />
       </div>
-      <button
-        className={`sidebarButton ${openIndex === 0 ? 'active' : ''}`}
-        onClick={() => toggle(0)}
-        type="button"
+
+      <Tab
+        isActive={openNavIndex === 0}
+        onClick={() => toggleNavItem(0)}
+        index={0}
       >
         <RiDashboardHorizontalFill size={20} /> Dashboard
-      </button>
-      <div
-        className={`sidebarButton ${openIndex === 1 ? 'active' : ''} accordion`}
-        onClick={() => toggle(1)}
+      </Tab>
+
+      <Accordion
+        isActive={openNavIndex === 1}
+        onClick={() => toggleNavItem(1)}
+        index={1}
       >
         <div>
           <BsStack size={20} /> Overlays
         </div>
 
-        {openIndex === 1 && (
+        {openNavIndex === 1 && (
           <div className="overlayList">
-            <button className="overlayLineItem" type="button">
-              Relatives
-            </button>
-            <button className="overlayLineItem" type="button">
-              Standings
-            </button>
-            <button className="overlayLineItem" type="button">
-              Input Graph
-            </button>
-            <button className="overlayLineItem" type="button">
-              Advanced Panel
-            </button>
+            <AccordionDetailLineItem
+              index={0}
+              isActive={openOverlayNavIndex === 0}
+              onClick={() => overlayNavClicked(0)}
+              title="Relatives"
+            />
+            <AccordionDetailLineItem
+              index={1}
+              isActive={openOverlayNavIndex === 1}
+              onClick={() => overlayNavClicked(1)}
+              title="Standings"
+            />
+            <AccordionDetailLineItem
+              index={1}
+              isActive={openOverlayNavIndex === 2}
+              onClick={() => overlayNavClicked(2)}
+              title="Input Graph"
+            />
+            <AccordionDetailLineItem
+              index={1}
+              isActive={openOverlayNavIndex === 3}
+              onClick={() => overlayNavClicked(3)}
+              title="Advanced Panel"
+            />
           </div>
         )}
-      </div>
+      </Accordion>
+
+      <Tab
+        isActive={openNavIndex === 2}
+        onClick={() => toggleNavItem(2)}
+        index={2}
+      >
+        <IoMdSettings size={20} /> Settings
+      </Tab>
     </div>
   );
 }

@@ -7,8 +7,6 @@
   flex-direction: column;
   align-items: start;
   width: 100%;
-  height: 100%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .sidebarButton {
@@ -27,7 +25,6 @@
   font-family: inherit;
   font-size: large;
   color: inherit;
-  font-weight: 600;
 }
 
 .sidebarButton::before {
@@ -50,9 +47,8 @@
   opacity: 1;
 }
 
-.overlayList {
-  font-size: medium;
+.accordion {
   display: flex;
   flex-direction: column;
-  margin-left: 2rem;
+  align-items: start;
 }

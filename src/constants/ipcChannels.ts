@@ -1,6 +1,7 @@
 export const IPC_CHANNELS = {
   OPEN_SPECIFIC_WINDOW: 'open-specific-window',
   RESET_WINDOW_POSITIONS: 'reset-window-positions',
+  RESET_SPECIFIC_WINDOW_POSITION: 'reset-specific-window-position',
   DARK_MODE_TOGGLE: 'dark-mode-toggle',
 
   SET_OPACITY: 'set-opacity',
