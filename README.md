@@ -22,8 +22,10 @@ An IRacing free overlay solution until they finish their UX overhaul, and potent
  - V1 state for few overlays for solo driver practice/qualifying/race sessions (Relative, Standings, Input Graph, Advanced Inputs, Fuel Calculator) to start 📌(currently here)
  - Complete spectator view
  - Get team races working correctly
+ - Add customization to existing overlays
  - Add more overlays (radar, track map, etc)
  - Integrate home dashboard displaying user race statistics
+ - More?
 
 ## Known Bugs 🐛
 (move to issues section for tracking eventually)
