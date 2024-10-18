@@ -19,7 +19,7 @@ An IRacing free overlay solution until they finish their UX overhaul, and potent
 
 ## RoadMap 🗺️
 (Need to update)
- - V1 state for few overlays for solo practive/qualifying/race sessions (Relative, Standings, Input Graph, Advanced Inputs, Fuel Calculator) to start 📌(currently here)
+ - V1 state for few overlays for solo driver practice/qualifying/race sessions (Relative, Standings, Input Graph, Advanced Inputs, Fuel Calculator) to start 📌(currently here)
  - Complete spectator view
  - Get team races working correctly
  - Add more overlays (radar, track map, etc)
