@@ -9,5 +9,5 @@ export function resolveHtmlPath(htmlFileName: string, path?: string) {
     return url.href;
   }
 
-  return `file://${__dirname}/../renderer/${htmlFileName}#/${path}`;
+  return `file://${__dirname}/../renderer/${htmlFileName}#/${path || ''}`;
 }
