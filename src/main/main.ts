@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, nativeTheme, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
@@ -20,6 +20,7 @@ import {
   deleteWindowElectronStoreInfo,
   runWindowElectronStoreInfo,
 } from '../utils/windowUtils';
+import { getAssetPath } from '../utils/assetUtils';
 
 class AppUpdater {
   constructor() {
@@ -59,14 +60,6 @@ if (process.env.NODE_ENV === 'production') {
 //     )
 //     .catch(console.log)
 // }
-
-const RESOURCES_PATH = app.isPackaged
-  ? path.join(process.resourcesPath, 'assets')
-  : path.join(__dirname, '../../assets');
-
-const getAssetPath = (...paths: string[]): string => {
-  return path.join(RESOURCES_PATH, ...paths);
-};
 
 const preload = app.isPackaged
   ? path.join(__dirname, 'preload.js')
@@ -258,6 +251,7 @@ const createWindows = async () => {
     width: 1024,
     height: 728,
     icon: getAssetPath('icon.png'),
+    autoHideMenuBar: true,
     webPreferences: {
       preload,
     },
@@ -361,6 +355,15 @@ app
           isDraggable,
         );
       });
+    });
+
+    ipcMain.on(IPC_CHANNELS.DARK_MODE_TOGGLE, () => {
+      if (nativeTheme.shouldUseDarkColors) {
+        nativeTheme.themeSource = 'light';
+      } else {
+        nativeTheme.themeSource = 'dark';
+      }
+      return nativeTheme.shouldUseDarkColors;
     });
 
     // start iracing connection

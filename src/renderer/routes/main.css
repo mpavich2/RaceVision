@@ -1,5 +1,11 @@
 :root {
   --opacity: 0.8;
+
+  --night: #0a090cff;
+  --antiflash-white: #f0edeeff;
+  --oxford-blue: #001738ff;
+  --fire-engine-red: #cf241cff;
+  --glaucous: #477bc6ff;
 }
 
 #root {
@@ -12,6 +18,7 @@ body {
   font-optical-sizing: auto;
   background: transparent;
   color: white;
+  user-select: none;
 }
 
 html, body {
@@ -55,4 +62,17 @@ html, body {
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+.mainBackground {
+  height: 100%;
+  display: flex;
+}
+
+@media (prefers-color-scheme: dark)  {
+  .mainBackground { background: #333; color: var(--antiflash-white); }
+}
+
+@media (prefers-color-scheme: light) {
+  .mainBackground { background: #ddd; color: var(--night); }
 }

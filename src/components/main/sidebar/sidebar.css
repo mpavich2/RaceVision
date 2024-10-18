@@ -1,0 +1,116 @@
+::marker{ display:none; } summary{ list-style: none }
+
+* {
+  box-sizing: border-box;
+}
+
+.sidebarWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+}
+
+/* summary {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem;
+  gap: 0.5rem;
+  transition: border-left 0.1s ease;
+  font-size: large;
+} */
+
+.sidebarButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: inherit;
+  font-size: large;
+  color: inherit;
+}
+
+.sidebarButton::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0.2rem;
+  background-color: #cf241cff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebarButton:hover::before {
+  opacity: 1;
+}
+
+.sidebarButton.active::before {
+  opacity: 1;
+}
+
+.fade-border {
+  position: relative;
+}
+
+.fade-border::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.2rem;
+  background-color: #cf241cff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fade-border:hover::before {
+  opacity: 1;
+}
+
+.fade-border[open]::before {
+  opacity: 1;
+}
+
+.overlayList {
+  font-size: medium;
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+}
+
+.overlayLineItem {
+  border: none;
+  background-color: transparent;
+  font-size: medium;
+  font-family: inherit;
+  width: 100%;
+  padding: 0.2rem 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+.overlayLineItem:hover {
+  color: #cf241cff;
+}
+
+.overlayLineItem.active {
+  color: #cf241cff;
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
