@@ -1,7 +1,7 @@
 import { ISessionInfo, ITelemetry } from '../../../types/iracing';
 import { LapCounter } from '../../common/lapCounter';
 import { RaceTimer } from '../../common/raceTimer';
-import './footer.css';
+import styles from './footer.module.css';
 
 export function RelativeFooter(props: {
   userCurrentLap: number;
@@ -19,7 +19,7 @@ export function RelativeFooter(props: {
   const endTime = props.telemetry?.values.SessionTimeTotal || 0;
 
   return (
-    <div className="relativeFooter">
+    <div className={styles.relativeFooter}>
       <LapCounter
         currentLap={props.userCurrentLap}
         totalLaps={roundedTotalLaps}

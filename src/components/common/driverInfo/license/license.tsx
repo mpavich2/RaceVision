@@ -1,5 +1,5 @@
 import { getDriverLicenseColor } from '../../../../services/determineDriverColors';
-import './license.css';
+import styles from './license.module.css';
 
 export function LicenseClass(props: { licenseSafetyRatingCombined: string }) {
   const licenseColor = getDriverLicenseColor(props.licenseSafetyRatingCombined);
@@ -7,7 +7,7 @@ export function LicenseClass(props: { licenseSafetyRatingCombined: string }) {
   return (
     <div style={{ lineHeight: '1rem' }}>
       <div
-        className="licenseWrapper"
+        className={styles.licenseWrapper}
         style={{
           backgroundColor: licenseColor.BACKGROUND,
           color: licenseColor.FONT,

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { RelativeTableRow } from './row';
-import './table.css';
+import styles from './table.module.css';
 import { IRelativeDriverData } from '../../../types/relative';
 
 export function RelativeTable(props: {
@@ -29,8 +29,8 @@ export function RelativeTable(props: {
   window.addEventListener('resize', debounce(handleResize, 5));
 
   return (
-    <div className="relativeTableWrapper">
-      <table className="relativeTable">
+    <div className={styles.relativeTableWrapper}>
+      <table className={styles.relativeTable}>
         <tbody>
           {props.driverData.map((d) => {
             return (

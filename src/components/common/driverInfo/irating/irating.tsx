@@ -2,7 +2,7 @@ import { BsDashLg } from 'react-icons/bs';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
 import { shortenIrating } from '../../../../utils/iratingUtils';
-import './irating.css';
+import styles from './irating.module.css';
 
 export function Irating(props: {
   irating: number;
@@ -15,7 +15,7 @@ export function Irating(props: {
     .replaceAll('-', '');
 
   if (!props.iratingDiff && props.hideIratingDiff) {
-    return <div className="iratingWrapper">{shortenedIrating}</div>;
+    return <div className={styles.iratingWrapper}>{shortenedIrating}</div>;
   }
 
   const iratingDiffIcon = (diff: number) => {
@@ -30,7 +30,7 @@ export function Irating(props: {
 
   return (
     <div style={{ lineHeight: '1rem' }}>
-      <div className="iratingWrapper">
+      <div className={styles.iratingWrapper}>
         <div style={{ flex: 1.5, minWidth: '2.5rem' }}>{shortenedIrating}</div>
         {props.iratingDiff && (
           <div>

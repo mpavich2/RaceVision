@@ -1,4 +1,4 @@
-import './carGear.css';
+import styles from './carGear.module.css';
 
 export function CarGear(props: { gear: number }) {
   const calculateGear = () => {
@@ -13,5 +13,5 @@ export function CarGear(props: { gear: number }) {
     return props.gear;
   };
 
-  return <div className="carGear">{calculateGear()}</div>;
+  return <div className={styles.carGear}>{calculateGear()}</div>;
 }

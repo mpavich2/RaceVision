@@ -1,4 +1,4 @@
-import './className.css';
+import styles from './className.module.css';
 
 export function ClassName(props: { className: string; classColor: string }) {
   return (
@@ -6,7 +6,7 @@ export function ClassName(props: { className: string; classColor: string }) {
       style={{
         backgroundColor: props.classColor || 'white',
       }}
-      className="carClassName"
+      className={styles.carClassName}
     >
       {props.className}
     </div>

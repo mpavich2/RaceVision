@@ -1,7 +1,7 @@
 import { IDriverClasses } from '../../../types/standings';
 import { ClassName } from '../../common/className';
 import { StandingsTableRow } from './row';
-import './table.css';
+import styles from './table.module.css';
 
 const MAX_DRIVERS_SHOWN_OUTSIDE_CLASS = 3;
 
@@ -47,34 +47,52 @@ export function StandingsTable(props: {
       MAX_DRIVERS_SHOWN_OUTSIDE_CLASS,
     );
 
+    const uniqueArray = [
+      ...new Map(
+        [...userClassLeaders, ...userClassPeers].map((item) => [
+          item.carIdx,
+          item,
+        ]),
+      ).values(),
+    ];
+
     return {
       ...driverClass,
-      drivers: userClassLeaders.concat(userClassPeers),
+      drivers: uniqueArray,
     };
   });
 
   return (
-    <div className="standingsTableWrapper">
+    <div className={styles.standingsTableWrapper}>
       {reducedDriverData.map((driverClass) => {
         return (
-          <div className="driverClassTable" key={driverClass.className}>
+          <div className={styles.driverClassTable} key={driverClass.className}>
             <ClassName
               className={driverClass.className}
               classColor={`#${driverClass.classColor}`}
             />
             <table>
               <tbody>
-                {driverClass.drivers.map((d) => {
+                {driverClass.drivers.map((d, index) => {
                   return (
-                    <StandingsTableRow
-                      key={d.carNumber}
-                      driverData={d}
-                      userData={{
-                        userCarIdx: props.userCarIdx,
-                        userCurrentLap: props.userCurrentLap,
-                      }}
-                      classFastestCarIdx={driverClass.classFastestCarIdx}
-                    />
+                    <>
+                      <StandingsTableRow
+                        key={d.carNumber}
+                        driverData={d}
+                        userData={{
+                          userCarIdx: props.userCarIdx,
+                          userCurrentLap: props.userCurrentLap,
+                        }}
+                        classFastestCarIdx={driverClass.classFastestCarIdx}
+                      />
+
+                      {index === 2 &&
+                        driverClass.className === props.userCarClass && (
+                          <tr className={styles.gapRow}>
+                            <td colSpan={2} />
+                          </tr>
+                        )}
+                    </>
                   );
                 })}
               </tbody>

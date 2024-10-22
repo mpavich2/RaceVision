@@ -1,5 +1,5 @@
 import { darkenHexColor } from '../../../../utils/colorUtilts';
-import './classAndNumber.css';
+import styles from './classAndNumber.module.css';
 
 export function ClassAndNumber(props: {
   carNumber: string;
@@ -9,7 +9,7 @@ export function ClassAndNumber(props: {
   const darkenedHexColor = darkenHexColor(`#${props.classColorInfo}`, -90);
   return (
     <div
-      className="carClassAndNumberWrapper"
+      className={styles.carClassAndNumberWrapper}
       style={{
         backgroundColor: darkenedHexColor,
         color: 'black',

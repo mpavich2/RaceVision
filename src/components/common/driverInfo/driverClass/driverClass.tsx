@@ -1,11 +1,11 @@
-import './driverClass.css';
+import styles from './driverClass.module.css';
 
 export function DriverClass(props: { classColorInfo: string }) {
   const hexColor = `#${props.classColorInfo}`;
 
   return (
     <div
-      className="carClass"
+      className={styles.carClass}
       style={{
         backgroundColor: hexColor,
       }}

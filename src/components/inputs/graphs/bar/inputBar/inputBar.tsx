@@ -1,5 +1,5 @@
 import { InputType } from '../../../../../types/inputType';
-import './inputBar.css';
+import styles from './inputBar.module.css';
 
 const colors = {
   [InputType.THROTTLE]: '#0AB71B',
@@ -11,11 +11,11 @@ export function InputBar(props: { value: number; inputType: InputType }) {
   const roundedValue = Math.round(props.value);
 
   return (
-    <div className="inputBar">
+    <div className={styles.inputBar}>
       <div>{roundedValue}</div>
-      <div className="inputProgressWrapper">
+      <div className={styles.inputProgressWrapper}>
         <div
-          className="progressBar"
+          className={styles.progressBar}
           style={{
             backgroundColor: colors[props.inputType],
             height: `${roundedValue}%`,

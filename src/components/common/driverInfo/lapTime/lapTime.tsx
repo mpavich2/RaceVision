@@ -1,5 +1,5 @@
 import { formatLapTime } from '../../../../utils/timeUtils';
-import './lapTime.css';
+import styles from './lapTime.module.css';
 
 export function LapTime(props: {
   time?: number;
@@ -16,15 +16,15 @@ export function LapTime(props: {
     }
 
     if (props.isFastestLap && isTimeSet) {
-      return 'fastestLapColor';
+      return styles.fastestLapColor;
     }
 
     if (props.isDriverSessionFastestLap && isTimeSet) {
-      return 'driverSessionBestColor';
+      return styles.driverSessionBestColor;
     }
 
     if (props.isUser) {
-      return 'userColor';
+      return styles.userColor;
     }
 
     return '';

@@ -1,4 +1,4 @@
-import './light.css';
+import styles from './light.module.css';
 
 export function ShiftingLight(props: {
   isWarningLight: boolean;
@@ -22,7 +22,7 @@ export function ShiftingLight(props: {
   };
   return (
     <div
-      className="shiftLight"
+      className={styles.shiftLight}
       style={{ backgroundColor: calculateLightColor() }}
     />
   );

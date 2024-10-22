@@ -1,6 +1,6 @@
 import { Temperature } from '../../common/temperature';
 import { IncidentCounter } from '../../common/driverInfo/incidentCounter';
-import './header.css';
+import styles from './header.module.css';
 import { ISessionInfo, ITelemetry } from '../../../types/iracing';
 import { StrengthOfField } from '../../common/strengthOfField';
 
@@ -19,7 +19,7 @@ export function RelativeHeader(props: {
   };
 
   return (
-    <div className="relativeHeader">
+    <div className={styles.relativeHeader}>
       <Temperature temp={temperature} />
       {props.strengthOfField ? (
         <StrengthOfField value={props.strengthOfField} />

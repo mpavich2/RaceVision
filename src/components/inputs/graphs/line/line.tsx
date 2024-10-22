@@ -5,7 +5,7 @@ import { Line } from 'react-chartjs-2';
 import { ITelemetry } from '../../../../types/iracing';
 import { IPC_CHANNELS } from '../../../../constants/ipcChannels';
 import 'chartjs-adapter-luxon';
-import './line.css';
+import styles from './line.module.css';
 
 Chart.register(ChartStreaming);
 ChartJS.register(...registerables);
@@ -33,7 +33,7 @@ export function InputLineGraph() {
   }, []);
 
   return (
-    <div className="inputsLineGraph">
+    <div className={styles.inputsLineGraph}>
       <Line
         options={{
           responsive: true,

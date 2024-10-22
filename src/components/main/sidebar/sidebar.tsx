@@ -6,7 +6,7 @@ import { BsStack } from 'react-icons/bs';
 import { RiDashboardHorizontalFill } from 'react-icons/ri';
 import { IoMdSettings } from 'react-icons/io';
 import { Logo } from '../logo';
-import './sidebar.css';
+import styles from './sidebar.module.css';
 import { Tab } from './navigation/tab';
 import { Accordion } from './navigation/accordion';
 import { useAppContext } from '../contextProvider';
@@ -29,7 +29,7 @@ export function Sidebar() {
   };
 
   return (
-    <div className="sidebarWrapper">
+    <div className={styles.sidebarWrapper}>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <Logo />
       </div>
@@ -52,7 +52,7 @@ export function Sidebar() {
         </div>
 
         {openNavIndex === 1 && (
-          <div className="overlayList">
+          <div className={styles.overlayList}>
             <AccordionDetailLineItem
               index={0}
               isActive={openOverlayNavIndex === 0}

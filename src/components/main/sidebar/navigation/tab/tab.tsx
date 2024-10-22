@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import '../../shared.css';
+import styles from '../../shared.module.css';
 
 export function Tab(props: {
   isActive: boolean;
@@ -9,7 +9,7 @@ export function Tab(props: {
 }) {
   return (
     <button
-      className={`sidebarButton ${props.isActive ? 'active' : ''}`}
+      className={`${styles.sidebarButton} ${props.isActive ? `${styles.active}` : ''}`}
       onClick={() => props.onClick(props.index)}
       type="button"
     >

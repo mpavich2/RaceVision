@@ -1,7 +1,7 @@
 import { ClassPosition } from '../../../common/driverInfo/classPosition';
 import { DriverName } from '../../../common/driverInfo/name';
 import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
-import './row.css';
+import styles from './row.module.css';
 import { IStandingsDriverData } from '../../../../types/standings';
 import { Irating } from '../../../common/driverInfo/irating';
 import { LapTime } from '../../../common/driverInfo/lapTime';
@@ -22,7 +22,9 @@ export function StandingsTableRow(props: {
     <tr
       id={props.driverData.carIdx.toString()}
       className={
-        props.driverData.isDriverOffTrack ? 'offTrackBackgroundRadius' : ''
+        props.driverData.isDriverOffTrack
+          ? `${styles.offTrackBackgroundRadius}`
+          : ''
       }
       style={{
         backgroundColor: props.driverData.isDriverOffTrack
@@ -30,33 +32,33 @@ export function StandingsTableRow(props: {
           : '',
       }}
     >
-      <td className="classPosition">
+      <td className={styles.classPosition}>
         <ClassPosition position={props.driverData.position} isUser={isUser} />
       </td>
-      <td className="classColor">
+      <td className={styles.classColor}>
         <DriverClass classColorInfo={props.driverData.carClassColor} />
       </td>
-      <td className="driverName">
+      <td className={styles.driverName}>
         <DriverName
           driverName={props.driverData.driverName}
           isUser={isUser}
           lapInfo={{ driverInPit: props.driverData.isDriverInPit }}
         />
       </td>
-      <td className="irating">
+      <td className={styles.irating}>
         <Irating irating={props.driverData.irating} />
       </td>
-      <td className="gap">
+      <td className={styles.gap}>
         <GapTime isUser={isUser} time={props.driverData.gapTime} />
       </td>
-      <td className="fastestLap">
+      <td className={styles.fastestLap}>
         <LapTime
           isUser={isUser}
           time={props.driverData.fastestLap}
           isFastestLap={props.driverData.carIdx === props.classFastestCarIdx}
         />
       </td>
-      <td className="lastLap">
+      <td className={styles.lastLap}>
         <LapTime
           time={props.driverData.lastLap}
           isUser={isUser}

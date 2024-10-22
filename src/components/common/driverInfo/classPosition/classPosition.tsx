@@ -1,10 +1,10 @@
 import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
-import './classPosition.css';
+import styles from './classPosition.module.css';
 
 export function ClassPosition(props: { position: number; isUser: boolean }) {
   return (
     <div
-      className="classPositionWrapper"
+      className={styles.classPositionWrapper}
       style={{
         backgroundColor: props.isUser
           ? COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_USER_COLOR

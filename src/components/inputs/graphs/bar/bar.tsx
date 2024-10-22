@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { InputBar } from './inputBar';
 import { InputType } from '../../../../types/inputType';
-import './bar.css';
+import styles from './bar.module.css';
 import { IPC_CHANNELS } from '../../../../constants/ipcChannels';
 import { ITelemetry } from '../../../../types/iracing';
 
@@ -22,7 +22,7 @@ export function InputBarGraph() {
   }, []);
 
   return (
-    <div className="inputBarsWrapper">
+    <div className={styles.inputBarsWrapper}>
       <InputBar value={clutchInput} inputType={InputType.CLUTCH} />
       <InputBar value={brakeInput} inputType={InputType.BRAKE} />
       <InputBar value={throttleInput} inputType={InputType.THROTTLE} />

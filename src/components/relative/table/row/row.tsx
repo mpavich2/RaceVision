@@ -5,7 +5,7 @@ import { LicenseClass } from '../../../common/driverInfo/license';
 import { DriverName } from '../../../common/driverInfo/name';
 import { DriverTime } from '../../../common/driverInfo/time/time';
 import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
-import './row.css';
+import styles from './row.module.css';
 import { IRelativeDriverData } from '../../../../types/relative';
 
 export function RelativeTableRow(props: {
@@ -30,7 +30,9 @@ export function RelativeTableRow(props: {
     <tr
       id={props.driverData.carIdx.toString()}
       className={
-        props.driverData.isDriverOffTrack ? 'offTrackBackgroundRadius' : ''
+        props.driverData.isDriverOffTrack
+          ? `${styles.offTrackBackgroundRadius}`
+          : ''
       }
       style={{
         backgroundColor: props.driverData.isDriverOffTrack
@@ -38,16 +40,16 @@ export function RelativeTableRow(props: {
           : '',
       }}
     >
-      <td className="classPosition">
+      <td className={styles.classPosition}>
         <ClassPosition position={props.driverData.position} isUser={isUser} />
       </td>
-      <td className="classAndNumber">
+      <td className={styles.classAndNumber}>
         <ClassAndNumber
           carNumber={props.driverData.carNumber}
           classColorInfo={props.driverData.carClassColor}
         />
       </td>
-      <td className="relativeName">
+      <td className={styles.relativeName}>
         <DriverName
           driverName={props.driverData.driverName}
           lapInfo={lapInfo}
@@ -55,7 +57,7 @@ export function RelativeTableRow(props: {
           isRaceSession={props.sessionData.isRaceSession}
         />
       </td>
-      <td className="licenseClass">
+      <td className={styles.licenseClass}>
         <LicenseClass
           licenseSafetyRatingCombined={
             props.driverData.licenseSafetyRatingCombined
@@ -63,7 +65,7 @@ export function RelativeTableRow(props: {
         />
       </td>
       {props.sessionData.isRaceSession && (
-        <td className="irating">
+        <td className={styles.irating}>
           <Irating
             irating={props.driverData.irating}
             iratingDiff={props.driverData.iratingDiff}

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-plusplus */
 import { ShiftingLight } from './light';
-import './shiftLight.css';
+import styles from './shiftLight.module.css';
 
 const SHIFT_LIGHT_COUNT = 10;
 
@@ -52,7 +52,7 @@ export function ShiftLight(props: {
   };
 
   return (
-    <div className="shiftLightsWrapper">
+    <div className={styles.shiftLightsWrapper}>
       {shiftLights().map((light: any) => {
         return light;
       })}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './basic.css';
+import styles from './basic.module.css';
 import { IPC_CHANNELS } from '../../../constants/ipcChannels';
 import { ITelemetry } from '../../../types/iracing';
 import { AbsLight } from './absLight';
@@ -33,23 +33,23 @@ export function BasicInputs() {
   }, []);
 
   return (
-    <div className="basicInputsWrapper">
+    <div className={styles.basicInputsWrapper}>
       <CarGear gear={carGear} />
 
-      <div className="carInfoWrapper">
+      <div className={styles.carInfoWrapper}>
         <ShiftLight
           currentRpm={carRpm}
           blinkingShiftLightRpm={blinkingShiftLightRpm}
         />
 
-        <div className="carSpeedAndRpm">
+        <div className={styles.carSpeedAndRpm}>
           <CarSpeed speed={carSpeed} units={DisplayUnits.MPH} />
 
           <CarRpm rpm={carRpm} />
         </div>
       </div>
 
-      <div className="carAbs">
+      <div className={styles.carAbs}>
         <AbsLight isAbsActive={isCarAbs} />
       </div>
     </div>

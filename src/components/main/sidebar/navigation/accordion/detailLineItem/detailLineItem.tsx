@@ -1,4 +1,4 @@
-import './detailLineItem.css';
+import styles from './detailLineItem.module.css';
 
 export function AccordionDetailLineItem(props: {
   isActive: boolean;
@@ -8,7 +8,7 @@ export function AccordionDetailLineItem(props: {
 }) {
   return (
     <button
-      className={`overlayLineItem ${props.isActive ? 'active' : ''}`}
+      className={`${styles.overlayLineItem} ${props.isActive ? `${styles.active}` : ''}`}
       type="button"
       onClick={() => props.onClick(props.index)}
     >
