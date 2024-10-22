@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { IDriverClasses } from '../../../types/standings';
 import { ClassName } from '../../common/className';
 import { StandingsTableRow } from './row';
 import styles from './table.module.css';
 
 const MAX_DRIVERS_SHOWN_OUTSIDE_CLASS = 3;
+const MAX_PEER_DRIVERS_FRONT = 1;
+const MAX_PEER_DRIVERS_REAR = 3;
 
 export function StandingsTable(props: {
   driverByClassData: IDriverClasses[];
@@ -12,6 +15,8 @@ export function StandingsTable(props: {
   userCarClass: string;
   userPosition: number;
 }) {
+  const [isGapRow, setIsGapRow] = useState<boolean>(true);
+
   const reducedDriverData = props.driverByClassData.map((driverClass) => {
     if (driverClass.className !== props.userCarClass) {
       return {
@@ -30,24 +35,26 @@ export function StandingsTable(props: {
     const userPositionIndex = props.userPosition
       ? props.userPosition - 1
       : userIndex;
-    const startIndex = userPositionIndex - MAX_DRIVERS_SHOWN_OUTSIDE_CLASS;
-    const endIndex =
-      userPositionIndex +
-      MAX_DRIVERS_SHOWN_OUTSIDE_CLASS +
-      (!props.userPosition ? 1 : 0);
+
+    if (userIndex <= 6) {
+      setIsGapRow(false);
+      return {
+        ...driverClass,
+        drivers: driverClass.drivers.slice(0, 6),
+      };
+    }
 
     const userClassPeers = driverClass.drivers.slice(
-      startIndex >= 0 ? startIndex : 0,
-      endIndex <= driverClass.drivers.length
-        ? endIndex
-        : driverClass.drivers.length,
+      userPositionIndex - MAX_PEER_DRIVERS_FRONT,
+      userPositionIndex + MAX_PEER_DRIVERS_REAR,
     );
+
     const userClassLeaders = driverClass.drivers.slice(
       0,
       MAX_DRIVERS_SHOWN_OUTSIDE_CLASS,
     );
 
-    const uniqueArray = [
+    const uniqueDrivers = [
       ...new Map(
         [...userClassLeaders, ...userClassPeers].map((item) => [
           item.carIdx,
@@ -58,7 +65,7 @@ export function StandingsTable(props: {
 
     return {
       ...driverClass,
-      drivers: uniqueArray,
+      drivers: uniqueDrivers,
     };
   });
 
@@ -87,6 +94,7 @@ export function StandingsTable(props: {
                       />
 
                       {index === 2 &&
+                        isGapRow &&
                         driverClass.className === props.userCarClass && (
                           <tr className={styles.gapRow}>
                             <td colSpan={2} />
