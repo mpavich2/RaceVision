@@ -14,13 +14,13 @@ export function StandingsTable(props: {
   userCarClass: string;
   userPosition: number;
 }) {
-  const getDriverIndex = (driverClass: IDriverClasses) => {
+  const getUserPosition = (driverClass: IDriverClasses) => {
     const userIndex = driverClass.drivers.findIndex(
       (d) => d.carIdx === props.userCarIdx,
     );
     const userPositionIndex = props.userPosition
-      ? props.userPosition - 1
-      : userIndex;
+      ? props.userPosition
+      : userIndex + 1;
 
     return userPositionIndex;
   };
@@ -44,7 +44,7 @@ export function StandingsTable(props: {
     if (userIndex <= 6) {
       return {
         ...driverClass,
-        drivers: driverClass.drivers.slice(0, 6),
+        drivers: driverClass.drivers.slice(0, 7),
       };
     }
 
@@ -59,13 +59,10 @@ export function StandingsTable(props: {
     const filteredUserIndex = driversWithoutLeaders.findIndex(
       (d) => d.carIdx === props.userCarIdx,
     );
-    const filteredUserPositionIndex = props.userPosition
-      ? props.userPosition - 1
-      : filteredUserIndex;
 
     const userClassPeers = driversWithoutLeaders.slice(
-      filteredUserPositionIndex - MAX_PEER_DRIVERS_FRONT,
-      filteredUserPositionIndex + MAX_PEER_DRIVERS_REAR,
+      filteredUserIndex - MAX_PEER_DRIVERS_FRONT,
+      filteredUserIndex + MAX_PEER_DRIVERS_REAR,
     );
 
     return {
@@ -99,7 +96,7 @@ export function StandingsTable(props: {
                       />
 
                       {index === 2 &&
-                        getDriverIndex(driverClass) <= 6 &&
+                        getUserPosition(driverClass) > 7 &&
                         driverClass.className === props.userCarClass && (
                           <tr className={styles.gapRow}>
                             <td colSpan={2} />
