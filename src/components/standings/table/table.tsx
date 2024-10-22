@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { IDriverClasses } from '../../../types/standings';
 import { ClassName } from '../../common/className';
 import { StandingsTableRow } from './row';
@@ -15,7 +14,16 @@ export function StandingsTable(props: {
   userCarClass: string;
   userPosition: number;
 }) {
-  const [isGapRow, setIsGapRow] = useState<boolean>(true);
+  const getDriverIndex = (driverClass: IDriverClasses) => {
+    const userIndex = driverClass.drivers.findIndex(
+      (d) => d.carIdx === props.userCarIdx,
+    );
+    const userPositionIndex = props.userPosition
+      ? props.userPosition - 1
+      : userIndex;
+
+    return userPositionIndex;
+  };
 
   const reducedDriverData = props.driverByClassData.map((driverClass) => {
     if (driverClass.className !== props.userCarClass) {
@@ -32,40 +40,37 @@ export function StandingsTable(props: {
     const userIndex = driverClass.drivers.findIndex(
       (d) => d.carIdx === props.userCarIdx,
     );
-    const userPositionIndex = props.userPosition
-      ? props.userPosition - 1
-      : userIndex;
 
     if (userIndex <= 6) {
-      setIsGapRow(false);
       return {
         ...driverClass,
         drivers: driverClass.drivers.slice(0, 6),
       };
     }
 
-    const userClassPeers = driverClass.drivers.slice(
-      userPositionIndex - MAX_PEER_DRIVERS_FRONT,
-      userPositionIndex + MAX_PEER_DRIVERS_REAR,
-    );
-
     const userClassLeaders = driverClass.drivers.slice(
       0,
       MAX_DRIVERS_SHOWN_OUTSIDE_CLASS,
     );
 
-    const uniqueDrivers = [
-      ...new Map(
-        [...userClassLeaders, ...userClassPeers].map((item) => [
-          item.carIdx,
-          item,
-        ]),
-      ).values(),
-    ];
+    const driversWithoutLeaders = driverClass.drivers.filter(
+      (d) => !userClassLeaders.includes(d),
+    );
+    const filteredUserIndex = driversWithoutLeaders.findIndex(
+      (d) => d.carIdx === props.userCarIdx,
+    );
+    const filteredUserPositionIndex = props.userPosition
+      ? props.userPosition - 1
+      : filteredUserIndex;
+
+    const userClassPeers = driversWithoutLeaders.slice(
+      filteredUserPositionIndex - MAX_PEER_DRIVERS_FRONT,
+      filteredUserPositionIndex + MAX_PEER_DRIVERS_REAR,
+    );
 
     return {
       ...driverClass,
-      drivers: uniqueDrivers,
+      drivers: userClassLeaders.concat(userClassPeers),
     };
   });
 
@@ -94,7 +99,7 @@ export function StandingsTable(props: {
                       />
 
                       {index === 2 &&
-                        isGapRow &&
+                        getDriverIndex(driverClass) <= 6 &&
                         driverClass.className === props.userCarClass && (
                           <tr className={styles.gapRow}>
                             <td colSpan={2} />
