@@ -1,6 +1,5 @@
 import { ClassPosition } from '../../../common/driverInfo/classPosition';
 import { DriverName } from '../../../common/driverInfo/name';
-import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
 import styles from './row.module.css';
 import { IStandingsDriverData } from '../../../../types/standings';
 import { Irating } from '../../../common/driverInfo/irating';
@@ -19,19 +18,7 @@ export function StandingsTableRow(props: {
   const isUser = props.driverData.carIdx === props.userData.userCarIdx;
 
   return (
-    <tr
-      id={props.driverData.carIdx.toString()}
-      className={
-        props.driverData.isDriverOffTrack
-          ? `${styles.offTrackBackgroundRadius}`
-          : ''
-      }
-      style={{
-        backgroundColor: props.driverData.isDriverOffTrack
-          ? COLOR_CONSTANTS.RELATIVE_COLORS.DRIVER_OFF_TRACK
-          : '',
-      }}
-    >
+    <tr id={props.driverData.carIdx.toString()}>
       <td className={styles.classPosition}>
         <ClassPosition position={props.driverData.position} isUser={isUser} />
       </td>

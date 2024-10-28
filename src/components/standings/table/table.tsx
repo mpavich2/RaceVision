@@ -14,10 +14,15 @@ export function StandingsTable(props: {
   userCarClass: string;
   userPosition: number;
 }) {
-  const getUserPosition = (driverClass: IDriverClasses) => {
-    const userIndex = driverClass.drivers.findIndex(
-      (d) => d.carIdx === props.userCarIdx,
-    );
+  const getUserPosition = () => {
+    const userIndex = props.driverByClassData
+      .find((driverClass) => driverClass.isUserClass)
+      ?.drivers.findIndex((d) => d.carIdx === props.userCarIdx);
+
+    if (!userIndex) {
+      return 0;
+    }
+
     const userPositionIndex = props.userPosition
       ? props.userPosition
       : userIndex + 1;
@@ -96,7 +101,7 @@ export function StandingsTable(props: {
                       />
 
                       {index === 2 &&
-                        getUserPosition(driverClass) > 7 &&
+                        getUserPosition() > 7 &&
                         driverClass.className === props.userCarClass && (
                           <tr className={styles.gapRow}>
                             <td colSpan={2} />
