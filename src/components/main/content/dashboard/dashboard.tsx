@@ -1,3 +1,10 @@
+import { MainHeader } from '../header';
+
 export function DashboardContent() {
-  return <div>Custom Dashboard Content</div>;
+  return (
+    <div>
+      <MainHeader text="Dashboard" />
+      Planned...
+    </div>
+  );
 }

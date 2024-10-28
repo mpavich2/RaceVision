@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IPC_CHANNELS } from '../../../../constants/ipcChannels';
 import { useAppContext } from '../../contextProvider';
+import { MainHeader } from '../header';
 
 export function SettingsContent() {
   const [opacity, setOpacity] = useState(0.8);
@@ -38,6 +39,7 @@ export function SettingsContent() {
 
   return (
     <div>
+      <MainHeader text="General Settings" />
       <div>Custom Settings Content</div>
       <button type="button" onClick={setAllWindowOpacityButtonClicked}>
         Set Opacity
