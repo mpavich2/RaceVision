@@ -29,7 +29,12 @@ export function OpacityRangeSlider() {
         headerText="Background Opacity"
       />
 
-      <button type="button" onClick={handleResetClicked}>
+      <button
+        type="button"
+        onClick={handleResetClicked}
+        className="primaryButton"
+        style={{ marginTop: '0.5rem' }}
+      >
         Reset Opacity
       </button>
     </div>

@@ -71,8 +71,70 @@ html, body {
 
 @media (prefers-color-scheme: dark)  {
   .mainBackground { background: #333; color: var(--antiflash-white); }
+  .primaryButton { background-color: white; color: rgb(0, 0, 0)}
+  .primaryButton:hover { background-color: #aaa; }
+  .secondaryButton { color: white; border-color: white; }
+  .secondaryButton:hover { border-color: #aaa; }
 }
 
 @media (prefers-color-scheme: light) {
   .mainBackground { background: #ddd; color: var(--night); }
+  .primaryButton { background-color: black; color: white}
+  .primaryButton:hover { background-color: #333; }
+  .secondaryButton { color: black }
+  .secondaryButton:hover { background-color: #ccc; }
+}
+
+/* CSS */
+.primaryButton {
+  appearance: none;
+  border-radius: 0.5rem;
+  border-style: solid;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  outline: none;
+  padding: 0.7rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+  will-change: transform;
+}
+
+.primaryButton:disabled {
+  pointer-events: none;
+}
+
+.secondaryButton {
+  appearance: none;
+  background-color: transparent;
+  border-radius: 0.5rem;
+  border-style: solid;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  outline: none;
+  padding: 0.7rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+  will-change: transform;
+}
+
+.secondaryButton:disabled {
+  pointer-events: none;
 }
