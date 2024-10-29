@@ -86,7 +86,7 @@ export default function RelativeApp() {
       }
 
       drivers = drivers
-        .filter((d) => d.isDriverOnTrack)
+        .filter((d) => d.isDriverOnTrack || d.carIdx === userCarIdx)
         .sort((a, b) => b.relativeTime - a.relativeTime);
 
       setDriverData(drivers);
