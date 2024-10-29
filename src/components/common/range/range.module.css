@@ -1,0 +1,58 @@
+/* CUSTOM RANGE INPUT */
+.rangeDiv {
+  position: relative;
+}
+
+.range {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #007bff;
+  width: 50%;
+  height: 0.2rem;
+  outline: none;
+}
+
+.range:active::-webkit-slider-thumb {
+  box-shadow: 0 2px 5px -2px rgba(0, 0, 0, 0.4);
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 30px;
+  width: 60px; /* Updated thumb width */
+  background: #FFF;
+  border-radius: 30px;
+  cursor: grab;
+}
+
+.rangeThumb {
+  position: absolute;
+  left: 0px;
+  top: 0;
+  width: 60px; /* Updated thumb width */
+  height: 30px;
+  text-align: center;
+  font-weight: bold;
+  color: #000;
+  line-height: 30px;
+  font-size: 12px;
+  pointer-events: none;
+  margin-left: 3px;
+}
+
+.rangeThumb::before {
+  content: attr(data-val) "";
+}
+
+.container {
+  margin: 0.5rem 0;
+}
+
+.rangeHeader {
+  font-weight: 500;
+  font-size: large;
+  margin-bottom: 0.4rem;
+}

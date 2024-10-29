@@ -11,6 +11,8 @@ interface GlobalState {
   setIsDarkMode: (newState: boolean) => void;
   isDragOverlay: boolean;
   setIsDragOverlay: (newState: boolean) => void;
+  opacity: number;
+  setOpacity: (newState: number) => void;
 }
 
 const placeholder: GlobalState = {
@@ -22,6 +24,8 @@ const placeholder: GlobalState = {
   setIsDarkMode: (foo) => foo,
   isDragOverlay: false,
   setIsDragOverlay: (foo) => foo,
+  opacity: 80,
+  setOpacity: (foo) => foo,
 };
 
 const AppContext: Context<GlobalState> = createContext(placeholder);
@@ -38,6 +42,7 @@ export default function ContextProvider(props: Props): any {
   );
   const [isDarkMode, setIsDarkMode] = useState(placeholder.isDarkMode);
   const [isDragOverlay, setIsDragOverlay] = useState(placeholder.isDragOverlay);
+  const [opacity, setOpacity] = useState(placeholder.opacity);
 
   const initialState: GlobalState = {
     openNavIndex,
@@ -48,6 +53,8 @@ export default function ContextProvider(props: Props): any {
     setIsDarkMode,
     isDragOverlay,
     setIsDragOverlay,
+    opacity,
+    setOpacity,
   };
 
   return (
