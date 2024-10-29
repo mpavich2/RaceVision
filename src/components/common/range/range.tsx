@@ -22,6 +22,10 @@ export function RangeSlider(props: {
       const xPX = (val * (w - thumbWidthPx)) / rangeMax; // Position in PX
       thumbRef.current.style.left = `${xPX}px`;
       thumbRef.current.setAttribute('data-val', `${val}`); // Show percentage
+
+      // Update background gradient dynamically
+      const percentage = (val / rangeMax) * 100;
+      rangeRef.current.style.background = `linear-gradient(to right, #477bc6ff ${percentage}%, #aaa ${percentage}%)`;
     }
   };
 
