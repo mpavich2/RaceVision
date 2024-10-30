@@ -7,7 +7,7 @@ export function ToggleSwitch(props: {
   headerText: string;
 }) {
   return (
-    <div className={styles.container}>
+    <div>
       <div className={styles.toggleHeader}>{props.headerText}</div>
       <div className={styles.toggleWrapper}>
         <label

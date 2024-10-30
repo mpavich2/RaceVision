@@ -43,7 +43,7 @@ export function OpacityRangeSlider() {
       <button
         type="button"
         onClick={handleResetClicked}
-        className="primaryButton"
+        className="secondaryButton"
         style={{ marginTop: '0.5rem' }}
       >
         Reset Opacity

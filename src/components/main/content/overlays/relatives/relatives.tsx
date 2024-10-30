@@ -1,14 +1,10 @@
-import { OpenOverlayButton } from '../../../buttons/openOverlay';
-import { ResetOverlayPositionButton } from '../../../buttons/resetOverlay';
 import { MainHeader } from '../../header';
 
 export function RelativesOverlayContent() {
   return (
-    <div>
-      <MainHeader text="Relatives" />
+    <div style={{ width: '100%' }}>
+      <MainHeader text="Relatives" windowName="relative" />
       <div>Custom Relatives Content Here</div>
-      <ResetOverlayPositionButton windowName="relative" />
-      <OpenOverlayButton windowName="relative" />
     </div>
   );
 }

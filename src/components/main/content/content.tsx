@@ -8,6 +8,7 @@ export function MainContent() {
   const { openNavIndex } = useAppContext();
 
   return (
+    // TODO: change to list, remove hardcoded indexes
     <div className={styles.contentWrapper}>
       {openNavIndex === 0 && <DashboardContent />}
       {openNavIndex === 1 && <OverlaysContent />}

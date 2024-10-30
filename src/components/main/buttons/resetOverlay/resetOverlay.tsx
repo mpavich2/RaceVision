@@ -23,8 +23,8 @@ export function ResetOverlayPositionButton(props: { windowName?: string }) {
   };
 
   return (
-    <button type="button" onClick={handleOnClick}>
-      Reset Overlay Positions
+    <button type="button" onClick={handleOnClick} className="secondaryButton">
+      Reset Overlay{!props.windowName && 's'}
     </button>
   );
 }

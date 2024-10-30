@@ -13,6 +13,7 @@ export function OpenOverlayButton(props: { windowName: string }) {
     <button
       type="button"
       onClick={() => openWindowButtonClicked(props.windowName)}
+      className="primaryButton"
     >
       Open Overlay
     </button>

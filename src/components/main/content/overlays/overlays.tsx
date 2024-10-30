@@ -4,6 +4,7 @@ import { InputGraphOverlayContent } from './inputGraph';
 import { RelativesOverlayContent } from './relatives';
 import { StandingsOverlayContent } from './standings';
 
+// TODO: change to list, remove hardcoded indexes
 export function OverlaysContent() {
   const { openOverlayNavIndex } = useAppContext();
 
