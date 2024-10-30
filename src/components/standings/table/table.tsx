@@ -77,7 +77,12 @@ export function StandingsTable(props: {
   });
 
   return (
-    <div className={styles.standingsTableWrapper}>
+    <div
+      className={styles.standingsTableWrapper}
+      style={{
+        height: props.driverByClassData.length === 0 ? '100%' : '',
+      }}
+    >
       {reducedDriverData.map((driverClass) => {
         return (
           <div className={styles.driverClassTable} key={driverClass.className}>
