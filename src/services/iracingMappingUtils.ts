@@ -53,7 +53,7 @@ export const getUserCurrentLap = (
 };
 
 export const isRaceSession = (sessionInfo: ISessionInfo) => {
-  return sessionInfo.data.WeekendInfo.EventType === 'RACE';
+  return sessionInfo.data.WeekendInfo.EventType.toLowerCase() === 'race';
 };
 
 export const iracingDataToRelativeInfo = (
@@ -67,7 +67,7 @@ export const iracingDataToRelativeInfo = (
   const driverData = filteredDrivers.map((driver) => {
     return {
       carNumber: driver.CarNumber,
-      carClass: driver.CarClassShortName,
+      carClass: driver.CarClassShortName || driver.CarScreenNameShort,
       driverName: driver.UserName,
       licenseSafetyRatingCombined: driver.LicString,
       licenseColor: driver.LicColor,
@@ -87,13 +87,7 @@ export const iracingDataToRelativeInfo = (
       const driverCurrentLap = telemetry.values.CarIdxLap[driver.carIdx];
       let relativeTime = 0.0;
 
-      let L = telemetry.values.CarIdxLastLapTime[driver.carIdx];
-
-      if (L < 0) {
-        L =
-          telemetry.values.CarIdxBestLapTime[driver.carIdx] ||
-          driver.carClassEstLapTime;
-      }
+      const L = driver.carClassEstLapTime;
 
       const C = telemetry.values.CarIdxEstTime[driver.carIdx];
       const S = telemetry.values.CarIdxEstTime[userCarIdx];
@@ -151,9 +145,12 @@ export const iracingDataToStandingsInfo = (
   );
 
   const driverData = filteredDrivers.map((driver) => {
+    const mostRecentSessionIndex =
+      (sessionInfo.data.SessionInfo?.Sessions.length || 1) - 1;
+
     return {
       carNumber: driver.CarNumber,
-      carClass: driver.CarClassShortName,
+      carClass: driver.CarClassShortName || driver.CarScreenNameShort,
       driverName: driver.UserName,
       licenseSafetyRatingCombined: driver.LicString,
       licenseColor: driver.LicColor,
@@ -164,13 +161,15 @@ export const iracingDataToStandingsInfo = (
       isSpectator: driver.IsSpectator === 1,
       classRelativeSpeed: driver.CarClassRelSpeed,
       fastestLap:
-        sessionInfo.data.SessionInfo?.Sessions[0]?.ResultsPositions?.find(
-          (d) => d.CarIdx === driver.CarIdx,
-        )?.FastestTime || -1,
+        sessionInfo.data.SessionInfo?.Sessions[
+          mostRecentSessionIndex
+        ]?.ResultsPositions?.find((d) => d.CarIdx === driver.CarIdx)
+          ?.FastestTime || -1,
       lastLap:
-        sessionInfo.data.SessionInfo?.Sessions[0]?.ResultsPositions?.find(
-          (d) => d.CarIdx === driver.CarIdx,
-        )?.LastTime || -1,
+        sessionInfo.data.SessionInfo?.Sessions[
+          mostRecentSessionIndex
+        ]?.ResultsPositions?.find((d) => d.CarIdx === driver.CarIdx)
+          ?.LastTime || -1,
     };
   });
 

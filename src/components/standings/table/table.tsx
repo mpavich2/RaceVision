@@ -64,10 +64,17 @@ export function StandingsTable(props: {
     const filteredUserIndex = driversWithoutLeaders.findIndex(
       (d) => d.carIdx === props.userCarIdx,
     );
+    const endIndex = filteredUserIndex + MAX_PEER_DRIVERS_REAR;
+
+    const startIndex = filteredUserIndex - MAX_PEER_DRIVERS_FRONT;
+    const adjustedStartIndex =
+      endIndex > driversWithoutLeaders.length
+        ? startIndex - (endIndex - driversWithoutLeaders.length)
+        : startIndex;
 
     const userClassPeers = driversWithoutLeaders.slice(
-      filteredUserIndex - MAX_PEER_DRIVERS_FRONT,
-      filteredUserIndex + MAX_PEER_DRIVERS_REAR,
+      adjustedStartIndex,
+      endIndex,
     );
 
     return {
