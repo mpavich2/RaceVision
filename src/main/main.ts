@@ -18,7 +18,9 @@ import { ISessionInfo, ITelemetry } from '../types/iracing';
 import { STORE_LOCATIONS } from '../constants/storeLocations';
 import {
   deleteWindowElectronStoreInfo,
+  getUserSettings,
   runWindowElectronStoreInfo,
+  updateUserSettings,
 } from '../utils/windowUtils';
 import { getAssetPath } from '../utils/assetUtils';
 
@@ -329,6 +331,8 @@ app
   .whenReady()
   .then(() => {
     createWindows();
+    const { isDarkMode } = getUserSettings();
+    nativeTheme.themeSource = isDarkMode ? 'dark' : 'light';
 
     ipcMain.on(IPC_CHANNELS.OPEN_SPECIFIC_WINDOW, (_, windowName) => {
       if (windowName === STORE_LOCATIONS.RELATIVE_WINDOW && !relativeWindow) {
@@ -367,9 +371,15 @@ app
     });
 
     ipcMain.on(IPC_CHANNELS.SET_OPACITY, (_, opacity) => {
+      updateUserSettings({ opacity });
       BrowserWindow.getAllWindows().forEach((window) => {
         window.webContents.send(IPC_CHANNELS.RECEIVE_OPACITY_UPDATE, opacity);
       });
+    });
+
+    ipcMain.handle(IPC_CHANNELS.GET_USER_SETTINGS, () => {
+      const userSettings = getUserSettings();
+      return userSettings;
     });
 
     ipcMain.on(IPC_CHANNELS.SET_IS_DRAGGABLE, (_, isDraggable) => {
@@ -387,6 +397,7 @@ app
       } else {
         nativeTheme.themeSource = 'dark';
       }
+      updateUserSettings({ isDarkMode: nativeTheme.shouldUseDarkColors });
       return nativeTheme.shouldUseDarkColors;
     });
 

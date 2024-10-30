@@ -12,4 +12,6 @@ export const IPC_CHANNELS = {
 
   IRACING_SESSION_INFO: 'sessionInfoUpdate',
   IRACING_TELEMETRY_INFO: 'telemetryUpdate',
+
+  GET_USER_SETTINGS: 'userSettings',
 };

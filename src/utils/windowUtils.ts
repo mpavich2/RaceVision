@@ -1,5 +1,7 @@
 import { BrowserWindow, Rectangle } from 'electron';
 import Store from 'electron-store';
+import { IUserSettings } from '../types/userSettings';
+import { STORE_LOCATIONS } from '../constants/storeLocations';
 
 export const createOverlayWindow = (assetPath: string, preloadPath: string) => {
   return new BrowserWindow({
@@ -39,4 +41,27 @@ export const runWindowElectronStoreInfo = (
 export const deleteWindowElectronStoreInfo = (file: string) => {
   const store = new Store();
   store.delete(file);
+};
+
+export const updateUserSettings = (newSettings: Partial<IUserSettings>) => {
+  const store = new Store();
+  const currentSettings = store.get(STORE_LOCATIONS.SETTINGS) as IUserSettings;
+  store.set(STORE_LOCATIONS.SETTINGS, { ...currentSettings, ...newSettings });
+};
+
+export const getUserSettings = (): IUserSettings => {
+  const store = new Store();
+  const storedSettings = store.get(STORE_LOCATIONS.SETTINGS) as IUserSettings;
+
+  if (!storedSettings) {
+    const defaultSettings = {
+      isDarkMode: false,
+      opacity: 0.8,
+    };
+    store.set(STORE_LOCATIONS.SETTINGS, defaultSettings);
+
+    return defaultSettings;
+  }
+
+  return storedSettings;
 };
