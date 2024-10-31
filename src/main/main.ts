@@ -406,7 +406,7 @@ app
 
     irsdk.init({
       telemetryUpdateInterval: 10,
-      sessionInfoUpdateInterval: 1000,
+      sessionInfoUpdateInterval: 10,
     });
 
     const iracing = irsdk.getInstance();

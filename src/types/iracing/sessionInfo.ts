@@ -131,6 +131,15 @@ export interface ISessionInfo {
         ResultsOfficial: number;
       }>;
     };
+    QualifyResultsInfo?: {
+      Results?: Array<{
+        Position: number;
+        ClassPosition: number;
+        CarIdx: number;
+        FastestLap: number;
+        FastestTime: number;
+      }>;
+    };
     CameraInfo: {
       Groups: Array<{
         GroupNum: number;

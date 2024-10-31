@@ -1,3 +1,7 @@
+import {
+  getCurrentSession,
+  getSessionType,
+} from '../../../services/iracingMappingUtils';
 import { ISessionInfo, ITelemetry } from '../../../types/iracing';
 import { LapCounter } from '../../common/lapCounter';
 import { RaceTimer } from '../../common/raceTimer';
@@ -8,24 +12,52 @@ export function RelativeFooter(props: {
   telemetry?: ITelemetry;
   sessionInfo?: ISessionInfo;
 }) {
-  const totalLaps =
-    props.telemetry && props.sessionInfo
-      ? props.telemetry.values.SessionTimeTotal /
-        props.sessionInfo.data.DriverInfo.DriverCarEstLapTime
-      : 0;
-  const roundedTotalLaps = parseFloat(totalLaps.toFixed(1));
+  const getTotalsLaps = () => {
+    if (!props.sessionInfo || !props.telemetry) {
+      return {
+        isEstimate: false,
+        laps: 0,
+      };
+    }
+
+    const currentSession = getCurrentSession(
+      props.sessionInfo,
+      props.telemetry.values.SessionNum,
+    );
+    if (currentSession?.SessionLaps !== 'unlimited') {
+      return {
+        isEstimate: false,
+        laps: parseInt(currentSession?.SessionLaps || '0', 10),
+      };
+    }
+
+    const estimatedLaps =
+      props.telemetry.values.SessionTimeTotal /
+      props.sessionInfo.data.DriverInfo.DriverCarEstLapTime;
+    return {
+      isEstimate: true,
+      laps: parseFloat(estimatedLaps.toFixed(1)),
+    };
+  };
+
+  const sessionType =
+    props.sessionInfo && props.telemetry
+      ? getSessionType(props.sessionInfo, props.telemetry.values.SessionNum)
+      : 'Practice';
 
   const currentTime = props.telemetry?.values.SessionTime || 0;
   const endTime = props.telemetry?.values.SessionTimeTotal || 0;
+  const lapInfo = getTotalsLaps();
 
   return (
     <div className={styles.relativeFooter}>
       <LapCounter
         currentLap={props.userCurrentLap}
-        totalLaps={roundedTotalLaps}
+        totalLaps={lapInfo.laps}
+        isEstimate={lapInfo.isEstimate}
       />
       <RaceTimer
-        eventType={props.sessionInfo?.data.WeekendInfo.EventType || 'Practice'}
+        eventType={sessionType}
         currentTime={currentTime}
         endTime={endTime}
       />

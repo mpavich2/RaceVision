@@ -3,13 +3,6 @@ import { ISessionInfo, ITelemetry } from '../types/iracing';
 import { IRelativeDriverData } from '../types/relative';
 import { IDriverClasses, IStandingsInfo } from '../types/standings';
 
-// const getCarRelativeSpeed = (carClassShortName: string): number => {
-//   return (
-//     carClassInfo.find((data) => data.short_name === carClassShortName)
-//       ?.relative_speed || -1
-//   );
-// };
-
 export const getUserData = (
   sessionInfo: ISessionInfo,
   telemetry: ITelemetry,
@@ -52,8 +45,32 @@ export const getUserCurrentLap = (
   return telemetry.values.CarIdxLap[userCarIdx] || -1;
 };
 
-export const isRaceSession = (sessionInfo: ISessionInfo) => {
-  return sessionInfo.data.WeekendInfo.EventType.toLowerCase() === 'race';
+export const getCurrentSession = (
+  sessionInfo: ISessionInfo,
+  telemetrySessionNum: number,
+) => {
+  return sessionInfo.data.SessionInfo.Sessions.find(
+    (s) => s.SessionNum === telemetrySessionNum,
+  );
+};
+
+export const getSessionType = (
+  sessionInfo: ISessionInfo,
+  telemetrySessionNum: number,
+) => {
+  return (
+    getCurrentSession(sessionInfo, telemetrySessionNum)?.SessionName ||
+    'Practice'
+  );
+};
+
+export const isRaceSession = (
+  sessionInfo: ISessionInfo,
+  telemetrySessionNum: number,
+) => {
+  return (
+    getSessionType(sessionInfo, telemetrySessionNum).toLowerCase() === 'race'
+  );
 };
 
 export const iracingDataToRelativeInfo = (
@@ -145,9 +162,6 @@ export const iracingDataToStandingsInfo = (
   );
 
   const driverData = filteredDrivers.map((driver) => {
-    const mostRecentSessionIndex =
-      (sessionInfo.data.SessionInfo?.Sessions.length || 1) - 1;
-
     return {
       carNumber: driver.CarNumber,
       carClass: driver.CarClassShortName || driver.CarScreenNameShort,
@@ -161,14 +175,16 @@ export const iracingDataToStandingsInfo = (
       isSpectator: driver.IsSpectator === 1,
       classRelativeSpeed: driver.CarClassRelSpeed,
       fastestLap:
-        sessionInfo.data.SessionInfo?.Sessions[
-          mostRecentSessionIndex
-        ]?.ResultsPositions?.find((d) => d.CarIdx === driver.CarIdx)
+        getCurrentSession(
+          sessionInfo,
+          telemetry.values.SessionNum,
+        )?.ResultsPositions?.find((d) => d.CarIdx === driver.CarIdx)
           ?.FastestTime || -1,
       lastLap:
-        sessionInfo.data.SessionInfo?.Sessions[
-          mostRecentSessionIndex
-        ]?.ResultsPositions?.find((d) => d.CarIdx === driver.CarIdx)
+        getCurrentSession(
+          sessionInfo,
+          telemetry.values.SessionNum,
+        )?.ResultsPositions?.find((d) => d.CarIdx === driver.CarIdx)
           ?.LastTime || -1,
     };
   });
@@ -190,7 +206,7 @@ export const iracingDataToStandingsInfo = (
       isDriverOffTrack:
         telemetry.values.CarIdxTrackSurface[driver.carIdx] === 'OffTrack',
       fastestLap: driver.fastestLap,
-      estimatedLap: telemetry.values.CarIdxEstTime[driver.carIdx],
+      estimatedLap: telemetry.values.CarIdxF2Time[driver.carIdx],
       isDriverInPit:
         telemetry.values.CarIdxOnPitRoad[driver.carIdx] ||
         telemetry.values.CarIdxTrackSurface[driver.carIdx] === 'NotInWorld' ||
@@ -206,7 +222,7 @@ export const iracingDataToStandingsInfo = (
     (driver) => driver.carClass,
   );
 
-  const isRaceSes = isRaceSession(sessionInfo);
+  const isRaceSes = isRaceSession(sessionInfo, telemetry.values.SessionNum);
   const sortedDriverClasses: IDriverClasses[] = [];
   Object.keys(groupByClassDrivers).forEach((driverClass) => {
     const sortedDrivers = groupByClassDrivers[driverClass].sort((a, b) => {
@@ -227,17 +243,20 @@ export const iracingDataToStandingsInfo = (
 
     let benchmarkTime = 0;
     const sortedDriversWithGapTime = sortedDrivers.map((driver, index) => {
+      // return {
+      //   ...driver,
+      //   // gapTime: Math.ceil((driver.estimatedLap - benchmarkTime) * 10) / 10,
+      //   gapTime: Math.ceil(driver.estimatedLap * 10) / 10,
+      // };
       if (index === 0) {
         if (!isRaceSes && driver.position) {
           benchmarkTime = driver.fastestLap;
-        } else {
-          benchmarkTime = driver.estimatedLap;
         }
         return { ...driver, gapTime: 0 };
       }
 
       if (!isRaceSes) {
-        if (!driver.position) {
+        if (!driver.position || !benchmarkTime) {
           return { ...driver, gapTime: 0 };
         }
 
@@ -249,7 +268,7 @@ export const iracingDataToStandingsInfo = (
 
       return {
         ...driver,
-        gapTime: Math.ceil((driver.estimatedLap - benchmarkTime) * 10) / 10,
+        gapTime: Math.ceil(driver.estimatedLap * 10) / 10,
       };
     });
 
@@ -268,6 +287,10 @@ export const iracingDataToStandingsInfo = (
       );
     }
 
+    const userCar = sessionInfo.data.DriverInfo.Drivers.find(
+      (d) => d.CarIdx === getUserCarIdx(sessionInfo),
+    );
+
     sortedDriverClasses.push({
       drivers: sortedDriversWithGapTime,
       className: driverClass,
@@ -275,9 +298,8 @@ export const iracingDataToStandingsInfo = (
       classRelativeSpeed: sortedDriversWithGapTime[0].classRelativeSpeed,
       classFastestCarIdx: classFastestDriver?.carIdx,
       isUserClass:
-        sessionInfo.data.DriverInfo.Drivers.find(
-          (d) => d.CarIdx === getUserCarIdx(sessionInfo),
-        )?.CarClassShortName === driverClass,
+        userCar?.CarClassShortName === driverClass ||
+        userCar?.CarScreenNameShort === driverClass,
     });
   });
 
