@@ -153,6 +153,7 @@ export const iracingDataToRelativeInfo = (
   return driverTelemetryData;
 };
 
+// TODO: use Qualifying time while ResultsPositions is null (potentially) during race pace lap
 export const iracingDataToStandingsInfo = (
   sessionInfo: ISessionInfo,
   telemetry: ITelemetry,
