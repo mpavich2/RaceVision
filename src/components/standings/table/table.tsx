@@ -83,6 +83,7 @@ export function StandingsTable(props: {
     };
   });
 
+  // TODO: insert psuedo rows with fixed height to simulate anticipated size correctly instead of 100% height
   return (
     <div
       className={styles.standingsTableWrapper}
