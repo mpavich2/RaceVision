@@ -9,11 +9,16 @@ import { StandingsTable } from '../../components/standings/table';
 import { ISessionInfo, ITelemetry } from '../../types/iracing';
 import { iracingDataToStandingsInfo } from '../../services/iracingMappingUtils';
 import { IStandingsInfo } from '../../types/standings';
+import SampleSession from '../../sampleData/sampleSessionInfo.json';
+import SampleTelemetry from '../../sampleData/sampleTelemetry.json';
 
 export default function StandingsApp() {
   // iracing data
-  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>();
-  const [telemetryInfo, setTelemetryInfo] = useState<ITelemetry>();
+  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>(
+    SampleSession as any,
+  );
+  const [telemetryInfo, setTelemetryInfo] =
+    useState<ITelemetry>(SampleTelemetry);
 
   // extracted driver data
   const [userInfo, setUserInfo] = useState<IStandingsInfo['userInfo']>();
@@ -73,6 +78,8 @@ export default function StandingsApp() {
         userCurrentLap={userInfo?.currentLap || 0}
         userCarClass={userInfo?.carClass || ''}
         userPosition={userInfo?.position || 0}
+        sessionInfo={sessionInfo}
+        telemetry={telemetryInfo}
       />
       <div id="draggableWrapper">STANDINGS WINDOW</div>
     </div>

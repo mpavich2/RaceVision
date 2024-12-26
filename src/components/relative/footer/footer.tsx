@@ -1,10 +1,7 @@
-import {
-  getCurrentSession,
-  getSessionType,
-} from '../../../services/iracingMappingUtils';
+import { getCurrentSession } from '../../../services/iracingMappingUtils';
 import { ISessionInfo, ITelemetry } from '../../../types/iracing';
+import { BrakeBias } from '../../common/brakeBias';
 import { LapCounter } from '../../common/lapCounter';
-import { RaceTimer } from '../../common/raceTimer';
 import styles from './footer.module.css';
 
 export function RelativeFooter(props: {
@@ -40,13 +37,6 @@ export function RelativeFooter(props: {
     };
   };
 
-  const sessionType =
-    props.sessionInfo && props.telemetry
-      ? getSessionType(props.sessionInfo, props.telemetry.values.SessionNum)
-      : 'Practice';
-
-  const currentTime = props.telemetry?.values.SessionTime || 0;
-  const endTime = props.telemetry?.values.SessionTimeTotal || 0;
   const lapInfo = getTotalsLaps();
 
   return (
@@ -56,11 +46,7 @@ export function RelativeFooter(props: {
         totalLaps={lapInfo.laps}
         isEstimate={lapInfo.isEstimate}
       />
-      <RaceTimer
-        eventType={sessionType}
-        currentTime={currentTime}
-        endTime={endTime}
-      />
+      <BrakeBias bias={props.telemetry?.values.dcBrakeBias ?? 0} />
     </div>
   );
 }

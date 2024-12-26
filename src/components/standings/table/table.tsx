@@ -1,5 +1,8 @@
+import { ISessionInfo, ITelemetry } from '../../../types/iracing';
 import { IDriverClasses } from '../../../types/standings';
 import { ClassName } from '../../common/className';
+import { DriverCount } from '../../common/driverCount';
+import { StandingsHeader } from '../header';
 import { StandingsTableRow } from './row';
 import styles from './table.module.css';
 
@@ -13,6 +16,8 @@ export function StandingsTable(props: {
   userCurrentLap: number;
   userCarClass: string;
   userPosition: number;
+  sessionInfo?: ISessionInfo;
+  telemetry?: ITelemetry;
 }) {
   const getUserPosition = () => {
     const userIndex = props.driverByClassData
@@ -91,13 +96,33 @@ export function StandingsTable(props: {
         height: props.driverByClassData.length === 0 ? '100%' : '',
       }}
     >
+      <StandingsHeader
+        sessionInfo={props.sessionInfo}
+        telemetry={props.telemetry}
+        driverData={props.driverByClassData}
+      />
       {reducedDriverData.map((driverClass) => {
         return (
           <div className={styles.driverClassTable} key={driverClass.className}>
-            <ClassName
-              className={driverClass.className}
-              classColor={`#${driverClass.classColor}`}
-            />
+            <div
+              className={styles.driverTableHeader}
+              style={{
+                borderBottom: `0.1rem solid #${driverClass.classColor}`,
+              }}
+            >
+              <ClassName
+                className={driverClass.className}
+                classColor={`#${driverClass.classColor}`}
+              />
+              <DriverCount
+                count={
+                  props.driverByClassData.find(
+                    (d) => d.className === driverClass.className,
+                  )?.drivers.length || 0
+                }
+                classColor={`#${driverClass.classColor}`}
+              />
+            </div>
             <table>
               <tbody>
                 {driverClass.drivers.map((d, index) => {
