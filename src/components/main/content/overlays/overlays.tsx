@@ -1,5 +1,6 @@
 import { useAppContext } from '../../contextProvider';
 import { AdvancedPanelOverlayContent } from './advancedPanel';
+import { FuelCalculatorOverlayContent } from './fuelCalculator';
 import { InputGraphOverlayContent } from './inputGraph';
 import { RelativesOverlayContent } from './relatives';
 import { StandingsOverlayContent } from './standings';
@@ -19,6 +20,9 @@ export function OverlaysContent() {
   }
   if (openOverlayNavIndex === 3) {
     return <AdvancedPanelOverlayContent />;
+  }
+  if (openOverlayNavIndex === 4) {
+    return <FuelCalculatorOverlayContent />;
   }
   return null;
 }

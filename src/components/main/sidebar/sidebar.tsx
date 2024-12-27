@@ -54,28 +54,29 @@ export function Sidebar() {
         {openNavIndex === 1 && (
           <div className={styles.overlayList}>
             <AccordionDetailLineItem
-              index={0}
               isActive={openOverlayNavIndex === 0}
               onClick={() => overlayNavClicked(0)}
               title="Relatives"
             />
             <AccordionDetailLineItem
-              index={1}
               isActive={openOverlayNavIndex === 1}
               onClick={() => overlayNavClicked(1)}
               title="Standings"
             />
             <AccordionDetailLineItem
-              index={1}
               isActive={openOverlayNavIndex === 2}
               onClick={() => overlayNavClicked(2)}
               title="Input Graph"
             />
             <AccordionDetailLineItem
-              index={1}
               isActive={openOverlayNavIndex === 3}
               onClick={() => overlayNavClicked(3)}
               title="Advanced Panel"
+            />
+            <AccordionDetailLineItem
+              isActive={openOverlayNavIndex === 4}
+              onClick={() => overlayNavClicked(4)}
+              title="Fuel Calc"
             />
           </div>
         )}

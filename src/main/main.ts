@@ -37,6 +37,7 @@ let relativeWindow: BrowserWindow | null = null;
 let standingsWindow: BrowserWindow | null = null;
 let inputGraphWindow: BrowserWindow | null = null;
 let inputsWindow: BrowserWindow | null = null;
+let fuelCalculatorWindow: BrowserWindow | null = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -148,6 +149,52 @@ const createStandingsWindow = () => {
   });
 
   standingsWindow.webContents.setWindowOpenHandler((edata) => {
+    shell.openExternal(edata.url);
+    return { action: 'deny' };
+  });
+};
+
+const createFuelCalculatorWindow = () => {
+  fuelCalculatorWindow = new BrowserWindow({
+    show: false,
+    width: 600,
+    height: 400,
+    transparent: true,
+    frame: false,
+    resizable: true,
+    roundedCorners: false,
+    alwaysOnTop: true,
+    minimizable: false,
+    minHeight: 100,
+    icon: getAssetPath('icon.png'),
+    webPreferences: {
+      preload,
+    },
+  });
+  runWindowElectronStoreInfo(
+    fuelCalculatorWindow,
+    STORE_LOCATIONS.FUEL_CALCULATOR,
+  );
+  fuelCalculatorWindow.setAlwaysOnTop(true, 'screen-saver');
+
+  fuelCalculatorWindow.loadURL(resolveHtmlPath('index.html', 'fuelCalculator'));
+
+  fuelCalculatorWindow.on('ready-to-show', () => {
+    if (!fuelCalculatorWindow) {
+      throw new Error('"fuelCalculatorWindow" is not defined');
+    }
+    if (process.env.START_MINIMIZED) {
+      fuelCalculatorWindow.minimize();
+    } else {
+      fuelCalculatorWindow.show();
+    }
+  });
+
+  fuelCalculatorWindow.on('closed', () => {
+    standingsWindow = null;
+  });
+
+  fuelCalculatorWindow.webContents.setWindowOpenHandler((edata) => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
@@ -289,6 +336,7 @@ const createWindows = async () => {
   createStandingsWindow();
   createInputGraphWindow();
   createInputsWindow();
+  createFuelCalculatorWindow();
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
@@ -310,6 +358,10 @@ const getWindowByName = (windowName: string) => {
 
   if (windowName === STORE_LOCATIONS.INPUTS_WINDOW) {
     return inputsWindow;
+  }
+
+  if (windowName === STORE_LOCATIONS.FUEL_CALCULATOR) {
+    return fuelCalculatorWindow;
   }
 
   return mainWindow;
@@ -352,6 +404,13 @@ app
 
       if (windowName === STORE_LOCATIONS.INPUTS_WINDOW && !inputsWindow) {
         createInputsWindow();
+      }
+
+      if (
+        windowName === STORE_LOCATIONS.FUEL_CALCULATOR &&
+        !fuelCalculatorWindow
+      ) {
+        createFuelCalculatorWindow();
       }
     });
 
