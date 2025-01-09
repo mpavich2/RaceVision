@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f43a361a-c7f2-4087-9acd-3a0558abddd0" alt"Race Vision Logo" />
+  <img src="https://github.com/user-attachments/assets/b766bcee-2d62-424d-8a06-f974400d6d30" alt"Race Vision Logo" />
 </p>
 <p align="center">
-⚠️ STILL IN EARLY DEVELOPMENT ⚠️
+⚠️ STILL IN DEVELOPMENT ⚠️
 </p>
 
 ## Purpose 🏎️
@@ -26,7 +26,3 @@ An IRacing free overlay solution until they finish their UX overhaul, and potent
  - Add more overlays (radar, track map, etc)
  - Integrate home dashboard displaying user race statistics
  - More?
-
-## Known Bugs 🐛
-(move to issues section for tracking eventually)
- - Relative time isn't that accurate when drivers are far away or near start/finish line
