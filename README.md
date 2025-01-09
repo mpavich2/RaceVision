@@ -14,11 +14,9 @@ Get started with RaceVision today!
 - Or check out the [latest release on GitHub](https://github.com/mpavich2/RaceVision)
 
 ## 🚀 Tech Stack Quick Look
-**Electron** :electron:
-
-**Typescript** <img src="https://github.com/user-attachments/assets/c0ba53ec-ce7d-435b-9264-0e941b7137c3" alt="ts-logo" height=20 width=20 />
-
-**React** <img src="https://github.com/user-attachments/assets/0d25094a-74fd-480d-a0ca-4e8e78be4b9f" alt="react-logo" height=20 width=20 />
+![Electron.js](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
 **Node Iracing SDK Wrapper** by [Friss](https://github.com/Friss/iracing-sdk-js) 🙏
 
