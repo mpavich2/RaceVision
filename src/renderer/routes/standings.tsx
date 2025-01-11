@@ -9,16 +9,15 @@ import { StandingsTable } from '../../components/standings/table';
 import { ISessionInfo, ITelemetry } from '../../types/iracing';
 import { iracingDataToStandingsInfo } from '../../services/iracingMappingUtils';
 import { IStandingsInfo } from '../../types/standings';
-import SampleSession from '../../sampleData/sampleSessionInfo.json';
-import SampleTelemetry from '../../sampleData/sampleTelemetry.json';
+
+// sample data imports
+// import SampleSession from '../../sampleData/sampleSessionInfo.json';
+// import SampleTelemetry from '../../sampleData/sampleTelemetry.json';
 
 export default function StandingsApp() {
   // iracing data
-  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>(
-    SampleSession as any,
-  );
-  const [telemetryInfo, setTelemetryInfo] =
-    useState<ITelemetry>(SampleTelemetry);
+  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>();
+  const [telemetryInfo, setTelemetryInfo] = useState<ITelemetry>();
 
   // extracted driver data
   const [userInfo, setUserInfo] = useState<IStandingsInfo['userInfo']>();

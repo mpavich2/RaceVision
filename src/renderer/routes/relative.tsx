@@ -16,16 +16,15 @@ import {
   isRaceSession,
 } from '../../services/iracingMappingUtils';
 import { calculateExpectedIratingDiff } from '../../services/iratingCalculator';
-import SampleSession from '../../sampleData/sampleSessionInfo.json';
-import SampleTelemetry from '../../sampleData/sampleTelemetry.json';
+
+// sample data imports
+// import SampleSession from '../../sampleData/sampleSessionInfo.json';
+// import SampleTelemetry from '../../sampleData/sampleTelemetry.json';
 
 export default function RelativeApp() {
   // iracing data
-  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>(
-    SampleSession as any,
-  );
-  const [telemetryInfo, setTelemetryInfo] =
-    useState<ITelemetry>(SampleTelemetry);
+  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>();
+  const [telemetryInfo, setTelemetryInfo] = useState<ITelemetry>();
 
   // extracted user data
   const [userCarIdx, setUserCarIdx] = useState(0);

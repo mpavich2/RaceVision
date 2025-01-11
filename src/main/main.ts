@@ -191,7 +191,7 @@ const createFuelCalculatorWindow = () => {
   });
 
   fuelCalculatorWindow.on('closed', () => {
-    standingsWindow = null;
+    fuelCalculatorWindow = null;
   });
 
   fuelCalculatorWindow.webContents.setWindowOpenHandler((edata) => {
@@ -336,7 +336,7 @@ const createWindows = async () => {
   createStandingsWindow();
   createInputGraphWindow();
   createInputsWindow();
-  createFuelCalculatorWindow();
+  // createFuelCalculatorWindow();
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
@@ -344,6 +344,7 @@ const createWindows = async () => {
 };
 
 const getWindowByName = (windowName: string) => {
+  console.log(windowName);
   if (windowName === STORE_LOCATIONS.RELATIVE_WINDOW) {
     return relativeWindow;
   }
@@ -387,11 +388,14 @@ app
     nativeTheme.themeSource = isDarkMode ? 'dark' : 'light';
 
     ipcMain.on(IPC_CHANNELS.OPEN_SPECIFIC_WINDOW, (_, windowName) => {
+      console.log('Open Request', windowName);
       if (windowName === STORE_LOCATIONS.RELATIVE_WINDOW && !relativeWindow) {
+        console.log('opening rel');
         createRelativeWindow();
       }
 
       if (windowName === STORE_LOCATIONS.STANDINGS_WINDOW && !standingsWindow) {
+        console.log('opening sta');
         createStandingsWindow();
       }
 
@@ -399,10 +403,12 @@ app
         windowName === STORE_LOCATIONS.INPUT_GRAPH_WINDOW &&
         !inputGraphWindow
       ) {
+        console.log('opening input graph');
         createInputGraphWindow();
       }
 
       if (windowName === STORE_LOCATIONS.INPUTS_WINDOW && !inputsWindow) {
+        console.log('opening inputs');
         createInputsWindow();
       }
 
@@ -410,6 +416,7 @@ app
         windowName === STORE_LOCATIONS.FUEL_CALCULATOR &&
         !fuelCalculatorWindow
       ) {
+        console.log('opening fuel calc');
         createFuelCalculatorWindow();
       }
     });

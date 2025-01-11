@@ -1,0 +1,25 @@
+.wrapper {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.textWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.fuelBar {
+  appearance: none;
+  height: 100%;
+}
+
+/* background: */
+progress::-webkit-progress-bar {
+  background-color: white;
+}
+
+.fuelBarWrapper {
+  border: .1rem solid silver;
+  height: 1.5rem;
+}
