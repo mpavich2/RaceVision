@@ -1,9 +1,8 @@
 .carClassName {
   display: inline-block;
   font-style: italic;
-  font-weight: bold;
+  font-weight: 900;
   color: #000;
   padding: 0.1rem 1rem 0.1rem 0.5rem;
   clip-path: polygon(0 0, 95% 0, 100% 100%, 0% 100%);
-
 }

@@ -5,4 +5,5 @@
   gap: 0.4rem;
   padding: 0.1rem 0.2rem 0.1rem 1rem;
   clip-path: polygon(5% 0, 100% 0, 100% 100%, 0 100%);
+  font-weight: 900;
 }

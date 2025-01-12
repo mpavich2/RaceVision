@@ -12,7 +12,7 @@ export function LapTime(props: {
 
   const getLapTimeColor = () => {
     if (!isTimeSet && !props.isUser) {
-      return '';
+      return styles.defaultColor;
     }
 
     if (props.isFastestLap && isTimeSet) {
@@ -27,7 +27,7 @@ export function LapTime(props: {
       return styles.userColor;
     }
 
-    return '';
+    return styles.defaultColor;
   };
 
   return (

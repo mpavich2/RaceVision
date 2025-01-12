@@ -21,7 +21,6 @@ export function DriverTime(props: {
     <div
       style={{
         color,
-        fontWeight: 'bold',
       }}
     >
       {props.time.toFixed(1)}

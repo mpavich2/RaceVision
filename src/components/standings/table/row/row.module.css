@@ -12,3 +12,7 @@
 .lastLap {
   padding-left: 0.6rem;
 }
+
+tr {
+  font-weight: bold;
+}

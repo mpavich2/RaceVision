@@ -21,7 +21,6 @@ export function DriverName(props: {
     <div
       style={{
         color,
-        fontWeight: 'bold',
       }}
     >
       {props.driverName}
