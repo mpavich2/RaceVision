@@ -47,7 +47,7 @@ export function Sidebar() {
         onClick={() => toggleNavItem(1)}
         index={1}
       >
-        <div>
+        <div className={styles.textAlign}>
           <BsStack size={20} /> Overlays
         </div>
 

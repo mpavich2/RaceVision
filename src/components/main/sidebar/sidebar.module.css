@@ -56,3 +56,9 @@
   flex-direction: column;
   margin-left: 2rem;
 }
+
+.textAlign {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

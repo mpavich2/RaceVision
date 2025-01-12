@@ -14,8 +14,11 @@
 }
 
 body {
-  font-family: "Reddit Mono", monospace;
+  font-family: "JetBrains Mono", serif;
   font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
   background: transparent;
   color: white;
   user-select: none;
