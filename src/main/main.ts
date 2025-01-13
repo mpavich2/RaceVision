@@ -344,7 +344,6 @@ const createWindows = async () => {
 };
 
 const getWindowByName = (windowName: string) => {
-  console.log(windowName);
   if (windowName === STORE_LOCATIONS.RELATIVE_WINDOW) {
     return relativeWindow;
   }
@@ -388,35 +387,33 @@ app
     nativeTheme.themeSource = isDarkMode ? 'dark' : 'light';
 
     ipcMain.on(IPC_CHANNELS.OPEN_SPECIFIC_WINDOW, (_, windowName) => {
-      console.log('Open Request', windowName);
-      if (windowName === STORE_LOCATIONS.RELATIVE_WINDOW && !relativeWindow) {
-        console.log('opening rel');
+      const existingWindow = getWindowByName(windowName);
+      if (existingWindow) {
+        existingWindow.close();
+      } else if (
+        windowName === STORE_LOCATIONS.RELATIVE_WINDOW &&
+        !relativeWindow
+      ) {
         createRelativeWindow();
-      }
-
-      if (windowName === STORE_LOCATIONS.STANDINGS_WINDOW && !standingsWindow) {
-        console.log('opening sta');
+      } else if (
+        windowName === STORE_LOCATIONS.STANDINGS_WINDOW &&
+        !standingsWindow
+      ) {
         createStandingsWindow();
-      }
-
-      if (
+      } else if (
         windowName === STORE_LOCATIONS.INPUT_GRAPH_WINDOW &&
         !inputGraphWindow
       ) {
-        console.log('opening input graph');
         createInputGraphWindow();
-      }
-
-      if (windowName === STORE_LOCATIONS.INPUTS_WINDOW && !inputsWindow) {
-        console.log('opening inputs');
+      } else if (
+        windowName === STORE_LOCATIONS.INPUTS_WINDOW &&
+        !inputsWindow
+      ) {
         createInputsWindow();
-      }
-
-      if (
+      } else if (
         windowName === STORE_LOCATIONS.FUEL_CALCULATOR &&
         !fuelCalculatorWindow
       ) {
-        console.log('opening fuel calc');
         createFuelCalculatorWindow();
       }
     });
@@ -425,6 +422,7 @@ app
       Object.values(STORE_LOCATIONS).forEach((file) => {
         deleteWindowElectronStoreInfo(file);
       });
+
       BrowserWindow.getAllWindows().forEach((window) => {
         if (window.webContents !== mainWindow?.webContents) {
           window.setPosition(0, 0, false);
@@ -446,6 +444,12 @@ app
     ipcMain.handle(IPC_CHANNELS.GET_USER_SETTINGS, () => {
       const userSettings = getUserSettings();
       return userSettings;
+    });
+
+    ipcMain.handle(IPC_CHANNELS.IS_WINDOW_OPEN, (_, windowName) => {
+      console.log(windowName);
+      console.log(getWindowByName(windowName));
+      return getWindowByName(windowName) !== null;
     });
 
     ipcMain.on(IPC_CHANNELS.SET_IS_DRAGGABLE, (_, isDraggable) => {
