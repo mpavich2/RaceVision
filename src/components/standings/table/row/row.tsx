@@ -33,7 +33,7 @@ export function StandingsTableRow(props: {
         />
       </td>
       <td className={styles.irating}>
-        <Irating irating={props.driverData.irating} />
+        <Irating irating={props.driverData.irating} hideIratingDiff />
       </td>
       <td className={styles.gap}>
         <GapTime isUser={isUser} time={props.driverData.gapTime} />
