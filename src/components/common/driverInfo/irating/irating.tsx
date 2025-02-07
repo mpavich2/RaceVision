@@ -1,8 +1,40 @@
 import { BsDashLg } from 'react-icons/bs';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { ReactNode } from 'react';
 import { COLOR_CONSTANTS } from '../../../../constants/colorConstants';
 import { shortenIrating } from '../../../../utils/iratingUtils';
 import styles from './irating.module.css';
+
+const determineIratingDiffColor = (
+  diff?: number,
+): {
+  color: string;
+  icon: ReactNode;
+} => {
+  const defaultDiffSettings = {
+    color: COLOR_CONSTANTS.IRATING_COLORS.NEUTRAL,
+    icon: <BsDashLg color={COLOR_CONSTANTS.IRATING_COLORS.NEUTRAL} />,
+  };
+
+  if (!diff || diff === 0) {
+    return defaultDiffSettings;
+  }
+
+  if (diff > 0) {
+    return {
+      color: COLOR_CONSTANTS.IRATING_COLORS.POSITIVE,
+      icon: <FaChevronUp color={COLOR_CONSTANTS.IRATING_COLORS.POSITIVE} />,
+    };
+  }
+  if (diff < 0) {
+    return {
+      color: COLOR_CONSTANTS.IRATING_COLORS.NEGATIVE,
+      icon: <FaChevronDown color={COLOR_CONSTANTS.IRATING_COLORS.NEGATIVE} />,
+    };
+  }
+
+  return defaultDiffSettings;
+};
 
 export function Irating(props: {
   irating: number;
@@ -10,46 +42,42 @@ export function Irating(props: {
   hideIratingDiff?: boolean;
 }) {
   const shortenedIrating = shortenIrating(props.irating);
-  const iratingDiff = Math.round(props.iratingDiff || 0)
-    .toString()
-    .replaceAll('-', '');
+  const iratingDiff = Math.abs(Math.round(props.iratingDiff || 0)).toString();
+  const iratingDiffSettings = determineIratingDiffColor(props.iratingDiff);
 
-  if (!props.iratingDiff && props.hideIratingDiff) {
+  if (props.hideIratingDiff) {
     return <div className={styles.iratingWrapper}>{shortenedIrating}</div>;
   }
-
-  const iratingDiffIcon = (diff: number) => {
-    if (diff > 0) {
-      return <FaChevronUp color={COLOR_CONSTANTS.IRATING_COLORS.POSITIVE} />;
-    }
-    if (diff < 0) {
-      return <FaChevronDown color={COLOR_CONSTANTS.IRATING_COLORS.NEGATIVE} />;
-    }
-    return <BsDashLg color={COLOR_CONSTANTS.IRATING_COLORS.NEUTRAL} />;
-  };
 
   return (
     <div style={{ lineHeight: '1rem' }}>
       <div className={styles.iratingWrapper}>
-        <div style={{ flex: 1.5, minWidth: '2.5rem' }}>{shortenedIrating}</div>
-        {props.iratingDiff && (
-          <div>
-            <div
-              style={{
-                flex: 0.5,
-                minWidth: '1rem',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {iratingDiffIcon(props.iratingDiff)}
-            </div>
+        <div style={{ flex: 1.5, paddingRight: '0.5rem', minWidth: '2.5rem' }}>
+          {shortenedIrating}
+        </div>
 
-            <div style={{ flex: 0.5, minWidth: '1.6rem', textAlign: 'right' }}>
-              {iratingDiff}
-            </div>
-          </div>
-        )}
+        <div
+          style={{
+            flex: 0.5,
+            minWidth: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            paddingRight: '0.2rem',
+          }}
+        >
+          {iratingDiffSettings.icon}
+        </div>
+
+        <div
+          style={{
+            flex: 0.5,
+            textAlign: 'right',
+            minWidth: '1.6rem',
+            color: iratingDiffSettings.color,
+          }}
+        >
+          {iratingDiff}
+        </div>
       </div>
     </div>
   );
