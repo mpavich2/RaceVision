@@ -15,7 +15,7 @@ Chart.defaults.set('plugins.streaming', {
 
 const BRAKE_INPUT_LABEL = 'Brake Input Data';
 const THROTTLE_INPUT_LABEL = 'Throttle Input Data';
-const INPUT_FPS = 60;
+const INPUT_FPS = 144;
 
 export function InputLineGraph() {
   // iracing data
