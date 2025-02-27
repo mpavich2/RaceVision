@@ -8,10 +8,12 @@
 ## 🏎️ Purpose
 An IRacing free overlay solution until they finish their UX overhaul, and potentially longer depending on their implementation. Uses IRacing SDK data to display extra information that they expose, but currently do not show the user.
 
+For those willing to help contribute, please reach out.
+
 ## 📥 Download the Latest Version
 Get started with RaceVision today!
 - Visit our [official website](https://www.racevision.app/)
-- Or check out the [latest release on GitHub](https://github.com/mpavich2/RaceVision)
+- Or check out the [latest release on GitHub](https://github.com/mpavich2/RaceVision/releases)
 
 ## 🚀 Tech Stack Quick Look
 ![Electron.js](https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white)
@@ -20,15 +22,31 @@ Get started with RaceVision today!
 
 **Node Iracing SDK Wrapper** by [Friss](https://github.com/Friss/iracing-sdk-js) 🙏
 
-## 🗺️ RoadMap
-(Need to update)
- - V1 state for few overlays for solo driver practice/qualifying/race sessions (Relative, Standings, Input Graph, Advanced Inputs, Fuel Calculator) to start 📌(currently here)
- - Complete spectator view
- - Get team races working correctly
- - Add customization to existing overlays
- - Add more overlays (radar, track map, etc)
- - Integrate home dashboard displaying user race statistics
- - More?
+## Overlays
+  - Standings (multiclass)
+  - Relative (multiclass)
+  - Inputs
+  - Input Graph
+  - Fuel Calculator (🚧 currently developing)
+  - Radar (planned)
+  - Track Map (planned)
+
+  ### Standings
+  ![standings-overlay](https://github.com/user-attachments/assets/5781bbb6-1fae-4095-8617-18e61a14c850)
+
+  ### Relative
+  ![relative-overlay](https://github.com/user-attachments/assets/8a4ce448-0202-4e85-b5a6-cd25dd88a62b)
+
+  ### Inputs
+  ![inputs-overlay](https://github.com/user-attachments/assets/a0a209e2-2f7d-4bf0-9251-c6fe51c112a8)
+
+  ### Input Graph
+  ![input-graph-overlay](https://github.com/user-attachments/assets/2e1af3c6-60a5-4d4f-a2dc-1e60ecddd7ab)
+
+  ### Overview
+  ![overview](https://github.com/user-attachments/assets/549322b7-06cf-4a38-aca2-688540ba08a5)
+
+  
 
 ## 💬 Feedback & Support
 We’d love to hear from you! Feel free to submit issues or suggestions via the [GitHub Issues](https://github.com/mpavich2/RaceVision/issues) page.
