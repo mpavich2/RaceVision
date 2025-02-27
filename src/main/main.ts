@@ -9,7 +9,14 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, ipcMain, nativeTheme, shell } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  nativeTheme,
+  shell,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { resolveHtmlPath } from './util';
@@ -385,6 +392,39 @@ app
     createWindows();
     const { isDarkMode } = getUserSettings();
     nativeTheme.themeSource = isDarkMode ? 'dark' : 'light';
+
+    autoUpdater.on('update-available', (info) => {
+      log.info('Update available:', info);
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Update Available',
+        message: 'A new update is available. Downloading now...',
+      });
+    });
+
+    autoUpdater.on('update-downloaded', async (info) => {
+      log.info('Update downloaded:', info);
+
+      try {
+        const result = await dialog.showMessageBox({
+          type: 'question',
+          buttons: ['Restart', 'Later'],
+          defaultId: 0,
+          title: 'Update Ready',
+          message: 'An update has been downloaded. Restart to apply?',
+        });
+
+        if (result.response === 0) {
+          autoUpdater.quitAndInstall();
+        }
+      } catch (error) {
+        log.error('An error has occurred', error);
+      }
+    });
+
+    autoUpdater.on('error', (err) => {
+      log.error('Update error:', err);
+    });
 
     ipcMain.on(IPC_CHANNELS.OPEN_SPECIFIC_WINDOW, (_, windowName) => {
       const existingWindow = getWindowByName(windowName);
