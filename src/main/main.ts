@@ -49,7 +49,6 @@ app
     registerAutoUpdater();
     registerIpcHandlers(windows);
 
-    // start iracing connection
     initializeIRacing();
   })
   .catch(console.log);
