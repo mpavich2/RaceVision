@@ -9,8 +9,7 @@ import { getAssetPath } from '../../utils/assetUtils';
 import { runWindowElectronStoreInfo } from '../storeUtils';
 import { resolveHtmlPath } from '../util';
 import { DEFAULT_OPTIONS } from '../../constants/defaultOptions';
-
-const MAIN_WINDOW = 'mainWindow';
+import { StoreLocations } from '../../constants/storeLocations';
 
 export class WindowManager {
   windows: Map<string, BrowserWindow>;
@@ -32,6 +31,7 @@ export class WindowManager {
     const winSpecificOptions = DEFAULT_OPTIONS[name] || DEFAULT_OPTIONS.default;
 
     const win = new BrowserWindow({
+      title: name,
       show: false,
       transparent: true,
       frame: false,
@@ -63,6 +63,10 @@ export class WindowManager {
       }
     });
 
+    win.once('show', () => {
+      win.minimize();
+    });
+
     win.webContents.setWindowOpenHandler((edata) => {
       shell.openExternal(edata.url);
       return { action: 'deny' };
@@ -78,6 +82,7 @@ export class WindowManager {
   createMainWindow() {
     const mainWindow = new BrowserWindow({
       show: false,
+      title: StoreLocations.MAIN,
       width: 1024,
       height: 728,
       icon: getAssetPath('icon.png'),
@@ -86,13 +91,13 @@ export class WindowManager {
         preload: this.preload,
       },
     });
-    this.windows.set(MAIN_WINDOW, mainWindow);
+    this.windows.set(StoreLocations.MAIN, mainWindow);
 
     mainWindow.loadURL(resolveHtmlPath('index.html'));
 
     mainWindow.on('ready-to-show', () => {
       if (!mainWindow) {
-        throw new Error(`"${MAIN_WINDOW}" is not defined`);
+        throw new Error(`"${StoreLocations.MAIN}" is not defined`);
       }
       if (process.env.START_MINIMIZED) {
         mainWindow.minimize();
@@ -116,7 +121,7 @@ export class WindowManager {
   }
 
   getMainWindow() {
-    return this.windows.get(MAIN_WINDOW);
+    return this.windows.get(StoreLocations.MAIN);
   }
 
   getAllWindows() {

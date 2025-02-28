@@ -5,4 +5,5 @@ export enum StoreLocations {
   INPUTS_WINDOW = 'inputs',
   FUEL_CALCULATOR = 'fuelCalculator',
   SETTINGS = 'settings',
+  MAIN = 'main',
 }

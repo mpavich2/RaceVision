@@ -3,16 +3,33 @@
 import { BrowserWindow } from 'electron';
 import { IpcChannels } from '../../constants/ipcChannels';
 import { ISessionInfo, ITelemetry } from '../../types/iracing';
+import { StoreLocations } from '../../constants/storeLocations';
 
-const sendToAllWindows = (channel: string, data: ISessionInfo | ITelemetry) => {
-  BrowserWindow.getAllWindows().forEach((window) => {
+const getAllOverlayWindows = () => {
+  return BrowserWindow.getAllWindows().filter(
+    (win) => win.getTitle() !== StoreLocations.MAIN,
+  );
+};
+
+const sendToAllOverlayWindows = (
+  channel: string,
+  data: ISessionInfo | ITelemetry,
+) => {
+  getAllOverlayWindows().forEach((window) => {
     window.webContents.send(channel, data);
   });
 };
 
-const reloadAllWindows = () => {
-  BrowserWindow.getAllWindows().forEach((window) => {
+const reloadAllOverlayWindows = () => {
+  getAllOverlayWindows().forEach((window) => {
     window.reload();
+    window.minimize();
+  });
+};
+
+const restoreAllOverlayWindows = () => {
+  getAllOverlayWindows().forEach((window) => {
+    window.restore();
   });
 };
 
@@ -20,8 +37,8 @@ export const initializeIRacing = () => {
   const irsdk = require('iracing-sdk-js');
 
   irsdk.init({
-    telemetryUpdateInterval: 10,
-    sessionInfoUpdateInterval: 10,
+    telemetryUpdateInterval: 100,
+    sessionInfoUpdateInterval: 100,
   });
 
   const iracing = irsdk.getInstance();
@@ -30,19 +47,23 @@ export const initializeIRacing = () => {
 
   iracing.on('Connected', () => {
     console.info('\nConnected to iRacing.');
+    restoreAllOverlayWindows();
 
     iracing.once('Disconnected', () => {
       console.info('iRacing shut down.');
 
-      reloadAllWindows();
+      reloadAllOverlayWindows();
     });
 
     iracing.on('SessionInfo', (sessionInfo: ISessionInfo) => {
-      sendToAllWindows(IpcChannels.IRACING_SESSION_INFO, sessionInfo);
+      sendToAllOverlayWindows(IpcChannels.IRACING_SESSION_INFO, sessionInfo);
     });
 
     iracing.on('Telemetry', (telemetryInfo: ITelemetry) => {
-      sendToAllWindows(IpcChannels.IRACING_TELEMETRY_INFO, telemetryInfo);
+      sendToAllOverlayWindows(
+        IpcChannels.IRACING_TELEMETRY_INFO,
+        telemetryInfo,
+      );
     });
   });
 };
