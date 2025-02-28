@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
-import { IPC_CHANNELS } from '../../../../../../constants/ipcChannels';
+import { IpcChannels } from '../../../../../../constants/ipcChannels';
 import { IUserSettings } from '../../../../../../types/userSettings';
 import { ToggleSwitch } from '../../../../../common/toggle';
 import { useAppContext } from '../../../../contextProvider';
@@ -10,7 +10,7 @@ export function DarkModeToggle() {
 
   useEffect(() => {
     window.electron.ipcRenderer
-      .invoke(IPC_CHANNELS.GET_USER_SETTINGS)
+      .invoke(IpcChannels.GET_USER_SETTINGS)
       .then((userSettings: IUserSettings) =>
         setIsDarkMode(userSettings.isDarkMode),
       )
@@ -19,7 +19,7 @@ export function DarkModeToggle() {
 
   const toggleDarkMode = () => {
     window.electron.ipcRenderer.sendMessage(
-      IPC_CHANNELS.DARK_MODE_TOGGLE,
+      IpcChannels.DARK_MODE_TOGGLE,
       !isDarkMode,
     );
     setIsDarkMode(!isDarkMode);

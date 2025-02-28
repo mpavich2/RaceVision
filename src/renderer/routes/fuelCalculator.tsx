@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IPC_CHANNELS } from '../../constants/ipcChannels';
+import { IpcChannels } from '../../constants/ipcChannels';
 import {
   setDocumentDrag,
   setDocumentOpacity,
@@ -18,14 +18,14 @@ export default function FuelCalculatorApp() {
 
   useEffect(() => {
     window.electron.ipcRenderer.on(
-      IPC_CHANNELS.RECEIVE_OPACITY_UPDATE,
+      IpcChannels.RECEIVE_OPACITY_UPDATE,
       (opacity: number) => {
         setDocumentOpacity(opacity.toString());
       },
     );
 
     window.electron.ipcRenderer.on(
-      IPC_CHANNELS.RECEIVE_DRAGGABLE_UPDATE,
+      IpcChannels.RECEIVE_DRAGGABLE_UPDATE,
       (isDraggable: boolean) => {
         setDocumentDrag(isDraggable);
       },
@@ -34,14 +34,14 @@ export default function FuelCalculatorApp() {
 
   useEffect(() => {
     window.electron.ipcRenderer.on(
-      IPC_CHANNELS.IRACING_SESSION_INFO,
+      IpcChannels.IRACING_SESSION_INFO,
       (session: ISessionInfo) => {
         setSessionInfo(session);
       },
     );
 
     window.electron.ipcRenderer.on(
-      IPC_CHANNELS.IRACING_TELEMETRY_INFO,
+      IpcChannels.IRACING_TELEMETRY_INFO,
       (telemetry: ITelemetry) => {
         setTelemetryInfo(telemetry);
       },

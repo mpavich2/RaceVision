@@ -1,26 +1,7 @@
 import { BrowserWindow, Rectangle } from 'electron';
 import Store from 'electron-store';
 import { IUserSettings } from '../types/userSettings';
-import { STORE_LOCATIONS } from '../constants/storeLocations';
-
-export const createOverlayWindow = (assetPath: string, preloadPath: string) => {
-  return new BrowserWindow({
-    show: false,
-    width: 600,
-    height: 400,
-    transparent: true,
-    frame: false,
-    resizable: true,
-    roundedCorners: false,
-    alwaysOnTop: true,
-    minimizable: false,
-    minHeight: 100,
-    icon: assetPath,
-    webPreferences: {
-      preload: preloadPath,
-    },
-  });
-};
+import { StoreLocations } from '../constants/storeLocations';
 
 export const runWindowElectronStoreInfo = (
   window: BrowserWindow,
@@ -45,20 +26,20 @@ export const deleteWindowElectronStoreInfo = (file: string) => {
 
 export const updateUserSettings = (newSettings: Partial<IUserSettings>) => {
   const store = new Store();
-  const currentSettings = store.get(STORE_LOCATIONS.SETTINGS) as IUserSettings;
-  store.set(STORE_LOCATIONS.SETTINGS, { ...currentSettings, ...newSettings });
+  const currentSettings = store.get(StoreLocations.SETTINGS) as IUserSettings;
+  store.set(StoreLocations.SETTINGS, { ...currentSettings, ...newSettings });
 };
 
 export const getUserSettings = (): IUserSettings => {
   const store = new Store();
-  const storedSettings = store.get(STORE_LOCATIONS.SETTINGS) as IUserSettings;
+  const storedSettings = store.get(StoreLocations.SETTINGS) as IUserSettings;
 
   if (!storedSettings) {
     const defaultSettings = {
       isDarkMode: false,
       opacity: 0.8,
     };
-    store.set(STORE_LOCATIONS.SETTINGS, defaultSettings);
+    store.set(StoreLocations.SETTINGS, defaultSettings);
 
     return defaultSettings;
   }

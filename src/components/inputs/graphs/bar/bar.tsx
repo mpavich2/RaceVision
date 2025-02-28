@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { InputBar } from './inputBar';
 import { InputType } from '../../../../types/inputType';
 import styles from './bar.module.css';
-import { IPC_CHANNELS } from '../../../../constants/ipcChannels';
+import { IpcChannels } from '../../../../constants/ipcChannels';
 import { ITelemetry } from '../../../../types/iracing';
 
 export function InputBarGraph() {
@@ -12,7 +12,7 @@ export function InputBarGraph() {
 
   useEffect(() => {
     window.electron.ipcRenderer.on(
-      IPC_CHANNELS.IRACING_TELEMETRY_INFO,
+      IpcChannels.IRACING_TELEMETRY_INFO,
       (telemetry: ITelemetry) => {
         setThrottleInput(telemetry.values.ThrottleRaw * 100);
         setBrakeInput(telemetry.values.BrakeRaw * 100);

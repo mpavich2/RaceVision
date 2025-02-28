@@ -1,15 +1,15 @@
-import { IPC_CHANNELS } from '../../../../constants/ipcChannels';
+import { IpcChannels } from '../../../../constants/ipcChannels';
 
 export function ResetOverlayPositionButton(props: { windowName?: string }) {
   const resetWindowPositions = () => {
     window.electron.ipcRenderer.sendMessage(
-      IPC_CHANNELS.RESET_WINDOW_POSITIONS,
+      IpcChannels.RESET_WINDOW_POSITIONS,
     );
   };
 
   const resetSpecificWindowPosition = () => {
     window.electron.ipcRenderer.sendMessage(
-      IPC_CHANNELS.RESET_SPECIFIC_WINDOW_POSITION,
+      IpcChannels.RESET_SPECIFIC_WINDOW_POSITION,
       props.windowName,
     );
   };

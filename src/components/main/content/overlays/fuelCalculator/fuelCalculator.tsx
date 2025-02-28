@@ -1,9 +1,13 @@
+import { StoreLocations } from '../../../../../constants/storeLocations';
 import { MainHeader } from '../../header';
 
 export function FuelCalculatorOverlayContent() {
   return (
     <div>
-      <MainHeader text="Fuel Calculator" windowName="fuelCalculator" />
+      <MainHeader
+        text="Fuel Calculator"
+        windowName={StoreLocations.FUEL_CALCULATOR}
+      />
       <div>
         Accurately plan your fuel strategy with real-time calculations, ensuring
         you have just the right amount to finish the race strong.

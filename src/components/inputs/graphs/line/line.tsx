@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import ChartStreaming from 'chartjs-plugin-streaming';
 import { Line } from 'react-chartjs-2';
 import { ITelemetry } from '../../../../types/iracing';
-import { IPC_CHANNELS } from '../../../../constants/ipcChannels';
+import { IpcChannels } from '../../../../constants/ipcChannels';
 import 'chartjs-adapter-luxon';
 import styles from './line.module.css';
 
@@ -24,7 +24,7 @@ export function InputLineGraph() {
 
   useEffect(() => {
     window.electron.ipcRenderer.on(
-      IPC_CHANNELS.IRACING_TELEMETRY_INFO,
+      IpcChannels.IRACING_TELEMETRY_INFO,
       (telemetry: ITelemetry) => {
         throttleInput.current = telemetry.values.ThrottleRaw * 100;
         brakeInput.current = telemetry.values.BrakeRaw * 100;

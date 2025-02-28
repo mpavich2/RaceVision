@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { RangeSlider } from '../../../../../common/range';
-import { IPC_CHANNELS } from '../../../../../../constants/ipcChannels';
+import { IpcChannels } from '../../../../../../constants/ipcChannels';
 import { useAppContext } from '../../../../contextProvider';
 import { IUserSettings } from '../../../../../../types/userSettings';
 
@@ -12,7 +12,7 @@ export function OpacityRangeSlider() {
 
   useEffect(() => {
     window.electron.ipcRenderer
-      .invoke(IPC_CHANNELS.GET_USER_SETTINGS)
+      .invoke(IpcChannels.GET_USER_SETTINGS)
       .then((userSettings: IUserSettings) =>
         setOpacity(userSettings.opacity * 100),
       )
@@ -23,7 +23,7 @@ export function OpacityRangeSlider() {
     const decimalOpacityValue = opacity / 100;
 
     window.electron.ipcRenderer.sendMessage(
-      IPC_CHANNELS.SET_OPACITY,
+      IpcChannels.SET_OPACITY,
       decimalOpacityValue,
     );
   }, [opacity]);

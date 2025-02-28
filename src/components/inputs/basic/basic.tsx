@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './basic.module.css';
-import { IPC_CHANNELS } from '../../../constants/ipcChannels';
+import { IpcChannels } from '../../../constants/ipcChannels';
 import { ITelemetry } from '../../../types/iracing';
 import { AbsLight } from './absLight';
 import { CarSpeed } from './carSpeed';
@@ -20,7 +20,7 @@ export function BasicInputs() {
 
   useEffect(() => {
     window.electron.ipcRenderer.on(
-      IPC_CHANNELS.IRACING_TELEMETRY_INFO,
+      IpcChannels.IRACING_TELEMETRY_INFO,
       (telemetry: ITelemetry) => {
         setCarSpeed(telemetry.values.Speed);
         setCarGear(telemetry.values.Gear);
