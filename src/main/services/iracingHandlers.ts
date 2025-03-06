@@ -29,7 +29,7 @@ const reloadAllOverlayWindows = () => {
 
 const restoreAllOverlayWindows = () => {
   getAllOverlayWindows().forEach((window) => {
-    window.restore();
+    window.once('ready-to-show', () => window.restore());
   });
 };
 
@@ -37,8 +37,8 @@ export const initializeIRacing = () => {
   const irsdk = require('iracing-sdk-js');
 
   irsdk.init({
-    telemetryUpdateInterval: 100,
-    sessionInfoUpdateInterval: 100,
+    telemetryUpdateInterval: 10,
+    sessionInfoUpdateInterval: 10,
   });
 
   const iracing = irsdk.getInstance();

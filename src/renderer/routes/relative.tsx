@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react';
 import { RelativeFooter } from '../../components/relative/footer';
 import { RelativeHeader } from '../../components/relative/header';
 import { RelativeTable } from '../../components/relative/table';
-import {
-  setDocumentDrag,
-  setDocumentOpacity,
-} from '../../utils/commonDocumentUtils';
-import { IpcChannels } from '../../constants/ipcChannels';
-import { ISessionInfo, ITelemetry } from '../../types/iracing';
 import { IRelativeDriverData } from '../../types/relative';
 import {
   getUserCarIdx,
@@ -16,15 +10,14 @@ import {
   isRaceSession,
 } from '../../services/iracingMappingUtils';
 import { calculateExpectedIratingDiff } from '../../services/iratingCalculator';
-
-// sample data imports
-// import SampleSession from '../../sampleData/sampleSessionInfo.json';
-// import SampleTelemetry from '../../sampleData/sampleTelemetry.json';
+import { useTelemetry, useSession } from '../../hooks/iracing';
+import { useDraggable, useOpacity } from '../../hooks/document';
 
 export default function RelativeApp() {
-  // iracing data
-  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>();
-  const [telemetryInfo, setTelemetryInfo] = useState<ITelemetry>();
+  const sessionInfo = useSession();
+  const telemetryInfo = useTelemetry();
+  useDraggable();
+  useOpacity();
 
   // extracted user data
   const [userCarIdx, setUserCarIdx] = useState(0);
@@ -36,38 +29,6 @@ export default function RelativeApp() {
   // session extracted data
   const [isRacingSession, setIsRaceSession] = useState(false);
   const [sessionSof, setSessionSof] = useState(0);
-
-  useEffect(() => {
-    window.electron.ipcRenderer.on(
-      IpcChannels.RECEIVE_OPACITY_UPDATE,
-      (opacity: number) => {
-        setDocumentOpacity(opacity.toString());
-      },
-    );
-
-    window.electron.ipcRenderer.on(
-      IpcChannels.RECEIVE_DRAGGABLE_UPDATE,
-      (isDraggable: boolean) => {
-        setDocumentDrag(isDraggable);
-      },
-    );
-  }, []);
-
-  useEffect(() => {
-    window.electron.ipcRenderer.on(
-      IpcChannels.IRACING_SESSION_INFO,
-      (session: ISessionInfo) => {
-        setSessionInfo(session);
-      },
-    );
-
-    window.electron.ipcRenderer.on(
-      IpcChannels.IRACING_TELEMETRY_INFO,
-      (telemetry: ITelemetry) => {
-        setTelemetryInfo(telemetry);
-      },
-    );
-  }, []);
 
   useEffect(() => {
     if (sessionInfo && telemetryInfo) {

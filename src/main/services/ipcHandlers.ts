@@ -16,6 +16,8 @@ export const registerIpcHandlers = (windows: WindowManager) => {
       existingWindow.close();
     } else {
       windows.createOverlayWindow(windowName);
+      const win = windows.getWindow(windowName);
+      win?.once('ready-to-show', () => win.restore());
     }
   });
 

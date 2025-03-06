@@ -2,10 +2,9 @@ import { Chart as ChartJS, registerables, Chart } from 'chart.js';
 import { useEffect, useRef } from 'react';
 import ChartStreaming from 'chartjs-plugin-streaming';
 import { Line } from 'react-chartjs-2';
-import { ITelemetry } from '../../../../types/iracing';
-import { IpcChannels } from '../../../../constants/ipcChannels';
 import 'chartjs-adapter-luxon';
 import styles from './line.module.css';
+import { useTelemetry } from '../../../../hooks/iracing';
 
 Chart.register(ChartStreaming);
 ChartJS.register(...registerables);
@@ -18,19 +17,17 @@ const THROTTLE_INPUT_LABEL = 'Throttle Input Data';
 const INPUT_FPS = 144;
 
 export function InputLineGraph() {
-  // iracing data
+  const telemetryInfo = useTelemetry();
+
   const throttleInput = useRef(0);
   const brakeInput = useRef(0);
 
   useEffect(() => {
-    window.electron.ipcRenderer.on(
-      IpcChannels.IRACING_TELEMETRY_INFO,
-      (telemetry: ITelemetry) => {
-        throttleInput.current = telemetry.values.ThrottleRaw * 100;
-        brakeInput.current = telemetry.values.BrakeRaw * 100;
-      },
-    );
-  }, []);
+    if (telemetryInfo) {
+      throttleInput.current = telemetryInfo.values.ThrottleRaw * 100;
+      brakeInput.current = telemetryInfo.values.BrakeRaw * 100;
+    }
+  }, [telemetryInfo]);
 
   return (
     <div className={styles.inputsLineGraph}>
