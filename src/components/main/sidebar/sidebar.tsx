@@ -78,6 +78,11 @@ export function Sidebar() {
               onClick={() => overlayNavClicked(4)}
               title="Fuel Calc"
             />
+            <AccordionDetailLineItem
+              isActive={openOverlayNavIndex === 5}
+              onClick={() => overlayNavClicked(5)}
+              title="Track Map"
+            />
           </div>
         )}
       </Accordion>

@@ -33,6 +33,7 @@ const createWindows = async () => {
   windows.createOverlayWindow(StoreLocations.STANDINGS_WINDOW);
   windows.createOverlayWindow(StoreLocations.INPUT_GRAPH_WINDOW);
   windows.createOverlayWindow(StoreLocations.INPUTS_WINDOW);
+  windows.createOverlayWindow(StoreLocations.TRACK_MAP);
   // windows.createWindow(StoreLocations.FUEL_CALCULATOR);
 
   new AppUpdater();

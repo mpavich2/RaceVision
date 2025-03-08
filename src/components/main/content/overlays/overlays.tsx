@@ -4,6 +4,7 @@ import { FuelCalculatorOverlayContent } from './fuelCalculator';
 import { InputGraphOverlayContent } from './inputGraph';
 import { RelativesOverlayContent } from './relatives';
 import { StandingsOverlayContent } from './standings';
+import { TrackMapOverlayContent } from './trackMap';
 
 // TODO: change to list, remove hardcoded indexes
 export function OverlaysContent() {
@@ -23,6 +24,9 @@ export function OverlaysContent() {
   }
   if (openOverlayNavIndex === 4) {
     return <FuelCalculatorOverlayContent />;
+  }
+  if (openOverlayNavIndex === 5) {
+    return <TrackMapOverlayContent />;
   }
   return null;
 }

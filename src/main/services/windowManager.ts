@@ -35,7 +35,7 @@ export class WindowManager {
       show: false,
       transparent: true,
       frame: false,
-      resizable: true,
+      resizable: false,
       roundedCorners: false,
       alwaysOnTop: true,
       minimizable: false,

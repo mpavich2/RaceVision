@@ -1,7 +1,8 @@
 import { InputLineGraph } from '../../components/inputs/graphs/line';
-import { useDraggable, useOpacity } from '../../hooks/document';
+import { useDraggable, useOpacity, useTitle } from '../../hooks/document';
 
 export default function InputGraphApp() {
+  useTitle('Input Graph');
   useDraggable();
   useOpacity();
 

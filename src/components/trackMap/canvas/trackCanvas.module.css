@@ -1,0 +1,11 @@
+.wrapper {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.canvas {
+  will-change: transform;
+  height: 100%;
+  width: 100%;
+}

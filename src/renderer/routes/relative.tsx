@@ -11,13 +11,15 @@ import {
 } from '../../services/iracingMappingUtils';
 import { calculateExpectedIratingDiff } from '../../services/iratingCalculator';
 import { useTelemetry, useSession } from '../../hooks/iracing';
-import { useDraggable, useOpacity } from '../../hooks/document';
+import { useDraggable, useOpacity, useTitle } from '../../hooks/document';
 
 export default function RelativeApp() {
-  const sessionInfo = useSession();
-  const telemetryInfo = useTelemetry();
+  useTitle('Relative');
   useDraggable();
   useOpacity();
+
+  const sessionInfo = useSession();
+  const telemetryInfo = useTelemetry();
 
   // extracted user data
   const [userCarIdx, setUserCarIdx] = useState(0);

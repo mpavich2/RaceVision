@@ -4,6 +4,7 @@ export enum StoreLocations {
   INPUT_GRAPH_WINDOW = 'inputGraph',
   INPUTS_WINDOW = 'inputs',
   FUEL_CALCULATOR = 'fuelCalculator',
+  TRACK_MAP = 'trackMap',
   SETTINGS = 'settings',
-  MAIN = 'main',
+  MAIN = 'Race Vision',
 }

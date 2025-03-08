@@ -4,13 +4,15 @@ import { StandingsTable } from '../../components/standings/table';
 import { iracingDataToStandingsInfo } from '../../services/iracingMappingUtils';
 import { IStandingsInfo } from '../../types/standings';
 import { useSession, useTelemetry } from '../../hooks/iracing';
-import { useDraggable, useOpacity } from '../../hooks/document';
+import { useDraggable, useOpacity, useTitle } from '../../hooks/document';
 
 export default function StandingsApp() {
-  const sessionInfo = useSession();
-  const telemetryInfo = useTelemetry();
+  useTitle('Standings');
   useDraggable();
   useOpacity();
+
+  const sessionInfo = useSession();
+  const telemetryInfo = useTelemetry();
 
   // extracted driver data
   const [userInfo, setUserInfo] = useState<IStandingsInfo['userInfo']>();

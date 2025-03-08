@@ -1,7 +1,8 @@
 import { Inputs } from '../../components/inputs';
-import { useDraggable, useOpacity } from '../../hooks/document';
+import { useDraggable, useOpacity, useTitle } from '../../hooks/document';
 
 export default function InputsApp() {
+  useTitle('Inputs');
   useDraggable();
   useOpacity();
 

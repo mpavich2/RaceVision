@@ -27,9 +27,9 @@ Get started with RaceVision today!
   - Relative (multiclass)
   - Inputs
   - Input Graph
+  - Track Map (mostly working)
   - Fuel Calculator (🚧 currently developing)
   - Radar (planned)
-  - Track Map (planned)
 
   ### Standings
   ![standings-overlay](https://github.com/user-attachments/assets/1fac1bbd-38ef-46d1-ae46-2edfbd5df2a8)
@@ -49,7 +49,34 @@ Get started with RaceVision today!
   ### Overview
   ![overview](https://github.com/user-attachments/assets/549322b7-06cf-4a38-aca2-688540ba08a5)
 
-  
+  ## Dev Notes
+  For those cloning/forking who want to run the project locally, follow these steps below.
+
+  ### Initial setup
+  - Recommend Node.js v21+
+  - Create .env file with following values if you need to update track maps.
+  ```
+  IRACING_USERNAME=
+  IRACING_PASSWORD=
+  IRACING_BASE_URL=https://members-ng.iracing.com
+  ```
+
+  - Install dependencies
+  ```
+  npm run i
+  ```
+
+  - Update track maps script (if needed)
+  ```
+  npm run generate-tracks
+  ```
+
+  ### Run Locally
+  Run the script below to run the project.
+  ```
+  npm run start
+  ```
+
 
 ## 💬 Feedback & Support
 We’d love to hear from you! Feel free to submit issues or suggestions via the [GitHub Issues](https://github.com/mpavich2/RaceVision/issues) page.

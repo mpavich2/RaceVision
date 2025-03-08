@@ -1,12 +1,14 @@
 import { FuelLevel } from '../../components/fuelCalculator/fuelLevel';
 import { useSession, useTelemetry } from '../../hooks/iracing';
-import { useDraggable, useOpacity } from '../../hooks/document';
+import { useDraggable, useOpacity, useTitle } from '../../hooks/document';
 
 export default function FuelCalculatorApp() {
-  const sessionInfo = useSession();
-  const telemetryInfo = useTelemetry();
+  useTitle('Fuel Calculator');
   useDraggable();
   useOpacity();
+
+  const sessionInfo = useSession();
+  const telemetryInfo = useTelemetry();
 
   return (
     <div className="overlayWindow overlayDefaultBackgroundColor">

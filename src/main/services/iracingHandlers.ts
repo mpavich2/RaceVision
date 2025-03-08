@@ -29,7 +29,10 @@ const reloadAllOverlayWindows = () => {
 
 const restoreAllOverlayWindows = () => {
   getAllOverlayWindows().forEach((window) => {
-    window.once('ready-to-show', () => window.restore());
+    window.once('ready-to-show', () => {
+      window.restore();
+      console.log('restoring window');
+    });
   });
 };
 

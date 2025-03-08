@@ -3,10 +3,12 @@ import { ISessionInfo } from '../../types/iracing';
 import { IpcChannels } from '../../constants/ipcChannels';
 
 // sample data imports
-// import SampleSession from '../../sampleData/sampleSessionInfo.json';
+import SampleSession from '../../sampleData/sampleSessionInfo.json';
 
 export const useSession = () => {
-  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>();
+  const [sessionInfo, setSessionInfo] = useState<ISessionInfo>(
+    SampleSession as any,
+  );
 
   useEffect(() => {
     window.electron.ipcRenderer.on(

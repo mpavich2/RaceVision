@@ -16,6 +16,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/destructuring-assignment': 'off',
     'react/require-default-props': 'off',
+    'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
   },
   parserOptions: {
     ecmaVersion: 2022,

@@ -8,6 +8,12 @@ import {
 } from '../storeUtils';
 import { WindowManager } from './windowManager';
 
+const getAllOverlayWindows = () => {
+  return BrowserWindow.getAllWindows().filter(
+    (win) => win.getTitle() !== StoreLocations.MAIN,
+  );
+};
+
 export const registerIpcHandlers = (windows: WindowManager) => {
   ipcMain.on(IpcChannels.OPEN_SPECIFIC_WINDOW, (_, windowName) => {
     const existingWindow = windows.getWindow(windowName);
@@ -26,7 +32,7 @@ export const registerIpcHandlers = (windows: WindowManager) => {
       deleteWindowElectronStoreInfo(file);
     });
 
-    BrowserWindow.getAllWindows().forEach((window) => {
+    getAllOverlayWindows().forEach((window) => {
       if (window.webContents !== windows.getMainWindow()?.webContents) {
         window.setPosition(0, 0, false);
       }
@@ -39,7 +45,7 @@ export const registerIpcHandlers = (windows: WindowManager) => {
 
   ipcMain.on(IpcChannels.SET_OPACITY, (_, opacity) => {
     updateUserSettings({ opacity });
-    BrowserWindow.getAllWindows().forEach((window) => {
+    getAllOverlayWindows().forEach((window) => {
       window.webContents.send(IpcChannels.RECEIVE_OPACITY_UPDATE, opacity);
     });
   });
@@ -54,11 +60,13 @@ export const registerIpcHandlers = (windows: WindowManager) => {
   });
 
   ipcMain.on(IpcChannels.SET_IS_DRAGGABLE, (_, isDraggable) => {
-    BrowserWindow.getAllWindows().forEach((window) => {
+    getAllOverlayWindows().forEach((window) => {
       window.webContents.send(
         IpcChannels.RECEIVE_DRAGGABLE_UPDATE,
         isDraggable,
       );
+
+      window.setResizable(isDraggable);
     });
   });
 
