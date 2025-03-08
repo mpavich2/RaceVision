@@ -38,13 +38,13 @@ Get started with RaceVision today!
   ![relative-overlay](https://github.com/user-attachments/assets/e250942e-61cd-4a6f-ab6a-f09ab1e64f78)
 
   ### Inputs
-  ![inputs-overlay](https://github.com/user-attachments/assets/f105b6ec-e98a-4888-b02a-210e1183d97f)
+  ![inputs-overlay](https://github.com/user-attachments/assets/e12d719d-fbbf-47de-be1c-97c8beafa7d1)
 
   ### Input Graph
-  ![input-graph-overlay](https://github.com/user-attachments/assets/ab8cbacc-e2eb-4ba1-b2bc-bcb057d7a1b0)
+  ![input-graph-overlay](https://github.com/user-attachments/assets/4e8cf40a-6939-4363-986e-1b13d1dae152)
 
   ### Track Map
-  ![track-map-overlay](https://github.com/user-attachments/assets/ba909416-2344-481e-8e5d-9a7a587c2117)
+  ![track-map-overlay](https://github.com/user-attachments/assets/79ccc7ab-8a7b-4fd8-8ace-b28081b0d34e)
 
   ### Overview
   ![overview](https://github.com/user-attachments/assets/549322b7-06cf-4a38-aca2-688540ba08a5)
