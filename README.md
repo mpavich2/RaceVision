@@ -32,16 +32,19 @@ Get started with RaceVision today!
   - Track Map (planned)
 
   ### Standings
-  ![standings-overlay](https://github.com/user-attachments/assets/5781bbb6-1fae-4095-8617-18e61a14c850)
+  ![standings-overlay](https://github.com/user-attachments/assets/1fac1bbd-38ef-46d1-ae46-2edfbd5df2a8)
 
   ### Relative
-  ![relative-overlay](https://github.com/user-attachments/assets/8a4ce448-0202-4e85-b5a6-cd25dd88a62b)
+  ![relative-overlay](https://github.com/user-attachments/assets/e250942e-61cd-4a6f-ab6a-f09ab1e64f78)
 
   ### Inputs
-  ![inputs-overlay](https://github.com/user-attachments/assets/a0a209e2-2f7d-4bf0-9251-c6fe51c112a8)
+  ![inputs-overlay](https://github.com/user-attachments/assets/f105b6ec-e98a-4888-b02a-210e1183d97f)
 
   ### Input Graph
-  ![input-graph-overlay](https://github.com/user-attachments/assets/2e1af3c6-60a5-4d4f-a2dc-1e60ecddd7ab)
+  ![input-graph-overlay](https://github.com/user-attachments/assets/ab8cbacc-e2eb-4ba1-b2bc-bcb057d7a1b0)
+
+  ### Track Map
+  ![track-map-overlay](https://github.com/user-attachments/assets/ba909416-2344-481e-8e5d-9a7a587c2117)
 
   ### Overview
   ![overview](https://github.com/user-attachments/assets/549322b7-06cf-4a38-aca2-688540ba08a5)
