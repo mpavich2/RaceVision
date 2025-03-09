@@ -3,11 +3,10 @@ import { ITelemetry } from '../../types/iracing';
 import { IpcChannels } from '../../constants/ipcChannels';
 
 // sample data imports
-import SampleTelemetry from '../../sampleData/sampleTelemetry.json';
+// import SampleTelemetry from '../../sampleData/sampleTelemetry.json';
 
 export const useTelemetry = () => {
-  const [telemetryInfo, setTelemetryInfo] =
-    useState<ITelemetry>(SampleTelemetry);
+  const [telemetryInfo, setTelemetryInfo] = useState<ITelemetry>();
 
   useEffect(() => {
     window.electron.ipcRenderer.on(
