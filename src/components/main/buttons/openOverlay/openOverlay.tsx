@@ -7,10 +7,12 @@ export function OpenOverlayButton(props: { windowName: string }) {
   const [isWindowOpen, setIsWindowOpen] = useState(true);
 
   useEffect(() => {
-    window.electron.ipcRenderer
-      .invoke(IpcChannels.IS_WINDOW_OPEN, props.windowName)
-      .then((result: boolean) => setIsWindowOpen(result))
-      .catch(() => setIsWindowOpen(false));
+    window.electron.ipcRenderer.on(
+      IpcChannels.WINDOW_OPEN_STATUS,
+      (result: boolean) => {
+        setIsWindowOpen(result);
+      },
+    );
   }, []);
 
   const openWindowButtonClicked = (windowName: string) => {
@@ -18,8 +20,6 @@ export function OpenOverlayButton(props: { windowName: string }) {
       IpcChannels.OPEN_SPECIFIC_WINDOW,
       windowName,
     );
-
-    setIsWindowOpen(!isWindowOpen);
   };
 
   return (

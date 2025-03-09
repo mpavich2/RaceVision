@@ -55,10 +55,6 @@ export const registerIpcHandlers = (windows: WindowManager) => {
     return userSettings;
   });
 
-  ipcMain.handle(IpcChannels.IS_WINDOW_OPEN, (_, windowName) => {
-    return windows.getWindow(windowName) !== null;
-  });
-
   ipcMain.on(IpcChannels.SET_IS_DRAGGABLE, (_, isDraggable) => {
     getAllOverlayWindows().forEach((window) => {
       window.webContents.send(

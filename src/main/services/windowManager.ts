@@ -10,6 +10,7 @@ import { runWindowElectronStoreInfo } from '../storeUtils';
 import { resolveHtmlPath } from '../util';
 import { DEFAULT_OPTIONS } from '../../constants/defaultOptions';
 import { StoreLocations } from '../../constants/storeLocations';
+import { IpcChannels } from '../../constants/ipcChannels';
 
 export class WindowManager {
   windows: Map<string, BrowserWindow>;
@@ -56,6 +57,11 @@ export class WindowManager {
       if (!win) {
         throw new Error(`"${name}" is not defined`);
       }
+
+      this.getMainWindow()?.webContents.send(
+        IpcChannels.WINDOW_OPEN_STATUS,
+        true,
+      );
       if (process.env.START_MINIMIZED) {
         win.minimize();
       } else {
@@ -73,6 +79,14 @@ export class WindowManager {
     });
 
     win.on('closed', () => {
+      try {
+        this.getMainWindow()?.webContents.send(
+          IpcChannels.WINDOW_OPEN_STATUS,
+          false,
+        );
+      } catch (error) {
+        console.error(`Window ${name} closed`);
+      }
       this.windows.delete(name);
     });
 
