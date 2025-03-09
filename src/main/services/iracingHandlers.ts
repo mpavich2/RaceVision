@@ -29,7 +29,11 @@ const reloadAllOverlayWindows = () => {
 
 const restoreAllOverlayWindows = () => {
   getAllOverlayWindows().forEach((window) => {
-    window.once('ready-to-show', () => {
+    // restore if running when iracing launched
+    window.restore();
+
+    // restore if app launching and window starts minimized
+    window.on('ready-to-show', () => {
       window.restore();
       console.log('restoring window');
     });
@@ -52,7 +56,7 @@ export const initializeIRacing = () => {
     console.info('\nConnected to iRacing.');
     restoreAllOverlayWindows();
 
-    iracing.once('Disconnected', () => {
+    iracing.on('Disconnected', () => {
       console.info('iRacing shut down.');
 
       reloadAllOverlayWindows();
