@@ -22,7 +22,7 @@ Get started with RaceVision today!
 
 **Node Iracing SDK Wrapper** by [Friss](https://github.com/Friss/iracing-sdk-js) 🙏
 
-## Overlays
+## 🏁 Overlays
   - Standings (multiclass)
   - Relative (multiclass)
   - Inputs
@@ -49,7 +49,7 @@ Get started with RaceVision today!
   ### Overview
   ![overview](https://github.com/user-attachments/assets/549322b7-06cf-4a38-aca2-688540ba08a5)
 
-  ## Dev Notes
+  ## 📝 Dev Notes
   For those cloning/forking who want to run the project locally, follow these steps below.
 
   ### Initial setup
