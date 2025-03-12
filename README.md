@@ -6,7 +6,7 @@
 </p>
 
 ## 🏎️ Purpose
-An IRacing free overlay solution until they finish their UX overhaul, and potentially longer depending on their implementation. Uses IRacing SDK data to display extra information that they expose, but currently do not show the user.
+Free iRacing overlay solution until they finish their UX overhaul, and potentially longer depending on their implementation. Uses IRacing SDK data to display extra information that they expose, but currently do not show the user.
 
 For those willing to help contribute, please reach out.
 
