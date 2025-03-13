@@ -1,5 +1,8 @@
 import { StoreLocations } from '../../../../../constants/storeLocations';
 import { MainHeader } from '../../header';
+import { CustomizationSettings } from '../common/customization';
+import { BackgroundToggle } from './toggles/background';
+import { TurnsToggle } from './toggles/turns';
 
 export function TrackMapOverlayContent() {
   return (
@@ -10,7 +13,11 @@ export function TrackMapOverlayContent() {
         turns, and the locations of other drivers for better situational
         awareness.
       </div>
-      <p>More info will come here shortly.</p>
+
+      <CustomizationSettings>
+        <TurnsToggle />
+        <BackgroundToggle />
+      </CustomizationSettings>
     </div>
   );
 }
