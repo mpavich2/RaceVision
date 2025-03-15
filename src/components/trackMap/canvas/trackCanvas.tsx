@@ -53,7 +53,7 @@ export function TrackCanvas(props: {
       const length =
         direction === TrackDirection.ANTICLOCKWISE
           ? (intersectionLength + adjustedLength) % totalLength
-          : (intersectionLength - adjustedLength + totalLength) % totalLength;
+          : (intersectionLength + adjustedLength + totalLength) % totalLength;
       const point = line?.getPointAtLength(length);
       return { x: point?.x || 0, y: point?.y || 0 };
     }
